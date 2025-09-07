@@ -3193,7 +3193,7 @@ function buildOverlayMain() {
         .addDiv({ id: 'bm-coords-title' })
           .addDiv({ innerHTML: icons.pinIcon }).buildElement()
           .addP({ innerHTML: '座標:' }).buildElement()
-          .addButton({'id': 'bm-button-coords', 'innerHTML': icons.pointerIcon + 'Detect', title: 'Set the location to the pixel you\'ve selected'},
+          .addButton({'id': 'bm-button-coords', 'innerHTML': icons.pointerIcon + '検出', title: 'クリックした位置の座標を取得'},
             (instance, button) => {
               button.onclick = () => {
                 const coords = instance.apiManager?.coordsTilePixel; // Retrieves the coords from the API manager
@@ -3213,8 +3213,8 @@ function buildOverlayMain() {
           .addP({ textContent: 'Tile: '}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-tx', 'placeholder': 'Tl X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-ty', 'placeholder': 'Tl Y', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
-          .addInput({'type': 'number', 'id': 'bm-input-px', 'placeholder': 'Px X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
-          .addInput({'type': 'number', 'id': 'bm-input-py', 'placeholder': 'Px Y', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
+          .addInput({'type': 'number', 'id': 'bm-input-px', 'placeholder': 'Px X', 'min': 0, 'max': 1000, 'step': 1, 'required': true}).buildElement()
+          .addInput({'type': 'number', 'id': 'bm-input-py', 'placeholder': 'Px Y', 'min': 0, 'max': 1000, 'step': 1, 'required': true}).buildElement()
         .buildElement()
       .buildElement()
       .addDiv({'id': 'bm-contain-buttons-template'})
@@ -3253,7 +3253,7 @@ function buildOverlayMain() {
           showTemplateManageDialog(instance);
         }
       }).buildElement()
-      .addButton({'id': 'bm-button-pause-tiles', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : 'Pause')}, (instance, button) => {
+      .addButton({'id': 'bm-button-pause-tiles', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
         // Set initial CSS class based on current pause state
         if (isTileRefreshPaused()) {
           button.classList.add('paused');
@@ -3262,7 +3262,7 @@ function buildOverlayMain() {
           const isPaused = toggleTileRefreshPause(templateManager);
           const cachedCount = getCachedTileCount();
           
-          button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? 'Resume' : 'Pause'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
+          button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
           
           // Toggle CSS class based on pause state
           if (isPaused) {
@@ -3277,7 +3277,7 @@ function buildOverlayMain() {
           );
         }
       }).buildElement()
-      .addButton({'id': 'bm-button-color-filter', innerHTML: icons.colorFilterIcon + 'Color Filter'}, (instance, button) => {
+      .addButton({'id': 'bm-button-color-filter', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
         button.onclick = () => {
           buildColorFilterOverlay();
         }
@@ -3286,13 +3286,13 @@ function buildOverlayMain() {
       .addTextarea({'id': overlayMain.outputStatusId, 'placeholder': `Status: Sleeping...\nVersion: ${version}`, 'readOnly': true}).buildElement()
       .addDiv({'id': 'bm-contain-buttons-action', 'style': 'position: relative; padding-bottom: 22px;'})
         .addDiv({'style': 'display: flex; gap: 6px; align-items: center;'})
-          .addButton({'id': 'bm-button-convert', 'className': 'bm-help', 'innerHTML': '🎨', 'title': 'Template Color Converter'}, 
+          .addButton({'id': 'bm-button-convert', 'className': 'bm-help', 'innerHTML': '🎨', 'title': 'カラーコンバーターへ'}, 
             (instance, button) => {
             button.addEventListener('click', () => {
               window.open('https://pepoafonso.github.io/color_converter_wplace/', '_blank', 'noopener noreferrer');
             });
           }).buildElement()
-          .addButton({'id': 'bm-search', 'className': 'bm-help', 'innerHTML': '🔍', 'title': 'Location Search'}, 
+          .addButton({'id': 'bm-search', 'className': 'bm-help', 'innerHTML': '🔍', 'title': '位置検索'}, 
             (instance, button) => {
             button.addEventListener('click', () => {
               const searchPanel = document.getElementById('skirk-search-draggable');
@@ -3301,7 +3301,7 @@ function buildOverlayMain() {
               }
             });
           }).buildElement()
-          .addButton({'id': 'bm-button-flyto', 'className': 'bm-help', 'innerHTML': '🗺️', 'title': 'Fly to current coordinates'}, 
+          .addButton({'id': 'bm-button-flyto', 'className': 'bm-help', 'innerHTML': '🗺️', 'title': '現在の座標へ飛ぶ'}, 
             (instance, button) => {
             button.addEventListener('click', () => {
               function coordsToLatLng(tileX, tileY, pixelX, pixelY){
@@ -3335,7 +3335,7 @@ function buildOverlayMain() {
               
             });
           }).buildElement()
-          .addButton({'id': 'bm-button-screenshot', 'className': 'bm-help', 'innerHTML': '📸', 'title': 'Screenshot current template area (auto-detects coordinates)'},
+          .addButton({'id': 'bm-button-screenshot', 'className': 'bm-help', 'innerHTML': '📸', 'title': 'スクリーンショット'},
             (instance, button) => {
               button.addEventListener('click', async () => {
                 try {
@@ -3434,20 +3434,20 @@ function buildOverlayMain() {
             }
           ).buildElement()
           // Clear All Storage button
-          .addButton({'id': 'bm-button-clear-storage', 'className': 'bm-help', innerHTML: icons.clearStorageIcon, 'title': 'Clear All Storage'}, (instance, button) => {
+          .addButton({'id': 'bm-button-clear-storage', 'className': 'bm-help', innerHTML:'🗑️', 'title': '情報をすべて消去'}, (instance, button) => {
             button.addEventListener('click', () => {
               clearAllStorage(instance);
             });
           }).buildElement()
           // Import Templates button
-          .addButton({'id': 'bm-button-import', 'className': 'bm-help', innerHTML: icons.uploadIcon, 'title': 'Import Templates'}, (instance, button) => {
+          .addButton({'id': 'bm-button-import', 'className': 'bm-help', innerHTML: icons.uploadIcon, 'title': 'テンプレートをインポート'}, (instance, button) => {
             button.addEventListener('click', () => {
               showImportDialog(instance);
             });
           }).buildElement()
         .buildElement()
         .addDiv({'style': 'position: absolute; left: 0; bottom: 2px; text-align: left; padding: 0; pointer-events: auto; user-select: text; line-height: 12px;'}).
-          addSmall({'textContent': 'Made by SwingTheVine | Fork Seris0', 'style': 'color: #94a3b8; font-size: 0.74em; opacity: 0.85;'}).buildElement()
+          addSmall({'textContent': 'Made by 皇居鯖DEVs forked by Skirk Marble', 'style': 'color: #94a3b8; font-size: 0.74em; opacity: 0.85;'}).buildElement()
         .buildElement()
       .buildElement()
     .buildElement()
