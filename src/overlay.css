@@ -8,7 +8,7 @@
   padding: 12px;
   border-radius: 16px;
   border: 1px solid red;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 0, 0, 0.05);
   backdrop-filter: blur(16px);
   z-index: 9000;
   transition: all 0.3s ease, transform 0s;
@@ -20,36 +20,6 @@
   -webkit-backface-visibility: hidden;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-}
-
-/* Common style for all secondary dialogs and popups */
-.bm-dialog {
-  position: fixed;
-  background: rgba(0, 0, 0, 0.9);
-  color: #f1f5f9;
-  padding: 12px;
-  border-radius: 16px;
-  border: 1px solid red;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05);
-  backdrop-filter: blur(16px);
-  z-index: 9001;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-width: 400px;
-  width: 90%;
-}
-
-.bm-dialog h2 {
-  font-weight: bold;
-  font-size: 1.25rem;
-  border-bottom: 1px solid red; /* Changed to solid red for consistency */
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 /* Smooth transitions for minimize/maximize functionality */
@@ -76,8 +46,7 @@ div#bm-overlay {
 /* The drag bar */
 #bm-bar-drag {
   margin-bottom: 0.5em;
-  background: rgba(0, 0, 0, 0.9); /* Changed to transparent black */
-  border: 1px solid red; /* Added red border */
+  background: linear-gradient(90deg, #440000 0%, #aa0000 50%, #440000 100%);
   border-radius: 4px;
   cursor: grab;
   width: 100%;
@@ -241,8 +210,6 @@ div:has(> #bm-button-teleport) {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 0 0.2ch;
   font-size: small;
-  border: 1px solid red; /* Added red border */
-  color: #f1f5f9; /* Added text color */
 }
 
 /* Removes scroll bar on tile & pixel input fields */
@@ -339,9 +306,9 @@ input[type="file"][id*="template"] {
 
 /* Color filter button special styling - now integrated in grid */
 #bm-button-color-filter {
-  background: rgba(0, 0, 0, 0.9); /* Changed to transparent black */
+  background: linear-gradient(45deg, #cc0000, #ff6666, #ff0000, #dd0000, #cc0000, #aa0000);
   background-size: 300% 300%;
-  animation: none; /* Removed animation for consistency */
+  animation: colorShift 3s ease-in-out infinite;
   font-weight: bold;
   position: relative;
   overflow: hidden;
@@ -349,7 +316,7 @@ input[type="file"][id*="template"] {
 }
 
 #bm-button-color-filter:hover, #bm-button-color-filter:focus-visible {
-  background-color: rgba(0, 0, 0, 0.7); /* Consistent hover effect */
+  animation-duration: 1s;
   transform: scale(1.05);
 }
 
@@ -361,10 +328,8 @@ input[type="file"][id*="template"] {
 
 /* Color filter overlay styles */
 #bm-color-filter-overlay {
-  background: rgba(0, 0, 0, 0.9);
-  color: #f1f5f9;
-  border: 1px solid red;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 0, 0, 0.1);
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar {
@@ -377,12 +342,12 @@ input[type="file"][id*="template"] {
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar-thumb {
-  background: rgba(255, 0, 0, 0.4);
+  background: rgba(255, 0, 0, 0.1);
   border-radius: 4px;
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 0, 0, 0.6);
+  background: rgba(255, 0, 0, 0.2);
 }
 
 /* CRITICAL: Remove red borders from HTML5 validation on coordinate inputs */
@@ -564,7 +529,7 @@ div:has(> #bm-input-file-template) > button {
 #bm-button-pause-tiles {
   grid-row: 2;
   grid-column: 3;
-  background-color: rgba(0, 0, 0, 0.9) !important; /* Changed to transparent black */
+  background-color: #50a9f1 !important;
   transition: all 0.3s ease !important;
   font-size: 0.85rem; /* Slightly smaller text for better fit */
   padding: .125rem .25rem; /* Reduced horizontal padding */
@@ -573,27 +538,27 @@ div:has(> #bm-input-file-template) > button {
 /* Row 3: Color Filter button spans all 3 columns (defined above) */
 
 #bm-button-pause-tiles:hover {
-  background-color: rgba(0, 0, 0, 0.7) !important; /* Consistent hover effect */
+  background-color: #f57c00 !important;
   transform: translateY(-1px);
 }
 
 #bm-button-pause-tiles:active,
 #bm-button-pause-tiles:focus-visible {
-  background-color: rgba(0, 0, 0, 0.9) !important; /* Consistent active effect */
+  background-color: #ef6c00 !important;
 }
 
 /* Pause button when paused (green state) */
 #bm-button-pause-tiles.paused {
-  background-color: rgba(0, 0, 0, 0.9) !important; /* Changed to transparent black */
+  background-color: #4CAF50 !important;
 }
 
 #bm-button-pause-tiles.paused:hover {
-  background-color: rgba(0, 0, 0, 0.7) !important; /* Consistent hover effect */
+  background-color: #45a049 !important;
 }
 
 #bm-button-pause-tiles.paused:active,
 #bm-button-pause-tiles.paused:focus-visible {
-  background-color: rgba(0, 0, 0, 0.9) !important; /* Consistent active effect */
+  background-color: #3d8b40 !important;
 }
 
 /* Color Filter button special styling is already defined above in grid row 3 */
@@ -638,122 +603,28 @@ div:has(> #bm-input-file-template) > button {
 
 /* Enable button */
 #bm-overlay button#bm-button-enable {
-  background-color: rgba(0, 0, 0, 0.9); /* Changed to transparent black */
+  background-color: #21c060;
   border: 1px solid red;
 }
 #bm-overlay button#bm-button-enable:hover {
-  background-color: rgba(0, 0, 0, 0.7); /* Consistent hover effect */
+  background-color: #1daa55;
 }
 #bm-overlay button#bm-button-enable:active,
 #bm-overlay button#bm-button-enable:focus-visible {
-  background-color: rgba(0, 0, 0, 0.9); /* Consistent active effect */
+  background-color: #19944a;
 }
 
 /* Disable button */
 #bm-overlay button#bm-button-disable {
-  background-color: rgba(0, 0, 0, 0.9); /* Changed to transparent black */
+  background-color: #d63838;
   border: 1px solid red;
 }
 
 #bm-overlay button#bm-button-disable:hover {
-  background-color: rgba(0, 0, 0, 0.7); /* Consistent hover effect */
+  background-color: #cb2a2a;
 }
 
 #bm-overlay button#bm-button-disable:active,
 #bm-overlay button#bm-button-disable:focus-visible {
-  background-color: rgba(0, 0, 0, 0.9); /* Consistent active effect */
+  background-color: #b62525;
 }
-
-/* === 統一オーバーライド: 以降の要素も全てメイン画面と同じ見た目に強制 === */
-
-/* Ensure all dialogs, panels, overlays, and tooltips share the same base look */
-.bm-dialog,
-#bm-color-filter-overlay,
-#bm-output-status,
-#bm-mini-tracker,
-#bm-contain-buttons-template,
-#bm-contain-coords,
-#bm-contain-userinfo,
-#bm-contain-automation,
-#bm-separator,
-#bm-title-container {
-  background: rgba(0, 0, 0, 0.9) !important;
-  border: 1px solid red !important;
-  color: #f1f5f9 !important;
-  border-radius: 16px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-/* Make inputs consistent */
-input,
-textarea,
-select,
-button {
-  background: rgba(0, 0, 0, 0.9) !important;
-  color: #f1f5f9 !important;
-  border: 1px solid red !important;
-  border-radius: 8px !important;
-  font-family: inherit !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;
-  box-shadow: 0 0 0 3px rgba(255,0,0,0.12) !important;
-  border-color: #ff0000 !important;
-}
-
-/* Hide legacy gradient accents */
-#bm-mini-tracker:before,
-#bm-mini-tracker:hover:before {
-  background: none !important;
-  opacity: 0 !important;
-}
-
-/* Scrollbars that match the red theme */
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-*::-webkit-scrollbar-track {
-  background: rgba(255,0,0,0.04);
-}
-*::-webkit-scrollbar-thumb {
-  background: rgba(255,0,0,0.28);
-  border-radius: 4px;
-}
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,0,0,0.48);
-}
-
-/* Specific fixes for any other components that might have different styles */
-[role="dialog"],
-[role="tooltip"],
-.dialog,
-.modal,
-.popup {
-  background: rgba(0,0,0,0.9) !important;
-  border: 1px solid red !important;
-  color: #f1f5f9 !important;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-/* Make sure icons/titles remain readable */
-#bm-title-container h1,
-#bm-overlay h1,
-.bm-dialog h2 {
-  color: #f1f5f9 !important;
-  border-bottom: 1px solid red !important;
-}
-
-/* Final safety: prevent accidental color overrides from upstream styles */
-:root {
-  --bm-bg: rgba(0,0,0,0.9) !important;
-  --bm-border: red !important;
-  --bm-foreground: #f1f5f9 !important;
-}
-
-/* End of file */
