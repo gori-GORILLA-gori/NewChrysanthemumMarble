@@ -2794,7 +2794,7 @@ function showTemplateManageDialog(instance) {
     });
   };
   const disableAllBtn = document.createElement('button');
-  disableAllBtn.textContent = 'Disable All';
+  disableAllBtn.textContent = 'すべて無効化';
   disableAllBtn.style.cssText = `padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#64748b,#475569); color: #e2e8f0;`;
   disableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, false));
@@ -3756,7 +3756,7 @@ function buildColorFilterOverlay() {
     `;
 
     const title = document.createElement('h2');
-    title.textContent = 'Template Color Filter';
+    title.textContent = 'カラーフィルター';
     const titleFontSize = isMobileMode ? '1.2em' : '1.5em';
     title.style.cssText = `
       margin: 0; 
@@ -4043,10 +4043,10 @@ function buildColorFilterOverlay() {
           <span style="
             background: linear-gradient(135deg, var(--blue-400), var(--emerald-400));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          ">Template Progress: ${overallProgress}%</span>
+          ">テンプレート進捗状況: ${overallProgress}%</span>
         </div>
         <div style="font-size: 0.95em; color: var(--bmcf-text-muted); margin-bottom: 16px; line-height: 1.5;">
-          ${displayPainted.toLocaleString()} / ${displayRequired.toLocaleString()} pixels painted
+          ${displayPainted.toLocaleString()} / ${displayRequired.toLocaleString()} ピクセル
           ${templateManager.getIncludeWrongColorsInProgress() && totalWrong > 0 ? ` (includes ${totalWrong.toLocaleString()} wrong)` : ''}
         </div>
         <div style="
@@ -4071,7 +4071,7 @@ function buildColorFilterOverlay() {
           font-size: 0.85em; color: #fbbf24; margin-top: 12px; font-weight: 600;
           text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         ">
-          ${totalNeedCrosshair.toLocaleString()} Pixels Remaining
+          残り ${totalNeedCrosshair.toLocaleString()} ピクセル
         </div>
       </div>
       <style>
@@ -4134,7 +4134,7 @@ function buildColorFilterOverlay() {
     includeWrongProgressCheckbox.addEventListener('change', async () => {
       const enabled = includeWrongProgressCheckbox.checked;
       await templateManager.setIncludeWrongColorsInProgress(enabled);
-      overlayMain.handleDisplayStatus(`Include wrong colors in progress ${enabled ? '有効' : '無効'}!`);
+      overlayMain.handleDisplayStatus(`間違った色も含めるか ${enabled ? '有効' : '無効'}!`);
       
       // Force refresh color filter overlay to update progress calculations immediately
       buildColorFilterOverlay();
@@ -4145,7 +4145,7 @@ function buildColorFilterOverlay() {
 
     // Instructions
     const instructions = document.createElement('p');
-    instructions.textContent = 'Click on colors to toggle their visibility in the template.';
+    instructions.textContent = '色をクリックしてテンプレートでの表示を切り替えます。';
     instructions.style.cssText = `
       margin: 0 0 24px 0; 
       font-size: 0.95em; 
@@ -4167,7 +4167,7 @@ function buildColorFilterOverlay() {
     searchInput.className = 'bmcf-input';
     searchInput.type = 'text';
     searchInput.id = 'bm-color-search';
-    searchInput.placeholder = 'Search colors by name or RGB (e.g., "red", "255,0,0")...';
+    searchInput.placeholder = 'RGBか名前で色を検索...';
     searchInput.autocomplete = 'off';
     searchInput.spellcheck = false;
     searchInput.style.cssText = `
@@ -4331,7 +4331,7 @@ function buildColorFilterOverlay() {
     `;
 
     const filterLabel = document.createElement('label');
-    filterLabel.textContent = 'Sort by:';
+    filterLabel.textContent = 'ソート:';
     filterLabel.style.cssText = `
       color: white;
       font-size: 0.9em;
@@ -4354,19 +4354,19 @@ function buildColorFilterOverlay() {
 
     // Filter options
     const filterOptions = [
-      { value: 'default', text: 'Default Order' },
-      { value: 'premium', text: 'Premium (Most Missing)' },
-      { value: 'enhanced', text: 'Enhanced Colors Only' },
-      { value: 'wrong-desc', text: 'Most Wrong Colors' },
-      { value: 'wrong-asc', text: 'Least Wrong Colors' },
-      { value: 'missing-desc', text: 'Most Pixels Missing' },
-      { value: 'missing-asc', text: 'Least Pixels Missing' },
-      { value: 'total-desc', text: 'Most Total Pixels' },
-      { value: 'total-asc', text: 'Least Total Pixels' },
-      { value: 'percentage-desc', text: 'Highest Completion %' },
-      { value: 'percentage-asc', text: 'Lowest Completion %' },
-      { value: 'name-asc', text: 'Name A-Z' },
-      { value: 'name-desc', text: 'Name Z-A' }
+      { value: 'default', text: 'デフォルト' },
+      { value: 'premium', text: 'プレミアム' },
+      { value: 'enhanced', text: '強調表示のみ' },
+      { value: 'wrong-desc', text: '間違ったピクセルの量(多)' },
+      { value: 'wrong-asc', text: '間違ったピクセルの量(少)' },
+      { value: 'missing-desc', text: '塗られていないピクセルの量(多)' },
+      { value: 'missing-asc', text: '塗られていないピクセルの量(少)' },
+      { value: 'total-desc', text: '合計ピクセルの量(多)' },
+      { value: 'total-asc', text: '合計ピクセル(少)' },
+      { value: 'percentage-desc', text: '正しい割合(多)' },
+      { value: 'percentage-asc', text: '正しい割合(少)' },
+      { value: 'name-asc', text: '名前(A-Z)' },
+      { value: 'name-desc', text: '名前(Z-A)' }
     ];
 
     filterOptions.forEach(option => {
@@ -4394,7 +4394,7 @@ function buildColorFilterOverlay() {
     `;
 
     const enhancedInfo = document.createElement('div');
-    enhancedInfo.textContent = 'Enhanced: Highlight the Pixels.';
+    enhancedInfo.textContent = 'ピクセルを強調表示します。';
     enhancedInfo.style.cssText = `
       background: #333;
       color: white;
@@ -4429,7 +4429,7 @@ function buildColorFilterOverlay() {
     `;
 
     const disableAllButton = document.createElement('button');
-    disableAllButton.textContent = 'Disable All';
+    disableAllButton.textContent = 'すべて無効化';
     disableAllButton.style.cssText = `
       background: #f44336;
       border: none;
@@ -4444,7 +4444,7 @@ function buildColorFilterOverlay() {
 
     // Disable Enhanced button (full width below)
     const disableAllEnhancedButton = document.createElement('button');
-    disableAllEnhancedButton.textContent = 'Disable all Enhanced';
+    disableAllEnhancedButton.textContent = 'すべての強調表示を無効化';
     disableAllEnhancedButton.style.cssText = `
       background: #6c757d;
       color: white;
@@ -4488,7 +4488,7 @@ function buildColorFilterOverlay() {
 
     const enhanceWrongLabel = document.createElement('label');
     enhanceWrongLabel.htmlFor = 'bm-enhance-wrong-enhanced';
-    enhanceWrongLabel.textContent = 'Enhance Wrong Colors (Crosshair)';
+    enhanceWrongLabel.textContent = '間違った色を強調する';
     enhanceWrongLabel.style.cssText = `
       color: white;
       font-size: 0.9em;
@@ -5567,7 +5567,7 @@ function buildColorFilterOverlay() {
           
           // Success feedback
           disableAllEnhancedButton.style.background = '#28a745'; // Green
-          disableAllEnhancedButton.textContent = 'Disabled! ✓';
+          disableAllEnhancedButton.textContent = '無効化 ✓';
           
           // Trigger template refresh
           await refreshTemplateDisplay();
@@ -5582,7 +5582,7 @@ function buildColorFilterOverlay() {
         } else {
           // No enhanced colors to disable
           disableAllEnhancedButton.style.background = '#ffc107'; // Yellow
-          disableAllEnhancedButton.textContent = 'No Enhanced Colors';
+          disableAllEnhancedButton.textContent = '強調表示なし';
           
           setTimeout(() => {
             disableAllEnhancedButton.style.background = originalBg;
@@ -5612,7 +5612,7 @@ function buildColorFilterOverlay() {
 
     // Refresh Statistics button
     const refreshStatsButton = document.createElement('button');
-    refreshStatsButton.innerHTML = '🔄 Update Stats';
+    refreshStatsButton.innerHTML = '🔄 更新';
     refreshStatsButton.className = 'bmcf-btn success';
 
     refreshStatsButton.onmouseover = () => {
@@ -5627,7 +5627,7 @@ function buildColorFilterOverlay() {
 
     // Apply button  
     const applyButton = document.createElement('button');
-    applyButton.innerHTML = '🎯 Apply Colors';
+    applyButton.innerHTML = '🎯 適用';
     applyButton.className = 'bmcf-btn primary';
 
     applyButton.onmouseover = () => {
