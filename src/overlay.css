@@ -663,3 +663,97 @@ div:has(> #bm-input-file-template) > button {
 #bm-overlay button#bm-button-disable:focus-visible {
   background-color: rgba(0, 0, 0, 0.9); /* Consistent active effect */
 }
+
+/* === 統一オーバーライド: 以降の要素も全てメイン画面と同じ見た目に強制 === */
+
+/* Ensure all dialogs, panels, overlays, and tooltips share the same base look */
+.bm-dialog,
+#bm-color-filter-overlay,
+#bm-output-status,
+#bm-mini-tracker,
+#bm-contain-buttons-template,
+#bm-contain-coords,
+#bm-contain-userinfo,
+#bm-contain-automation,
+#bm-separator,
+#bm-title-container {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 1px solid red !important;
+  color: #f1f5f9 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Make inputs consistent */
+input,
+textarea,
+select,
+button {
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid red !important;
+  border-radius: 8px !important;
+  font-family: inherit !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255,0,0,0.12) !important;
+  border-color: #ff0000 !important;
+}
+
+/* Hide legacy gradient accents */
+#bm-mini-tracker:before,
+#bm-mini-tracker:hover:before {
+  background: none !important;
+  opacity: 0 !important;
+}
+
+/* Scrollbars that match the red theme */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(255,0,0,0.04);
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255,0,0,0.28);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,0,0,0.48);
+}
+
+/* Specific fixes for any other components that might have different styles */
+[role="dialog"],
+[role="tooltip"],
+.dialog,
+.modal,
+.popup {
+  background: rgba(0,0,0,0.9) !important;
+  border: 1px solid red !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Make sure icons/titles remain readable */
+#bm-title-container h1,
+#bm-overlay h1,
+.bm-dialog h2 {
+  color: #f1f5f9 !important;
+  border-bottom: 1px solid red !important;
+}
+
+/* Final safety: prevent accidental color overrides from upstream styles */
+:root {
+  --bm-bg: rgba(0,0,0,0.9) !important;
+  --bm-border: red !important;
+  --bm-foreground: #f1f5f9 !important;
+}
+
+/* End of file */
