@@ -101,7 +101,7 @@ export default class ApiManager {
             if (el) el.style.display = show ? '' : 'none';
           } catch(_) {}
           overlay.updateInnerHTML('bm-user-droplets-content', `<b>ドロップ:</b> ${new Intl.NumberFormat().format(dataJSON['droplets'])}`); // Updates the text content of the droplets field
-          overlay.updateInnerHTML('bm-user-nextlevel-content', `次のレベルまで <b>${new Intl.NumberFormat().format(nextLevelPixels)}</b> ピクセル${nextLevelPixels == 1 ? '' : 's'}`); // Updates the text content of the next level field
+          overlay.updateInnerHTML('bm-user-nextlevel-content', `次のレベルまで <b>${new Intl.NumberFormat().format(nextLevelPixels)}</b> ピクセル`); // Updates the text content of the next level field
           
           // Update full charge countdown
           this.updateFullChargeInfo(overlay, dataJSON);
