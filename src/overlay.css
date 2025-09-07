@@ -3,11 +3,11 @@
 /* The entire overlay */
 #bm-overlay {
   position: fixed;
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: #000000f1;
   color: #f1f5f9;
   padding: 12px;
   border-radius: 16px;
-  border: 1px solid #334155;
+  border: 2px solid #ff0000;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
   z-index: 9000;
