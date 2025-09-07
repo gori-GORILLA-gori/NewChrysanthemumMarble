@@ -1122,7 +1122,7 @@ function clearAllStorage(instance) {
         // Clear any remaining Blue Marble related session storage
         try {
           Object.keys(sessionStorage).forEach(key => {
-            if (key.toLowerCase().includes('bm') || key.toLowerCase().includes('bluemarble')) {
+            if (key.toLowerCase().includes('bm') || key.toLowerCase().includes('ChrysanthemumMarble')) {
               sessionStorage.removeItem(key);
             }
           });
@@ -2840,7 +2840,7 @@ function buildOverlayMain() {
     .addDiv({'id': 'bm-contain-header'})
       .addDiv({'id': 'bm-bar-drag'}).buildElement()
       .addDiv({'id': 'bm-title-container'})
-        .addImg({'alt': 'Blue Marble Icon - Click to minimize/maximize', 'src': 'https://raw.githubusercontent.com/Seris0/Wplace-BlueMarble/main/dist/assets/Favicon.png', 'style': 'cursor: pointer; width: 42px; height: 42px;'}, 
+        .addImg({'alt': 'Blue Marble Icon - Click to minimize/maximize', 'src': 'https://raw.githubusercontent.com/Seris0/Wplace-ChrysanthemumMarble/main/dist/assets/Favicon.png', 'style': 'cursor: pointer; width: 42px; height: 42px;'}, 
           (instance, img) => {
           /** Click event handler for overlay minimize/maximize functionality.
            * 
@@ -10112,7 +10112,7 @@ function createSearchWindow() {
 <div class="drag-handle"></div>
 <div class="hdr">
   <h3>
-    <img class="skirk-icon" src="https://raw.githubusercontent.com/Seris0/Wplace-BlueMarble/main/dist/assets/Favicon.png" alt="Blue Marble">
+    <img class="skirk-icon" src="https://raw.githubusercontent.com/Seris0/Wplace-ChrysanthemumMarble/main/dist/assets/Favicon.png" alt="Blue Marble">
     Location Search
   </h3>
   <div class="actions">
@@ -10524,7 +10524,7 @@ function createSearchWindow() {
         method: 'GET',
         url: `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`,
         headers: {
-          'User-Agent': 'BlueMarble-Search-UserScript/1.0'
+          'User-Agent': 'ChrysanthemumMarble-Search-UserScript/1.0'
         },
         onload: function(response) {
           console.log('Search API Response Status:', response.status);

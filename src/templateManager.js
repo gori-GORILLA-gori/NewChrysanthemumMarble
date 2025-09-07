@@ -10,7 +10,7 @@ import { clearFrozenTileCache } from "./tileManager";
  * @example
  * // JSON structure for a template
  * {
- *   "whoami": "BlueMarble",
+ *   "whoami": "ChrysanthemumMarble",
  *   "scriptVersion": "1.13.0",
  *   "schemaVersion": "2.1.0",
  *   "templates": {
@@ -24,7 +24,7 @@ import { clearFrozenTileCache } from "./tileManager";
  *     },
  *     "1 $Z": {
  *       "name": "My Template",
- *       "URL": "https://github.com/SwingTheVine/Wplace-BlueMarble/blob/main/dist/assets/Favicon.png",
+ *       "URL": "https://github.com/SwingTheVine/Wplace-ChrysanthemumMarble/blob/main/dist/assets/Favicon.png",
  *       "URLType": "template",
  *       "enabled": false,
  *       "tiles": {
@@ -129,7 +129,7 @@ export default class TemplateManager {
    */
   async createJSON() {
     const json = {
-      "whoami": 'BlueMarble', // Name of userscript
+      "whoami": 'ChrysanthemumMarble', // Name of userscript
       "scriptVersion": this.version, // Version of userscript
       "schemaVersion": this.templatesVersion, // Version of JSON schema
       "createdAt": new Date().toISOString(), // When the JSON was first created
@@ -1357,13 +1357,13 @@ export default class TemplateManager {
     // Minimal logging for performance during template loading
 
     // If the passed in JSON is a Blue Marble template object...
-    // Accept both legacy 'SkirkMarble' and current 'BlueMarble' whoami values
-    const validWhoami = ['SkirkMarble', 'BlueMarble', this.name?.replace(' ', '')].filter(Boolean);
+    // Accept both legacy 'SkirkMarble' and current 'ChrysanthemumMarble' whoami values
+    const validWhoami = ['SkirkMarble', 'ChrysanthemumMarble', this.name?.replace(' ', '')].filter(Boolean);
     if (validWhoami.includes(json?.whoami)) {
-      console.log('✅ Calling #parseBlueMarble...');
-      this.#parseBlueMarble(json); // ...parse the template object as Blue Marble
+      console.log('✅ Calling #parseChrysanthemumMarble...');
+      this.#parseChrysanthemumMarble(json); // ...parse the template object as Blue Marble
     } else {
-      console.warn('❌ Not a valid BlueMarble JSON:', {
+      console.warn('❌ Not a valid ChrysanthemumMarble JSON:', {
         whoami: json?.whoami,
         expected: validWhoami,
         hasTemplates: !!json?.templates
@@ -1375,16 +1375,16 @@ export default class TemplateManager {
    * @param {string} json - The JSON string to parse
    * @since 0.72.13
    */
-  async #parseBlueMarble(json) {
+  async #parseChrysanthemumMarble(json) {
 
-    console.log(`Parsing BlueMarble...`);
+    console.log(`Parsing ChrysanthemumMarble...`);
     
     // *** FIX: Restore templatesJSON from loaded data ***
     this.templatesJSON = json;
 
     const templates = json.templates;
 
-    console.log(`BlueMarble length: ${Object.keys(templates).length}`);
+    console.log(`ChrysanthemumMarble length: ${Object.keys(templates).length}`);
 
     if (Object.keys(templates).length > 0) {
 
@@ -2978,7 +2978,7 @@ export default class TemplateManager {
     }
   }
 
-  /** Merge-import a BlueMarble JSON object (keeps coords and base64; allocates non-conflicting keys)
+  /** Merge-import a ChrysanthemumMarble JSON object (keeps coords and base64; allocates non-conflicting keys)
    * @param {Object} json
    * @param {{merge?: boolean}} options
    */
@@ -3138,7 +3138,7 @@ export default class TemplateManager {
   exportTemplateJSON(templateKey) {
     if (!this.templatesJSON?.templates?.[templateKey]) return null;
     const wrapper = {
-      whoami: 'BlueMarble',
+      whoami: 'ChrysanthemumMarble',
       scriptVersion: this.version,
       schemaVersion: this.templatesVersion,
       createdAt: new Date().toISOString(),
@@ -3172,7 +3172,7 @@ export default class TemplateManager {
   exportAllTemplatesJSON() {
     if (!this.templatesJSON?.templates) return null;
     const wrapper = {
-      whoami: 'BlueMarble',
+      whoami: 'ChrysanthemumMarble',
       scriptVersion: this.version,
       schemaVersion: this.templatesVersion,
       createdAt: this.templatesJSON.createdAt || new Date().toISOString(),
@@ -3192,7 +3192,7 @@ export default class TemplateManager {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `BlueMarble-templates.json`;
+    a.download = `ChrysanthemumMarble-templates.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
