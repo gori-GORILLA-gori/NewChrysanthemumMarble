@@ -8,7 +8,7 @@
   padding: 12px;
   border-radius: 16px;
   border: 1px solid red;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 0, 0, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05);
   backdrop-filter: blur(16px);
   z-index: 9000;
   transition: all 0.3s ease, transform 0s;
