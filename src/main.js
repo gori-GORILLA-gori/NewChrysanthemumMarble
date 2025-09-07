@@ -1044,8 +1044,8 @@ function performDeleteAllTemplates(instance, templateCount, templateText) {
  */
 function clearAllStorage(instance) {
   showCustomConfirmDialog(
-    'Clear All Storage?',
-    `This will delete ALL Blue Marble data including:\n\n• Templates\n• Settings\n• Color filters\n• Crosshair preferences\n• All cached data\n\nThis action cannot be undone!\n\nAre you sure?`,
+    'すべてのデータを削除しますか？',
+    `この操作により、以下のすべての菊のマーブルデータが削除されます\n\n• テンプレート\n• 設定\n• カラーフィルター\n• すべてのキャッシュ\n\nこの操作は元に戻せません\n\n続行しますか？`,
     () => {
       try {
         // List of all Blue Marble storage keys
@@ -1976,7 +1976,7 @@ function showImportDialog(instance) {
 
   // Header
   const title = document.createElement('h3');
-  title.textContent = 'Import Templates';
+  title.textContent = 'テンプレートデータのインポート';
   title.style.cssText = `
     margin: 0 0 20px 0;
     font-size: 1.5em;
@@ -2008,7 +2008,7 @@ function showImportDialog(instance) {
   `;
 
   const dropText = document.createElement('p');
-  dropText.innerHTML = 'Drag & drop your JSON file here<br>or <strong>click to browse</strong>';
+  dropText.innerHTML = 'ドラッグアンドドロップ<br>もしくは <strong>クリックしてブラウズ</strong>';
   dropText.style.cssText = `
     margin: 0;
     color: #94a3b8;
@@ -3500,7 +3500,7 @@ function buildColorFilterOverlay() {
 
   // Check if mobile mode is enabled
   const isMobileMode = getMobileMode();
-  consoleLog(`📱 [Color Filter] Mobile mode: ${isMobileMode ? '有効' : '無効'}`);
+  consoleLog(`📱 [Color Filter] モバイルモード: ${isMobileMode ? '有効' : '無効'}`);
 
   // Import the color palette from utils
   import('./utils.js').then(utils => {
@@ -3912,11 +3912,11 @@ function buildColorFilterOverlay() {
       if (isListView) {
         colorViewContainer.classList.add('list-mode');
         viewToggleButton.innerHTML = '⊞'; // Grid icon
-        viewToggleButton.title = 'Switch to Grid view';
+        viewToggleButton.title = 'グリッド表示に切り替え';
       } else {
         colorViewContainer.classList.remove('list-mode');
         viewToggleButton.innerHTML = '📋'; // List icon
-        viewToggleButton.title = 'Switch to List view';
+        viewToggleButton.title = 'リスト表示に切り替え';
       }
       
       // Force layout recalculation
@@ -3967,7 +3967,7 @@ function buildColorFilterOverlay() {
     // Compact List button
     const compactListButton = document.createElement('button');
     compactListButton.innerHTML = '📌';
-    compactListButton.title = 'Toggle Compact Color List';
+    compactListButton.title = 'コンパクトカラーリストの切り替え';
     compactListButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
       border: 1px solid var(--slate-500);
@@ -4119,7 +4119,7 @@ function buildColorFilterOverlay() {
 
     const includeWrongProgressLabel = document.createElement('label');
     includeWrongProgressLabel.htmlFor = 'bm-include-wrong-progress';
-    includeWrongProgressLabel.textContent = 'Include Wrong Color Pixels in Progress';
+    includeWrongProgressLabel.textContent = '間違った色のピクセルを含める';
     includeWrongProgressLabel.style.cssText = `
       color: var(--bmcf-text);
       font-size: 0.95em;
@@ -8451,7 +8451,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const title = document.createElement('h2');
-  title.textContent = 'Settings';
+  title.textContent = '設定';
   const titleFontSize = isMobileMode ? '1.2em' : '1.5em';
   title.style.cssText = `
     margin: 0; 
@@ -8510,7 +8510,7 @@ function buildCrosshairSettingsOverlay() {
 
   // Instructions
   const instructions = document.createElement('p');
-  instructions.textContent = 'Select the crosshair color that appears on highlighted template pixels:';
+  instructions.textContent = '強調表示の十字の色とスタイルを選択します';
   const instructionsMargin = isMobileMode ? '0 0 16px 0' : '0 0 24px 0';
   const instructionsFontSize = isMobileMode ? '0.9em' : '0.95em';
   instructions.style.cssText = `
@@ -8540,7 +8540,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const previewLabel = document.createElement('div');
-  previewLabel.textContent = 'Current Color:';
+  previewLabel.textContent = '現在の色:';
   previewLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -8964,7 +8964,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const alphaLabel = document.createElement('div');
-  alphaLabel.textContent = 'Crosshair Transparency:';
+  alphaLabel.textContent = '透明度:';
   alphaLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9022,7 +9022,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const borderLabel = document.createElement('div');
-  borderLabel.textContent = 'Corner Borders:';
+  borderLabel.textContent = '角の境界線:';
   borderLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9032,7 +9032,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const borderDescription = document.createElement('div');
-  borderDescription.textContent = 'Add subtle borders around corner pixels of the crosshair';
+  borderDescription.textContent = '十字線の角のピクセルに繊細な境界線を追加します';
   borderDescription.style.cssText = `
     font-size: 0.9em; 
     margin-bottom: 16px; 
@@ -9101,7 +9101,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const sizeLabel = document.createElement('div');
-  sizeLabel.textContent = 'Crosshair Size:';
+  sizeLabel.textContent = 'クロスヘアのサイズ:';
   sizeLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9111,7 +9111,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const sizeDescription = document.createElement('div');
-  sizeDescription.textContent = 'Make crosshair 5x larger, extending beyond pixel boundaries';
+  sizeDescription.textContent = 'クロスヘアを5倍に拡大し、ピクセル境界を越えて表示します';
   sizeDescription.style.cssText = `
     font-size: 0.9em; 
     margin-bottom: 16px; 
@@ -9190,7 +9190,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const radiusLabel = document.createElement('div');
-  radiusLabel.textContent = 'Crosshair Radius:';
+  radiusLabel.textContent = '十字線の半径:';
   radiusLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9200,7 +9200,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const radiusDescription = document.createElement('div');
-  radiusDescription.textContent = 'Control how far the crosshair extends from the center pixel';
+  radiusDescription.textContent = '十字線が中心ピクセルからどのくらい広がるかを制御します';
   radiusDescription.style.cssText = `
     font-size: 0.9em; 
     margin-bottom: 16px; 
@@ -9324,7 +9324,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const trackerLabel = document.createElement('div');
-  trackerLabel.textContent = 'Mini Progress Tracker:';
+  trackerLabel.textContent = 'ミニ進捗トラッカー:';
   trackerLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9334,7 +9334,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const trackerDescription = document.createElement('div');
-  trackerDescription.textContent = 'Show a compact progress tracker below the Color Filter button.';
+  trackerDescription.textContent = 'カラーフィルターボタンの下にコンパクトな進捗トラッカーを表示します。';
   trackerDescription.style.cssText = `
     font-size: 0.9em; 
     color: var(--slate-300); 
@@ -9408,7 +9408,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const mobileLabel = document.createElement('div');
-  mobileLabel.textContent = '📱 Mobile Mode:';
+  mobileLabel.textContent = '📱 モバイルモード:';
   mobileLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9516,7 +9516,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const collapseLabel = document.createElement('div');
-  collapseLabel.textContent = 'Collapse Mini Template:';
+  collapseLabel.textContent = 'ミニテンプレートを折りたたむ:';
   collapseLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9526,7 +9526,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const collapseDescription = document.createElement('div');
-  collapseDescription.textContent = 'Hide mini tracker when template section is collapsed.';
+  collapseDescription.textContent = 'テンプレートセクションが折りたたまれているときにミニトラッカーを非表示にします。';
   collapseDescription.style.cssText = `
     font-size: 0.9em; 
     color: var(--slate-300); 
@@ -9689,7 +9689,7 @@ function buildCrosshairSettingsOverlay() {
   };
 
   const applyButton = document.createElement('button');
-  applyButton.textContent = 'Apply Settings';
+  applyButton.textContent = '設定を適用';
   applyButton.style.cssText = `
     background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
     border: 1px solid var(--blue-600);
@@ -9835,7 +9835,7 @@ function buildCrosshairSettingsOverlay() {
   usernameCheckbox.type = 'checkbox';
   try { usernameCheckbox.checked = JSON.parse(localStorage.getItem('bmShowUsername') ?? 'true'); } catch(_) { usernameCheckbox.checked = true; }
   const usernameText = document.createElement('span');
-  usernameText.textContent = 'Show Username in main window';
+  usernameText.textContent = 'ユーザー名を表示';
   usernameText.style.cssText = 'color: var(--slate-200); font-weight:600;';
   usernameCheckbox.onchange = () => {
     const next = !!usernameCheckbox.checked;
@@ -9863,7 +9863,7 @@ function buildCrosshairSettingsOverlay() {
     z-index: 1;
   `;
   const leftOnColorLabel = document.createElement('div');
-  leftOnColorLabel.textContent = 'Display Left number on color cards:';
+  leftOnColorLabel.textContent = 'カラーカードに残りのピクセル数を表示:';
   leftOnColorLabel.style.cssText = `
     font-size: 1em; 
     margin-bottom: 12px; 
@@ -9872,7 +9872,7 @@ function buildCrosshairSettingsOverlay() {
     letter-spacing: -0.01em;
   `;
   const leftOnColorDescription = document.createElement('div');
-  leftOnColorDescription.textContent = 'Displays just the remaining pixels number centered on each color.';
+  leftOnColorDescription.textContent = '各色を中心に残りのピクセル数だけを表示します。';
   leftOnColorDescription.style.cssText = `
     font-size: 0.9em; 
     color: var(--slate-300); 
@@ -9959,7 +9959,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const navigationLabel = document.createElement('h3');
-  navigationLabel.textContent = 'Navigation Method';
+  navigationLabel.textContent = 'ナビゲーション方法';
   navigationLabel.style.cssText = `
     margin: 0 0 8px 0;
     color: var(--slate-100);
@@ -9969,7 +9969,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const navigationDescription = document.createElement('p');
-  navigationDescription.textContent = 'Choose how to navigate when clicking search results and favorites';
+  navigationDescription.textContent = '検索結果やお気に入りをクリックする際のナビゲーション方法を選択します';
   navigationDescription.style.cssText = `
     margin: 0 0 16px 0;
     color: var(--slate-400);
