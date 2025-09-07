@@ -8098,7 +8098,7 @@ function updateMiniTracker() {
   // LAYOUT CSS GRID - HTML LIMPO
   if (totalRequired === 0) {
     tracker.innerHTML = `
-      <div class="tracker-title">📊 Template Progress: 0%</div>
+      <div class="tracker-title">📊 テンプレート進捗状況: 0%</div>
       <div class="tracker-pixels">0 / 0 pixels painted</div>
       <div class="tracker-progress">
         <div class="tracker-bar" style="width: 0%;"></div>
@@ -8107,12 +8107,12 @@ function updateMiniTracker() {
     `;
   } else {
     tracker.innerHTML = `
-      <div class="tracker-title">📊 Template Progress: ${progressPercentage}%</div>
-      <div class="tracker-pixels">${totalPainted.toLocaleString()} / ${totalRequired.toLocaleString()} pixels painted</div>
+      <div class="tracker-title">📊 テンプレート進捗状況: ${progressPercentage}%</div>
+      <div class="tracker-pixels">${totalPainted.toLocaleString()} / ${totalRequired.toLocaleString()} ピクセル</div>
       <div class="tracker-progress">
         <div class="tracker-bar" style="width: ${progressPercentage}%;"></div>
       </div>
-      <div class="tracker-left">${totalNeedCrosshair.toLocaleString()} Pixels Left</div>
+      <div class="tracker-left">残り ${totalNeedCrosshair.toLocaleString()} ピクセル</div>
     `;
   }
   
@@ -10113,26 +10113,26 @@ function createSearchWindow() {
 <div class="hdr">
   <h3>
     <img class="skirk-icon" src="https://raw.githubusercontent.com/gori-GORILLA-gori/NewChrysanthemumMarble/refs/heads/main/dist/assets/Favicon.png" alt="Blue Marble">
-    Location Search
+    位置検索
   </h3>
   <div class="actions">
-    <button id="skirk-location-btn">Location</button>
-    <button id="skirk-search-close">Close</button>
+    <button id="skirk-location-btn">場所を追加</button>
+    <button id="skirk-search-close">閉じる</button>
   </div>
 </div>
 <div class="body">
-  <input type="text" id="skirk-search-input" placeholder="Search for a place...">
+  <input type="text" id="skirk-search-input" 検索">
   <div id="skirk-search-results"></div>
   <div id="skirk-favorites-menu" style="display: none;">
     <div id="skirk-favorites-header">
       <div id="skirk-favorites-title" style="cursor: pointer;">
-        <span id="skirk-favorites-toggle">▼</span> ⭐ Favorites
+        <span id="skirk-favorites-toggle">▼</span> ⭐ お気に入り
         <span id="skirk-favorites-count">0</span>
       </div>
 
-      <button id="skirk-clear-favorites">Clear All</button>
+      <button id="skirk-clear-favorites">すべて消す</button>
     </div>
-    <input type="text" id="skirk-favorites-filter" class="skirk-favorites-filter" placeholder="Filter favorites...">
+    <input type="text" id="skirk-favorites-filter" class="skirk-favorites-filter" placeholder=" お気に入りから検索">
     <div id="skirk-favorites-list"></div>
   </div>
 </div>`;
@@ -10275,31 +10275,31 @@ function createSearchWindow() {
   locationModal.id = 'skirk-location-modal';
   locationModal.innerHTML = `
     <div id="skirk-location-dialog">
-      <h3>Add Custom Location</h3>
+      <h3>お気に入りを追加</h3>
       <div class="form-group">
-        <label for="location-name">Name:</label>
+        <label for="location-name">名前:</label>
         <input type="text" id="location-name" placeholder="e.g., My House, My Art, Work">
       </div>
       
       <div class="form-group">
-        <label for="location-link">Paste wplace.live link:</label>
+        <label for="location-link">Wplaceのリンク:</label>
         <input type="text" id="location-link" placeholder="https://wplace.live/?lat=-19.037942104984218&lng=-42.420498378222675&zoom=16.078281108991245">
       </div>
       
       <div class="form-group" style="display: flex; gap: 8px;">
         <div style="flex: 1;">
-          <label for="location-lat">Latitude:</label>
+          <label for="location-lat">緯度:</label>
           <input type="text" id="location-lat" placeholder="e.g., -23.5506507" readonly>
         </div>
         <div style="flex: 1;">
-          <label for="location-lon">Longitude:</label>
+          <label for="location-lon">経度:</label>
           <input type="text" id="location-lon" placeholder="e.g., -46.6333824" readonly>
         </div>
       </div>
       
       <div class="button-group">
-        <button class="btn-secondary" id="location-cancel">Cancel</button>
-        <button class="btn-primary" id="location-save">Save to Favorites</button>
+        <button class="btn-secondary" id="location-cancel">キャンセル</button>
+        <button class="btn-primary" id="location-save">保存</button>
       </div>
     </div>
   `;
@@ -10383,7 +10383,7 @@ function createSearchWindow() {
       lat: lat,
       lon: lon,
       primaryName: name,
-      secondaryInfo: `Custom Location (${lat}, ${lon})`,
+      secondaryInfo: `場所 (${lat}, ${lon})`,
       fullAddress: ''
     };
 
