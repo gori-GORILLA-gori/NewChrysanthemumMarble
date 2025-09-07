@@ -8,7 +8,7 @@
   padding: 12px;
   border-radius: 16px;
   border: 1px solid red;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 0, 0, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05);
   backdrop-filter: blur(16px);
   z-index: 9000;
   transition: all 0.3s ease, transform 0s;
@@ -20,6 +20,36 @@
   -webkit-backface-visibility: hidden;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+}
+
+/* Common style for all secondary dialogs and popups */
+.bm-dialog {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: #f1f5f9;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid red;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 0, 0, 0.05);
+  backdrop-filter: blur(16px);
+  z-index: 9001;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+  width: 90%;
+}
+
+.bm-dialog h2 {
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Smooth transitions for minimize/maximize functionality */
@@ -326,13 +356,12 @@ input[type="file"][id*="template"] {
   100% { background-position: 0% 50%; }
 }
 
-
 /* Color filter overlay styles */
 #bm-color-filter-overlay {
   background: rgba(0, 0, 0, 0.9);
   color: #f1f5f9;
   border: 1px solid red;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar {
