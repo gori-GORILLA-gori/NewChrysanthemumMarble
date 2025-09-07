@@ -2840,7 +2840,7 @@ function buildOverlayMain() {
     .addDiv({'id': 'bm-contain-header'})
       .addDiv({'id': 'bm-bar-drag'}).buildElement()
       .addDiv({'id': 'bm-title-container'})
-        .addImg({'alt': 'Blue Marble Icon - Click to minimize/maximize', 'src': 'https://raw.githubusercontent.com/Seris0/Wplace-ChrysanthemumMarble/main/dist/assets/Favicon.png', 'style': 'cursor: pointer; width: 42px; height: 42px;'}, 
+        .addImg({'alt': 'Blue Marble Icon - Click to minimize/maximize', 'src': 'https://raw.githubusercontent.com/gori-GORILLA-gori/NewChrysanthemumMarble/refs/heads/main/dist/assets/Favicon.png', 'style': 'cursor: pointer; width: 42px; height: 42px;'}, 
           (instance, img) => {
           /** Click event handler for overlay minimize/maximize functionality.
            * 
@@ -3141,7 +3141,7 @@ function buildOverlayMain() {
           });
         }
       ).buildElement()
-      .addHeader(1, {'textContent': 'Skirk Marble'}).buildElement()
+      .addHeader(1, {'textContent': '菊のマーブル'}).buildElement()
     .buildElement()
 
     .addDiv({ id: 'bm-separator' })
@@ -10112,7 +10112,7 @@ function createSearchWindow() {
 <div class="drag-handle"></div>
 <div class="hdr">
   <h3>
-    <img class="skirk-icon" src="https://raw.githubusercontent.com/Seris0/Wplace-ChrysanthemumMarble/main/dist/assets/Favicon.png" alt="Blue Marble">
+    <img class="skirk-icon" src="https://raw.githubusercontent.com/gori-GORILLA-gori/NewChrysanthemumMarble/refs/heads/main/dist/assets/Favicon.png" alt="Blue Marble">
     Location Search
   </h3>
   <div class="actions">
