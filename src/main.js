@@ -960,7 +960,7 @@ function deleteAllTemplates(instance) {
   
   // Use custom confirmation dialog instead of native confirm
   showCustomConfirmDialog(
-    'Delete All Templates?',
+    'すべてのテンプレートを削除しますか？',
     confirmMessage,
     () => {
       // This is the confirmation callback - execute the deletion logic
@@ -1388,7 +1388,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
     // Confirm button
     const confirmBtn = document.createElement('button');
     confirmBtn.className = 'bmcd-btn bmcd-btn-danger';
-    confirmBtn.textContent = 'Delete';
+    confirmBtn.textContent = '削除';
     
     confirmBtn.addEventListener('click', () => {
       document.body.removeChild(overlay);
@@ -1398,7 +1398,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
     // Cancel button
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'bmcd-btn bmcd-btn-secondary';
-    cancelBtn.textContent = 'Cancel';
+    cancelBtn.textContent = 'キャンセル';
     
     cancelBtn.addEventListener('click', () => {
       document.body.removeChild(overlay);
@@ -1788,7 +1788,7 @@ function deleteSelectedTemplate(instance) {
   
   const title = document.createElement('h3');
   title.className = 'bmdt-title';
-  title.textContent = 'Select Template to Delete';
+  title.textContent = '削除するテンプレートを選択';
   
   header.appendChild(title);
   
@@ -1843,14 +1843,14 @@ function deleteSelectedTemplate(instance) {
     
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'bmdt-delete-btn';
-    deleteBtn.textContent = 'Delete';
+    deleteBtn.textContent = '削除';
     
     deleteBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       
       showCustomConfirmDialog(
-        `Delete "${templateName}"?`,
-        `Are you sure you want to delete this template?\n\nThis action cannot be undone!`,
+        `"${templateName}"を削除しますか?`,
+        `このテンプレートを削除してもよろしいですか?\n\nこの操作は元に戻せません。`,
         async () => {
           try {
             // Delete from templateManager (now async)
@@ -1888,13 +1888,13 @@ function deleteSelectedTemplate(instance) {
   // Delete All button
   const deleteAllBtn = document.createElement('button');
   deleteAllBtn.className = 'bmdt-btn bmdt-btn-danger';
-  deleteAllBtn.textContent = 'Delete All Templates';
+  deleteAllBtn.textContent = 'すべてのテンプレートを削除';
   
   deleteAllBtn.addEventListener('click', () => {
     document.body.removeChild(overlay);
     
     showCustomConfirmDialog(
-      'Delete All Templates?',
+      'すべてのテンプレートを削除しますか?',
       `Are you sure you want to delete all ${templateKeys.length} templates?\n\nThis action cannot be undone!`,
       () => {
         // Call the actual deletion logic directly, not the wrapper function
@@ -1908,7 +1908,7 @@ function deleteSelectedTemplate(instance) {
   // Cancel button
   const cancelBtn = document.createElement('button');
   cancelBtn.className = 'bmdt-btn bmdt-btn-secondary';
-  cancelBtn.textContent = 'Cancel';
+  cancelBtn.textContent = 'キャンセル';
   
   cancelBtn.addEventListener('click', () => {
     document.body.removeChild(overlay);
@@ -2360,7 +2360,7 @@ function showTemplateManageDialog(instance) {
   `;
   
   const title = document.createElement('h3');
-  title.textContent = 'Manage Templates';
+  title.textContent = 'テンプレート管理';
   title.style.cssText = `
     margin: 0;
     font-size: 1.5em;
@@ -2557,7 +2557,7 @@ function showTemplateManageDialog(instance) {
     // Export button
     const exportBtn = document.createElement('button');
     exportBtn.innerHTML = icons.exportIcon;
-    exportBtn.title = 'Export this template as JSON';
+    exportBtn.title = 'このテンプレートをエクスポート(JSON)';
     exportBtn.style.cssText = `
       padding: 8px;
       border: none;
@@ -2622,7 +2622,7 @@ function showTemplateManageDialog(instance) {
     // Fly button
     const flyBtn = document.createElement('button');
     flyBtn.innerHTML = icons.pinIcon;
-    flyBtn.title = 'Fly to template coordinates';
+    flyBtn.title = 'このテンプレートの場所に移動';
     flyBtn.style.cssText = `
       padding: 8px;
       border: none;
@@ -2728,8 +2728,8 @@ function showTemplateManageDialog(instance) {
       e.stopPropagation();
       
       showCustomConfirmDialog(
-        `Delete "${templateName}"?`,
-        `Are you sure you want to delete this template?\n\nThis action cannot be undone!`,
+        `"${templateName}"を削除しますか?`,
+        `このテンプレートを削除してもよろしいですか?\n\nこの操作は元に戻せません。`,
         async () => {
           try {
             const success = await templateManager.deleteTemplate(templateKey);
@@ -9634,7 +9634,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const cancelButton = document.createElement('button');
-  cancelButton.textContent = 'Cancel';
+  cancelButton.textContent = 'キャンセル';
   cancelButton.style.cssText = `
     background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
     border: 1px solid var(--slate-500);
