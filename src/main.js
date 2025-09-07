@@ -3148,7 +3148,7 @@ function buildOverlayMain() {
       .addHr().buildElement()
       .addDiv({ id: 'bm-separator-text'})
         .addDiv({ innerHTML: icons.informationIcon }).buildElement()
-        .addP({ textContent: 'Information' }).buildElement()
+        .addP({ textContent: '情報' }).buildElement()
         .buildElement()
       .addHr().buildElement()
     .buildElement()
@@ -3177,7 +3177,7 @@ function buildOverlayMain() {
       .addHr().buildElement()
       .addDiv({ id: 'bm-separator-text'})
         .addDiv({ innerHTML: icons.templateIcon }).buildElement()
-        .addP({ textContent: 'Template' }).buildElement()
+        .addP({ textContent: 'テンプレート' }).buildElement()
         .buildElement()
       .addHr().buildElement()
     .buildElement()
@@ -3192,7 +3192,7 @@ function buildOverlayMain() {
       .addDiv({'id': 'bm-contain-coords'})
         .addDiv({ id: 'bm-coords-title' })
           .addDiv({ innerHTML: icons.pinIcon }).buildElement()
-          .addP({ innerHTML: 'Coordinates:' }).buildElement()
+          .addP({ innerHTML: '座標:' }).buildElement()
           .addButton({'id': 'bm-button-coords', 'innerHTML': icons.pointerIcon + 'Detect', title: 'Set the location to the pixel you\'ve selected'},
             (instance, button) => {
               button.onclick = () => {
@@ -3211,15 +3211,15 @@ function buildOverlayMain() {
         .buildElement()
         .addDiv({ id: 'bm-contain-inputs'})
           .addP({ textContent: 'Tile: '}).buildElement()
-          .addInput({'type': 'number', 'id': 'bm-input-tx', 'placeholder': 'T1 X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
-          .addInput({'type': 'number', 'id': 'bm-input-ty', 'placeholder': 'T1 Y', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
+          .addInput({'type': 'number', 'id': 'bm-input-tx', 'placeholder': 'Tl X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
+          .addInput({'type': 'number', 'id': 'bm-input-ty', 'placeholder': 'Tl Y', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-px', 'placeholder': 'Px X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-py', 'placeholder': 'Px Y', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
         .buildElement()
       .buildElement()
       .addDiv({'id': 'bm-contain-buttons-template'})
-        .addInputFile({'id': 'bm-input-file-template', 'textContent': 'Upload Template', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'})
-        .addButton({'id': 'bm-button-create', innerHTML: icons.createIcon + 'Create'}, (instance, button) => {
+        .addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'})
+        .addButton({'id': 'bm-button-create', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
           button.onclick = () => {
             const input = document.querySelector('#bm-input-file-template');
 
@@ -3248,7 +3248,7 @@ function buildOverlayMain() {
                       instance.handleDisplayStatus(`Drew to canvas!`);
         }
       }).buildElement()
-      .addButton({'id': 'bm-button-manage', innerHTML: icons.manageIcon + 'Manage'}, (instance, button) => {
+      .addButton({'id': 'bm-button-manage', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
         button.onclick = () => {
           showTemplateManageDialog(instance);
         }
