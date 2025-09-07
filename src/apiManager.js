@@ -94,14 +94,14 @@ export default class ApiManager {
           // Log paint data for debugging
           console.log('%cSkirk Marble%c: Paint Data:', 'color: cornflowerblue;', '', this.userPaintData);
           
-          overlay.updateInnerHTML('bm-user-name-content', `<b>Username:</b> ${escapeHTML(dataJSON['name'])}`); // Updates the text content of the username field
+          overlay.updateInnerHTML('bm-user-name-content', `<b>ユーザー名:</b> ${escapeHTML(dataJSON['name'])}`); // Updates the text content of the username field
           try {
             const show = JSON.parse(localStorage.getItem('bmShowUsername') ?? 'true');
             const el = document.getElementById('bm-user-name');
             if (el) el.style.display = show ? '' : 'none';
           } catch(_) {}
-          overlay.updateInnerHTML('bm-user-droplets-content', `<b>Droplets:</b> ${new Intl.NumberFormat().format(dataJSON['droplets'])}`); // Updates the text content of the droplets field
-          overlay.updateInnerHTML('bm-user-nextlevel-content', `Next level in <b>${new Intl.NumberFormat().format(nextLevelPixels)}</b> pixel${nextLevelPixels == 1 ? '' : 's'}`); // Updates the text content of the next level field
+          overlay.updateInnerHTML('bm-user-droplets-content', `<b>ドロップ:</b> ${new Intl.NumberFormat().format(dataJSON['droplets'])}`); // Updates the text content of the droplets field
+          overlay.updateInnerHTML('bm-user-nextlevel-content', `次のレベルまで <b>${new Intl.NumberFormat().format(nextLevelPixels)}</b> ピクセル${nextLevelPixels == 1 ? '' : 's'}`); // Updates the text content of the next level field
           
           // Update full charge countdown
           this.updateFullChargeInfo(overlay, dataJSON);
@@ -221,7 +221,7 @@ export default class ApiManager {
       }, 1000); // Update every second
     } else {
       // No charge data available
-      overlay.updateInnerHTML('bm-user-fullcharge-content','Full Charge in <b style="color: #6b7280;">N/A</b>');
+      overlay.updateInnerHTML('bm-user-fullcharge-content','ピクセルが溜まるまで <b style="color: #6b7280;">N/A</b>');
     }
   }
 
@@ -238,7 +238,7 @@ export default class ApiManager {
     
     // If already at full charges
     if (data.current >= data.max || remainingMs <= 0) {
-      overlay.updateInnerHTML('bm-user-fullcharge-content', `Full Charge in <b style="color: #10b981;">FULL</b>`);
+      overlay.updateInnerHTML('bm-user-fullcharge-content', `ピクセルが溜まるまで in <b style="color: #10b981;">FULL</b>`);
       
       // Clear interval when full
       if (window.skirkChargeInterval) {
@@ -269,7 +269,7 @@ export default class ApiManager {
     const chargesText = `${Math.floor(currentCharges)}/${data.max}`;
     
     overlay.updateInnerHTML('bm-user-fullcharge-content', 
-      `Full Charge in <b style="color: #f59e0b;">${timeText}</b> <span style="color: #6b7280; font-size: 0.9em;">(${chargesText})</span>`
+      `ピクセルが溜まるまで <b style="color: #f59e0b;">${timeText}</b> <span style="color: #6b7280; font-size: 0.9em;">(${chargesText})</span>`
     );
   }
 }

@@ -3156,19 +3156,19 @@ function buildOverlayMain() {
     .addDiv({'id': 'bm-contain-userinfo'})
       .addDiv({'id': 'bm-user-name'})
         .addDiv({'id': 'bm-user-icon', innerHTML: icons.userIcon}).buildElement()
-        .addP({'id': 'bm-user-name-content', innerHTML: '<b>Username:</b> loading...'}).buildElement()
+        .addP({'id': 'bm-user-name-content', innerHTML: '<b>ユーザー名:</b> loading...'}).buildElement()
       .buildElement()
       .addDiv({'id': 'bm-user-droplets'})
         .addDiv({'id': 'bm-user-droplets-icon', innerHTML: icons.dropletIcon}).buildElement()
-        .addP({'id': 'bm-user-droplets-content', innerHTML: '<b>Droplets:</b> loading...'}).buildElement()
+        .addP({'id': 'bm-user-droplets-content', innerHTML: '<b>ドロップ:</b> loading...'}).buildElement()
       .buildElement()
       .addDiv({'id': 'bm-user-nextlevel'})
         .addDiv({'id': 'bm-user-nextlevel-icon', innerHTML: icons.nextLevelIcon}).buildElement()
-        .addP({'id': 'bm-user-nextlevel-content', 'textContent': 'Next level in...'}).buildElement()
+        .addP({'id': 'bm-user-nextlevel-content', 'textContent': '次のレベルまで...'}).buildElement()
       .buildElement()
       .addDiv({'id': 'bm-user-fullcharge'})
         .addDiv({'id': 'bm-user-fullcharge-icon', innerHTML: icons.chargeIcon}).buildElement()
-        .addP({'id': 'bm-user-fullcharge-content', 'textContent': 'Full Charge in...'}).buildElement()
+        .addP({'id': 'bm-user-fullcharge-content', 'textContent': 'ピクセルが溜まるまで...'}).buildElement()
       .buildElement()
     .buildElement()
     
@@ -3434,7 +3434,7 @@ function buildOverlayMain() {
             }
           ).buildElement()
           // Clear All Storage button
-          .addButton({'id': 'bm-button-clear-storage', 'className': 'bm-help', innerHTML:'🗑️', 'title': '情報をすべて消去'}, (instance, button) => {
+          .addButton({'id': 'bm-button-clear-storage', 'className': 'bm-help', innerHTML:icons.deleteIcon, 'title': '情報をすべて消去'}, (instance, button) => {
             button.addEventListener('click', () => {
               clearAllStorage(instance);
             });
