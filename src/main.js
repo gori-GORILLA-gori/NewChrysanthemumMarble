@@ -919,7 +919,7 @@ function observeOpacityButton() {
         this.style.background = '';
         this.style.color = '';
       }
-      overlayMain.handleDisplayStatus(`Error Map ${isEnabled ? 'enabled' : 'disabled'}! ${isEnabled ? 'Green=correct, Red=wrong pixels' : 'Back to normal view'}`);
+      overlayMain.handleDisplayStatus(`Error Map ${isEnabled ? '有効' : '無効'}! ${isEnabled ? 'Green=correct, Red=wrong pixels' : 'Back to normal view'}`);
     };
     
     // Add the button to our container
@@ -2589,7 +2589,7 @@ function showTemplateManageDialog(instance) {
     
     // Toggle button
     const toggleBtn = document.createElement('button');
-    toggleBtn.textContent = isEnabled ? 'Enabled' : 'Disabled';
+    toggleBtn.textContent = isEnabled ? '有効' : '無効';
     toggleBtn.style.cssText = `
       padding: 8px 16px;
       border: none;
@@ -2610,13 +2610,13 @@ function showTemplateManageDialog(instance) {
       templateManager.setTemplateEnabled(templateKey, newState);
       
       // Update button appearance
-      toggleBtn.textContent = newState ? 'Enabled' : 'Disabled';
+      toggleBtn.textContent = newState ? '有効' : '無効';
       toggleBtn.style.background = newState 
         ? 'linear-gradient(135deg, #10b981, #059669)'
         : 'linear-gradient(135deg, #64748b, #475569)';
       toggleBtn.style.color = newState ? 'white' : '#e2e8f0';
       
-      instance.handleDisplayStatus(`${newState ? 'Enabled' : 'Disabled'} template "${templateName}"!`);
+      instance.handleDisplayStatus(`${newState ? '有効' : '無効'} template "${templateName}"!`);
     };
     
     // Fly button
@@ -2698,7 +2698,7 @@ function showTemplateManageDialog(instance) {
     // Delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.innerHTML = icons.deleteIcon;
-    deleteBtn.title = 'Delete this template';
+    deleteBtn.title = 'このテンプレートを削除';
     deleteBtn.style.cssText = `
       padding: 8px;
       border: none;
@@ -2779,15 +2779,15 @@ function showTemplateManageDialog(instance) {
     background: #1b2433; position: sticky; bottom: 0; justify-content: center; align-items: center;`
   ;
   const enableAllBtn = document.createElement('button');
-  enableAllBtn.textContent = 'Enable All';
+  enableAllBtn.textContent = 'すべて有効化';
   enableAllBtn.style.cssText = `padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#10b981,#059669); color: white;`;
   enableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, true));
     instance.handleDisplayStatus('Enabled all templates');
     // Update visible buttons text/colors
     content.querySelectorAll('button').forEach(btn => {
-      if (btn.textContent === 'Disabled' || btn.textContent === 'Enabled') {
-        btn.textContent = 'Enabled';
+      if (btn.textContent === '無効' || btn.textContent === '有効') {
+        btn.textContent = '有効';
         btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
         btn.style.color = 'white';
       }
@@ -2800,8 +2800,8 @@ function showTemplateManageDialog(instance) {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, false));
     instance.handleDisplayStatus('Disabled all templates');
     content.querySelectorAll('button').forEach(btn => {
-      if (btn.textContent === 'Disabled' || btn.textContent === 'Enabled') {
-        btn.textContent = 'Disabled';
+      if (btn.textContent === '無効' || btn.textContent === '有効') {
+        btn.textContent = '無効';
         btn.style.background = 'linear-gradient(135deg, #64748b, #475569)';
         btn.style.color = '#e2e8f0';
       }
@@ -3500,7 +3500,7 @@ function buildColorFilterOverlay() {
 
   // Check if mobile mode is enabled
   const isMobileMode = getMobileMode();
-  consoleLog(`📱 [Color Filter] Mobile mode: ${isMobileMode ? 'enabled' : 'disabled'}`);
+  consoleLog(`📱 [Color Filter] Mobile mode: ${isMobileMode ? '有効' : '無効'}`);
 
   // Import the color palette from utils
   import('./utils.js').then(utils => {
@@ -4134,7 +4134,7 @@ function buildColorFilterOverlay() {
     includeWrongProgressCheckbox.addEventListener('change', async () => {
       const enabled = includeWrongProgressCheckbox.checked;
       await templateManager.setIncludeWrongColorsInProgress(enabled);
-      overlayMain.handleDisplayStatus(`Include wrong colors in progress ${enabled ? 'enabled' : 'disabled'}!`);
+      overlayMain.handleDisplayStatus(`Include wrong colors in progress ${enabled ? '有効' : '無効'}!`);
       
       // Force refresh color filter overlay to update progress calculations immediately
       buildColorFilterOverlay();
@@ -4415,7 +4415,7 @@ function buildColorFilterOverlay() {
     `;
 
     const enableAllButton = document.createElement('button');
-    enableAllButton.textContent = 'Enable All';
+    enableAllButton.textContent =  'すべて有効化';
     enableAllButton.style.cssText = `
       background: #4caf50;
       border: none;
@@ -4501,7 +4501,7 @@ function buildColorFilterOverlay() {
     enhanceWrongCheckbox.addEventListener('change', async () => {
       const enabled = enhanceWrongCheckbox.checked;
       await templateManager.setEnhanceWrongColors(enabled);
-      overlayMain.handleDisplayStatus(`Wrong colors crosshair ${enabled ? 'enabled' : 'disabled'}!`);
+      overlayMain.handleDisplayStatus(`Wrong colors crosshair ${enabled ? '有効' : '無効'}!`);
       
       // Force template redraw to apply enhanced mode changes
       if (window.forceTemplateRedraw) {
@@ -6000,7 +6000,7 @@ function buildColorFilterOverlay() {
     disableAllBtn.addEventListener('mouseleave', () => disableAllBtn.style.background = '#dc2626');
     
     const enableAllBtn = document.createElement('button');
-    enableAllBtn.textContent = 'Enable';
+    enableAllBtn.textContent = '有効化';
     enableAllBtn.style.cssText = `
       background: #16a34a;
       color: white;
@@ -6518,7 +6518,7 @@ function buildColorFilterOverlay() {
         height: 12px;
         cursor: pointer;
       `;
-      enhancedCheckbox.title = 'Enable enhanced mode for this color';
+      enhancedCheckbox.title = 'この色の拡張モードを有効にする';
       
       // Check if color is currently enhanced
       if (templateInstance && templateInstance.enhancedColors) {
@@ -8006,7 +8006,7 @@ function updateMiniTracker() {
   if (!trackerEnabled || (collapseEnabled && isMainMinimized)) {
     if (existingTracker) {
       existingTracker.remove();
-      consoleLog(`📊 Mini tracker hidden - ${!trackerEnabled ? 'disabled' : 'collapsed with main overlay'}`);
+      consoleLog(`📊 Mini tracker hidden - ${!trackerEnabled ? '無効' : 'collapsed with main overlay'}`);
     }
     return;
   }
@@ -9061,7 +9061,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const borderToggleText = document.createElement('span');
-  borderToggleText.textContent = tempBorderEnabled ? 'Enabled' : 'Disabled';
+  borderToggleText.textContent = tempBorderEnabled ? '有効' : '無効';
   borderToggleText.style.cssText = `
     color: var(--slate-100); 
     font-weight: 700;
@@ -9079,7 +9079,7 @@ function buildCrosshairSettingsOverlay() {
     borderToggleText.style.padding = '';
     borderToggleText.style.borderRadius = '';
     borderToggleText.style.color = tempBorderEnabled ? '#4caf50' : '#f44336';
-    borderToggleText.textContent = tempBorderEnabled ? 'Enabled' : 'Disabled';
+    borderToggleText.textContent = tempBorderEnabled ? '有効' : '無効';
   };
 
   borderToggle.appendChild(borderCheckbox);
@@ -9144,7 +9144,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const sizeToggleText = document.createElement('span');
-  sizeToggleText.textContent = tempEnhancedSize ? 'Enabled' : 'Disabled';
+  sizeToggleText.textContent = tempEnhancedSize ? '有効' : '無効';
   sizeToggleText.style.cssText = `
     font-size: 0.95em;
     color: var(--slate-100);
@@ -9161,7 +9161,7 @@ function buildCrosshairSettingsOverlay() {
     sizeToggleText.style.padding = '';
     sizeToggleText.style.borderRadius = '';
     sizeToggleText.style.color = tempEnhancedSize ? '#4caf50' : '#f44336';
-    sizeToggleText.textContent = tempEnhancedSize ? 'Enabled' : 'Disabled';
+    sizeToggleText.textContent = tempEnhancedSize ? '有効' : '無効';
   };
 
   // Only a BOX click altera o estado – clique no texto não alterna
@@ -9360,7 +9360,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const trackerToggleText = document.createElement('span');
-  trackerToggleText.textContent = tempMiniTrackerEnabled ? 'Enabled' : 'Disabled';
+  trackerToggleText.textContent = tempMiniTrackerEnabled ? '有効' : '無効';
   trackerToggleText.style.cssText = `
     color: ${tempMiniTrackerEnabled ? '#4caf50' : '#f44336'};
     font-weight: bold;
@@ -9370,11 +9370,11 @@ function buildCrosshairSettingsOverlay() {
   // Function to update tracker state (visual only, no saving)
   const updateTrackerState = () => {
     tempMiniTrackerEnabled = trackerCheckbox.checked;
-    trackerToggleText.textContent = tempMiniTrackerEnabled ? 'Enabled' : 'Disabled';
+    trackerToggleText.textContent = tempMiniTrackerEnabled ? '有効' : '無効';
     trackerToggleText.style.color = tempMiniTrackerEnabled ? '#4caf50' : '#f44336';
     
     // Only update visual state, actual saving happens on Apply
-    consoleLog(`📊 Mini tracker ${tempMiniTrackerEnabled ? 'enabled' : 'disabled'} (preview only)`);
+    consoleLog(`📊 Mini tracker ${tempMiniTrackerEnabled ? '有効' : '無効'} (preview only)`);
   };
 
   trackerCheckbox.addEventListener('change', updateTrackerState);
@@ -9418,7 +9418,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const mobileDescription = document.createElement('div');
-  mobileDescription.textContent = 'Enable ultra-compact UI for mobile devices. Makes Color Filter extremely compact for better mobile experience.';
+  mobileDescription.textContent = 'モバイルデバイス向けに超コンパクトなUIを実現します。カラーフィルターを非常にコンパクトにすることで、モバイルエクスペリエンスを向上させます。';
   mobileDescription.style.cssText = `
     font-size: 0.9em; 
     color: var(--slate-300); 
@@ -9448,7 +9448,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const mobileToggleText = document.createElement('span');
-  mobileToggleText.textContent = currentMobileMode ? 'Enabled' : 'Disabled';
+  mobileToggleText.textContent = currentMobileMode ? '有効' : '無効';
   mobileToggleText.style.cssText = `
     color: ${currentMobileMode ? '#4caf50' : '#f44336'};
     font-weight: bold;
@@ -9458,11 +9458,11 @@ function buildCrosshairSettingsOverlay() {
   // Function to update mobile mode state (visual only, no saving)
   const updateMobileState = () => {
     tempMobileMode = mobileCheckbox.checked;
-    mobileToggleText.textContent = tempMobileMode ? 'Enabled' : 'Disabled';
+    mobileToggleText.textContent = tempMobileMode ? '有効' : '無効';
     mobileToggleText.style.color = tempMobileMode ? '#4caf50' : '#f44336';
     
     // Only update visual state, actual saving happens on Apply
-    consoleLog(`📱 Mobile mode ${tempMobileMode ? 'enabled' : 'disabled'} (preview only)`);
+    consoleLog(`📱 Mobile mode ${tempMobileMode ? '有効' : '無効'} (preview only)`);
   };
 
   mobileCheckbox.addEventListener('change', updateMobileState);
@@ -9486,7 +9486,7 @@ function buildCrosshairSettingsOverlay() {
     mobileToggleText.style.padding = '';
     mobileToggleText.style.borderRadius = '';
     mobileToggleText.style.color = tempMobileMode ? '#4caf50' : '#f44336';
-    mobileToggleText.textContent = tempMobileMode ? 'Enabled' : 'Disabled';
+    mobileToggleText.textContent = tempMobileMode ? '有効' : '無効';
   };
   applyMobileVisual();
   const oldUpdateMobile = updateMobileState;
@@ -9554,7 +9554,7 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   const collapseToggleText = document.createElement('span');
-  collapseToggleText.textContent = tempCollapseMinEnabled ? 'Enabled' : 'Disabled';
+  collapseToggleText.textContent = tempCollapseMinEnabled ? '有効' : '無効';
   collapseToggleText.style.cssText = `
     color: ${tempCollapseMinEnabled ? '#4caf50' : '#f44336'};
     font-weight: bold;
@@ -9564,10 +9564,10 @@ function buildCrosshairSettingsOverlay() {
   // Function to update collapse state
   const updateCollapseState = () => {
     tempCollapseMinEnabled = collapseCheckbox.checked;
-    collapseToggleText.textContent = tempCollapseMinEnabled ? 'Enabled' : 'Disabled';
+    collapseToggleText.textContent = tempCollapseMinEnabled ? '有効' : '無効';
     collapseToggleText.style.color = tempCollapseMinEnabled ? '#4caf50' : '#f44336';
     
-    consoleLog(`📊 Collapse mini template ${tempCollapseMinEnabled ? 'enabled' : 'disabled'}`);
+    consoleLog(`📊 Collapse mini template ${tempCollapseMinEnabled ? '有効' : '無効'}`);
   };
 
   collapseCheckbox.addEventListener('change', updateCollapseState);
@@ -9591,7 +9591,7 @@ function buildCrosshairSettingsOverlay() {
     collapseToggleText.style.padding = '';
     collapseToggleText.style.borderRadius = '';
     collapseToggleText.style.color = tempCollapseMinEnabled ? '#4caf50' : '#f44336';
-    collapseToggleText.textContent = tempCollapseMinEnabled ? 'Enabled' : 'Disabled';
+    collapseToggleText.textContent = tempCollapseMinEnabled ? '有効' : '無効';
   };
   applyCollapseVisual();
   const oldUpdateCollapse = updateCollapseState;
@@ -9774,7 +9774,7 @@ function buildCrosshairSettingsOverlay() {
       // Close overlay after short delay
       setTimeout(() => {
         settingsOverlay.remove();
-        overlayMain.handleDisplayStatus(`Crosshair settings applied: ${tempColor.name}, ${tempBorderEnabled ? 'with' : 'without'} borders, tracker ${tempMiniTrackerEnabled ? 'enabled' : 'disabled'}, collapse ${tempCollapseMinEnabled ? 'enabled' : 'disabled'}, mobile ${tempMobileMode ? 'enabled' : 'disabled'}, Left-on-Color ${tempShowLeftOnColor ? 'enabled' : 'disabled'}!`);
+        overlayMain.handleDisplayStatus(`Crosshair settings applied: ${tempColor.name}, ${tempBorderEnabled ? 'with' : 'without'} borders, tracker ${tempMiniTrackerEnabled ? '有効' : '無効'}, collapse ${tempCollapseMinEnabled ? '有効' : '無効'}, mobile ${tempMobileMode ? '有効' : '無効'}, Left-on-Color ${tempShowLeftOnColor ? '有効' : '無効'}!`);
       }, 800);
       
       consoleLog('✅ Crosshair settings successfully applied and templates refreshed');
@@ -9895,7 +9895,7 @@ function buildCrosshairSettingsOverlay() {
     cursor: pointer;
   `;
   const leftOnColorToggleText = document.createElement('span');
-  leftOnColorToggleText.textContent = tempShowLeftOnColor ? 'Enabled' : 'Disabled';
+  leftOnColorToggleText.textContent = tempShowLeftOnColor ? '有効' : '無効';
   leftOnColorToggleText.style.cssText = `
     color: ${tempShowLeftOnColor ? '#4caf50' : '#f44336'};
     font-weight: bold;
@@ -9903,7 +9903,7 @@ function buildCrosshairSettingsOverlay() {
   `;
   const updateLeftOnColorState = () => {
     tempShowLeftOnColor = leftOnColorCheckbox.checked;
-    leftOnColorToggleText.textContent = tempShowLeftOnColor ? 'Enabled' : 'Disabled';
+    leftOnColorToggleText.textContent = tempShowLeftOnColor ? '有効' : '無効';
     leftOnColorToggleText.style.color = tempShowLeftOnColor ? '#4caf50' : '#f44336';
   };
   leftOnColorCheckbox.addEventListener('change', updateLeftOnColorState);
@@ -9922,7 +9922,7 @@ function buildCrosshairSettingsOverlay() {
     leftOnColorToggleText.style.padding = '';
     leftOnColorToggleText.style.borderRadius = '';
     leftOnColorToggleText.style.color = tempShowLeftOnColor ? '#4caf50' : '#f44336';
-    leftOnColorToggleText.textContent = tempShowLeftOnColor ? 'Enabled' : 'Disabled';
+    leftOnColorToggleText.textContent = tempShowLeftOnColor ? '有効' : '無効';
   };
   applyLeftOnColorToggleVisual();
   // Hook on change
