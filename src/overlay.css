@@ -306,7 +306,7 @@ input[type="file"][id*="template"] {
 
 /* Color filter button special styling - now integrated in grid */
 #bm-button-color-filter {
-  background: linear-gradient(90deg, #ff9898, #ff0000);
+  background: linear-gradient(90deg, #ff5353, #ff0000);
   background-size: 300% 300%;
   animation: colorShift 3s ease-in-out infinite;
   font-weight: bold;
