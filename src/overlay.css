@@ -246,8 +246,8 @@ input[type="file"][id*="template"] {
 /* Output status area */
 #bm-output-status {
   font-size: 0.85rem;
-  background: linear-gradient(135deg, #000000f1, #ff0000);
-  border: 1px solid #475569;
+  background: #000;
+  border: 2px solid #000000;
   color: #cbd5e1;
   padding: 0.5rem;
   height: 3.75em;
@@ -378,7 +378,7 @@ input[type="file"][id*="template"] {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: #222;
   opacity: 0;
   transition: opacity 0.2s ease;
 }

@@ -4041,7 +4041,7 @@ function buildColorFilterOverlay() {
         ">
           <span style="margin-right: 8px;">📊</span>
           <span style="
-            background: linear-gradient(135deg, var(--blue-400), var(--emerald-400));
+            background: #000;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
           ">テンプレート進捗状況: ${overallProgress}%</span>
         </div>
@@ -8140,17 +8140,17 @@ function updateMiniTracker() {
     }
     .tracker-progress {
       height: 8px;
-      background: #475569;
+      background: #000000ff;
       border-radius: 6px;
       overflow: hidden;
       grid-row: 3;
       width: 100%;
-      border: 1px solid #64748b;
+      border: 2px solid #ff0000ff;
       min-width: 0;
     }
     .tracker-bar {
       height: 100%;
-      background: linear-gradient(90deg, #3b82f6, #10b981);
+      background: linear-gradient(90deg, #880000ff, #ff0000ff);
       border-radius: 4px;
       transition: width 0.3s ease;
       min-width: 0;
