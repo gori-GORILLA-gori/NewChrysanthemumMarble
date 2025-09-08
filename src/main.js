@@ -3728,11 +3728,11 @@ function buildColorFilterOverlay() {
     const dragBar = document.createElement('div');
     dragBar.className = 'bmcf-drag-bar';
     dragBar.style.cssText = `
-      background: linear-gradient(90deg, #475569 0%, #64748b 50%, #475569 100%);
+      background: #ff0000;
       border-radius: 4px;
       cursor: grab;
       width: 100%;
-      height: 6px;
+      height: 10px;
       margin-bottom: 8px;
       opacity: 0.8;
       transition: opacity 0.2s ease;
@@ -3821,7 +3821,7 @@ function buildColorFilterOverlay() {
     settingsButton.innerHTML = icons.settingsIcon;
     settingsButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 1px solid var(--slate-500);
+      border: 2px #ff0000;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3862,7 +3862,7 @@ function buildColorFilterOverlay() {
     viewToggleButton.title = 'Toggle between Grid and List view';
     viewToggleButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 1px solid var(--slate-500);
+      border: 2px #ff0000;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3885,19 +3885,19 @@ function buildColorFilterOverlay() {
     // Add hover effects but prevent them on touch devices
     viewToggleButton.onmouseover = () => {
       viewToggleButton.style.transform = 'translateY(-1px) scale(1.05)';
-      viewToggleButton.style.background = 'linear-gradient(135deg, var(--slate-500), var(--slate-600))';
+      viewToggleButton.style.background = '#d10000';
       viewToggleButton.style.boxShadow = '0 6px 20px rgba(71, 85, 105, 0.3)';
     };
     viewToggleButton.onmouseout = () => {
       viewToggleButton.style.transform = '';
-      viewToggleButton.style.background = 'linear-gradient(135deg, var(--slate-600), var(--slate-700))';
+      viewToggleButton.style.background = '#000';
       viewToggleButton.style.boxShadow = '';
     };
     
     // Prevent hover effects on touch by immediately resetting styles on touchstart
     viewToggleButton.addEventListener('touchstart', () => {
       viewToggleButton.style.transform = '';
-      viewToggleButton.style.background = 'linear-gradient(135deg, var(--slate-600), var(--slate-700))';
+      viewToggleButton.style.background = '#d10000';
       viewToggleButton.style.boxShadow = '';
     }, { passive: true });
 
@@ -3970,7 +3970,7 @@ function buildColorFilterOverlay() {
     compactListButton.title = 'コンパクトカラーリストの切り替え';
     compactListButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 1px solid var(--slate-500);
+      border: 2px #ff0000;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -4211,7 +4211,7 @@ function buildColorFilterOverlay() {
       top: 50%;
       transform: translateY(-50%);
       background: var(--slate-600);
-      border: 1px solid var(--slate-500);
+      border: 2px #ff0000;
       border-radius: 8px;
       color: var(--slate-300);
       font-size: 12px;
@@ -5910,7 +5910,7 @@ function buildColorFilterOverlay() {
       flex: 1;
       padding: 4px 8px;
       background: var(--slate-600);
-      border: 1px solid var(--slate-500);
+      border: 2px #ff0000;
       border-radius: 4px;
       color: var(--bmcf-text);
       font-size: 11px;
@@ -8794,7 +8794,7 @@ function buildCrosshairSettingsOverlay() {
       rInput.style.cssText = `
         width: 100%;
         padding: ${inputPadding};
-        border: 1px solid var(--slate-500);
+        border: 2px #ff0000;
         border-radius: 4px;
         background: var(--slate-700);
         color: var(--slate-100);
@@ -9638,7 +9638,7 @@ function buildCrosshairSettingsOverlay() {
   cancelButton.textContent = 'キャンセル';
   cancelButton.style.cssText = `
     background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-    border: 1px solid var(--slate-500);
+    border: 2px #ff0000;
     color: var(--slate-100);
     padding: 14px 20px;
     border-radius: 12px;
