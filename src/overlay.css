@@ -566,7 +566,7 @@ div:has(> #bm-input-file-template) > button {
 /* All overlay buttons */
 #bm-overlay button {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   gap: .25rem;
 
