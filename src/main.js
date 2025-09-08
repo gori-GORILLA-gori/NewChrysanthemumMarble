@@ -8078,7 +8078,7 @@ function updateMiniTracker() {
   
   tracker.style.cssText = `
     background: linear-gradient(135deg, #1e293b, #334155);
-    border: 2px solid #ff0000ff;
+    border: 1px solid #475569;
     border-radius: 12px;
     padding: 12px 16px;
     margin-top: 8px;
