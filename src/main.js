@@ -3821,7 +3821,7 @@ function buildColorFilterOverlay() {
     settingsButton.innerHTML = icons.settingsIcon;
     settingsButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 2px #ff0000;
+      border: 2px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3862,7 +3862,7 @@ function buildColorFilterOverlay() {
     viewToggleButton.title = 'Toggle between Grid and List view';
     viewToggleButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 2px #ff0000;
+      border: 2px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3970,7 +3970,7 @@ function buildColorFilterOverlay() {
     compactListButton.title = 'コンパクトカラーリストの切り替え';
     compactListButton.style.cssText = `
       background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-      border: 2px #ff0000;
+      border: 2px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -4211,7 +4211,7 @@ function buildColorFilterOverlay() {
       top: 50%;
       transform: translateY(-50%);
       background: var(--slate-600);
-      border: 2px #ff0000;
+      border: 2px solid rgb(255, 0, 0);
       border-radius: 8px;
       color: var(--slate-300);
       font-size: 12px;
@@ -5910,7 +5910,7 @@ function buildColorFilterOverlay() {
       flex: 1;
       padding: 4px 8px;
       background: var(--slate-600);
-      border: 2px #ff0000;
+      border: 2px solid rgb(255, 0, 0);
       border-radius: 4px;
       color: var(--bmcf-text);
       font-size: 11px;
@@ -8794,7 +8794,7 @@ function buildCrosshairSettingsOverlay() {
       rInput.style.cssText = `
         width: 100%;
         padding: ${inputPadding};
-        border: 2px #ff0000;
+        border: 2px solid rgb(255, 0, 0);
         border-radius: 4px;
         background: var(--slate-700);
         color: var(--slate-100);
@@ -9638,7 +9638,7 @@ function buildCrosshairSettingsOverlay() {
   cancelButton.textContent = 'キャンセル';
   cancelButton.style.cssText = `
     background: linear-gradient(135deg, var(--slate-600), var(--slate-700));
-    border: 2px #ff0000;
+    border: 2px solid rgb(255, 0, 0);
     color: var(--slate-100);
     padding: 14px 20px;
     border-radius: 12px;
