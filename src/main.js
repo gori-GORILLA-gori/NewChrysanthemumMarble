@@ -8077,8 +8077,8 @@ function updateMiniTracker() {
   const isMainMinimizedForStyle = mainOverlay && (mainOverlay.style.width === '60px' || mainOverlay.style.height === '76px' || mainOverlay.style.width === '72px');
   
   tracker.style.cssText = `
-    background: linear-gradient(135deg, #1e293b, #334155);
-    border: 1px solid #475569;
+    background: #000
+    border: 2px solid #ff0000ff;
     border-radius: 12px;
     padding: 12px 16px;
     margin-top: 8px;
@@ -8150,7 +8150,7 @@ function updateMiniTracker() {
     }
     .tracker-bar {
       height: 100%;
-      background: linear-gradient(90deg, #880000ff, #ff0000ff);
+      background: linear-gradient(90deg, #880000ff, #ff5656ff);
       border-radius: 4px;
       transition: width 0.3s ease;
       min-width: 0;
