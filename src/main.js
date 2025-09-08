@@ -8077,7 +8077,7 @@ function updateMiniTracker() {
   const isMainMinimizedForStyle = mainOverlay && (mainOverlay.style.width === '60px' || mainOverlay.style.height === '76px' || mainOverlay.style.width === '72px');
   
   tracker.style.cssText = `
-    background: linear-gradient(135deg, #1e293b, #334155);
+    background: #000;
     border: 2px solid #ff0000ff;
     border-radius: 12px;
     padding: 12px 16px;
