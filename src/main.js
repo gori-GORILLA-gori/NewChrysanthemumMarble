@@ -3168,7 +3168,7 @@ function buildOverlayMain() {
       .buildElement()
       .addDiv({'id': 'bm-user-fullcharge'})
         .addDiv({'id': 'bm-user-fullcharge-icon', innerHTML: icons.chargeIcon}).buildElement()
-        .addP({'id': 'bm-user-fullcharge-content', 'textContent': 'ピクセルが溜まるまで...'}).buildElement()
+        .addP({'id': 'bm-user-fullcharge-content', 'textContent': 'ピクセルが貯まるまで...'}).buildElement()
       .buildElement()
     .buildElement()
     

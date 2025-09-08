@@ -149,12 +149,10 @@ div#bm-overlay {
   text-align: center;
   line-height: 1em;
   padding: 0 !important; /* Overrides the padding in "#bm-overlay button" */
-  background-color: #2190ED !important; /* Force blue background for all bm-help buttons */
 }
 
 /* FORÇA o botão Clear Storage a não herdar CSS do pause-tiles */
 #bm-overlay .bm-help {
-  background-color: #2190ED !important;
   grid-row: unset !important;
   grid-column: unset !important;
   transform: none !important;
@@ -162,12 +160,10 @@ div#bm-overlay {
 }
 
 #bm-overlay .bm-help:hover {
-  background-color: #2190ED !important;
   transform: none !important;
 }
 
 #bm-overlay .bm-help:active {
-  background-color: #2190ED !important;
   transform: none !important;
 }
 
@@ -529,7 +525,6 @@ div:has(> #bm-input-file-template) > button {
 #bm-button-pause-tiles {
   grid-row: 2;
   grid-column: 3;
-  background-color: #50a9f1 !important;
   transition: all 0.3s ease !important;
   font-size: 0.85rem; /* Slightly smaller text for better fit */
   padding: .125rem .25rem; /* Reduced horizontal padding */
