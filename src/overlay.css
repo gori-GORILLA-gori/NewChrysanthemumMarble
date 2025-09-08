@@ -3,7 +3,7 @@
 /* The entire overlay */
 #bm-overlay {
   position: fixed;
-  background: #000000e0;
+  background: rgba(0, 0, 0, 0.9);
   color: #f1f5f9;
   padding: 12px;
   border-radius: 16px;
@@ -306,7 +306,7 @@ input[type="file"][id*="template"] {
 
 /* Color filter button special styling - now integrated in grid */
 #bm-button-color-filter {
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: linear-gradient(135deg, #fffffff1, #ff0000);
   background-size: 300% 300%;
   animation: colorShift 3s ease-in-out infinite;
   font-weight: bold;
@@ -469,8 +469,8 @@ input[type="file"][id*="template"] {
 #bm-contain-coords #bm-contain-inputs input {
   width: 100%;
   height: 2.2rem;
-  background: linear-gradient(135deg, #000000f1, #ff0000);
-  border: 1px solid #475569;
+  background: #000;
+  border: 2px solid #ff0000;
   color: #f1f5f9;
   padding: 0 0.5rem;
   font-size: 0.9rem;
@@ -572,8 +572,10 @@ div:has(> #bm-input-file-template) > button {
 
   padding: .125rem .5rem;
 
-  background-color: #2190ED;
+  background-color: #000000;
   border-radius: .25rem;
+
+  border: 2px solid #ff0000;
 
   transition: background-color 0.25s;
   
