@@ -394,8 +394,8 @@ input[type="file"][id*="template"] {
 /* The icon and title */
 #bm-title-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
   gap: .5rem;
 }
 
