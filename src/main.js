@@ -3675,7 +3675,7 @@ function buildColorFilterOverlay() {
           color: white; border-color: var(--blue-600);
         }
         .bmcf-btn.primary:hover { 
-          background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); 
+          background: #d10000; 
           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
         .bmcf-input { 
@@ -3839,7 +3839,7 @@ function buildColorFilterOverlay() {
     // Add hover effects but prevent them on touch devices
     settingsButton.onmouseover = () => {
       settingsButton.style.transform = 'translateY(-1px) scale(1.05)';
-      settingsButton.style.background = 'linear-gradient(135deg, var(--slate-500), var(--slate-600))';
+      settingsButton.style.background = '#d10000';
       settingsButton.style.boxShadow = '0 6px 20px rgba(71, 85, 105, 0.3)';
     };
     settingsButton.onmouseout = () => {
@@ -3953,11 +3953,11 @@ function buildColorFilterOverlay() {
       if (isListView) {
         colorViewContainer.classList.add('list-mode');
         viewToggleButton.innerHTML = '⊞'; // Grid icon
-        viewToggleButton.title = 'Switch to Grid view';
+        viewToggleButton.title = 'グリッド表示に切り替え';
       } else {
         colorViewContainer.classList.remove('list-mode');
         viewToggleButton.innerHTML = '📋'; // List icon
-        viewToggleButton.title = 'Switch to List view';
+        viewToggleButton.title = 'リスト表示に切り替え';
       }
       
       // Force layout recalculation
@@ -3987,7 +3987,7 @@ function buildColorFilterOverlay() {
     `;
     compactListButton.onmouseover = () => {
       compactListButton.style.transform = 'translateY(-1px) scale(1.05)';
-      compactListButton.style.background = 'linear-gradient(135deg, var(--slate-500), var(--slate-600))';
+      compactListButton.style.background = '#d10000';
       compactListButton.style.boxShadow = '0 6px 20px rgba(71, 85, 105, 0.3)';
     };
     compactListButton.onmouseout = () => {
@@ -6856,7 +6856,7 @@ function buildColorFilterOverlay() {
         } else {
           existingCompactList.style.display = 'flex';
           existingCompactList.style.flexDirection = 'column';
-          compactListButton.style.background = 'linear-gradient(135deg, var(--blue-600), var(--blue-700))';
+          compactListButton.style.background = '#d10000';
           
           // Update the existing list with fresh data
           updateCompactListData(existingCompactList);
@@ -6870,7 +6870,7 @@ function buildColorFilterOverlay() {
         } else {
           compactList.style.display = 'flex';
           compactList.style.flexDirection = 'column';
-          compactListButton.style.background = 'linear-gradient(135deg, var(--blue-600), var(--blue-700))';
+          compactListButton.style.background = '#d10000';
         }
       }
     };
@@ -9652,7 +9652,7 @@ function buildCrosshairSettingsOverlay() {
   `;
   cancelButton.onmouseover = () => {
     cancelButton.style.transform = 'translateY(-1px)';
-    cancelButton.style.background = 'linear-gradient(135deg, var(--slate-500), var(--slate-600))';
+    cancelButton.style.background = '#d10000';
     cancelButton.style.boxShadow = '0 6px 20px rgba(71, 85, 105, 0.3)';
   };
   cancelButton.onmouseout = () => {
@@ -9707,7 +9707,7 @@ function buildCrosshairSettingsOverlay() {
   `;
   applyButton.onmouseover = () => {
     applyButton.style.transform = 'translateY(-1px)';
-    applyButton.style.background = 'linear-gradient(135deg, var(--blue-600), var(--blue-700))';
+    applyButton.style.background = '#d10000';
     applyButton.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.4)';
   };
   applyButton.onmouseout = () => {
