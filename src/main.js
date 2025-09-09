@@ -1488,7 +1488,7 @@ function deleteSelectedTemplate(instance) {
         --blue-400: #60a5fa; --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8;
         --emerald-400: #34d399; --emerald-500: #10b981; --emerald-600: #059669; --emerald-700: #047857;
         --red-400: #f87171; --red-500: #ef4444; --red-600: #dc2626; --red-700: #b91c1c;
-        --bmdt-bg: var(--slate-900); --bmdt-card: var(--slate-800); --bmdt-border: var(--slate-700); 
+        --bmdt-bg: var(--slate-900); --bmdt-card: var(--slate-800); --bmdt-border: rgba(0,0,0,0.95); 
         --bmdt-muted: var(--slate-400); --bmdt-text: var(--slate-100); --bmdt-text-muted: var(--slate-300);
       }
       
@@ -1725,7 +1725,7 @@ function deleteSelectedTemplate(instance) {
       }
       
       .bmdt-btn-secondary {
-        background: var(--slate-700);
+        background: rgba(0,0,0,0.95);
         color: var(--bmdt-text);
         border-color: var(--bmdt-border);
       }
@@ -3619,7 +3619,7 @@ function buildColorFilterOverlay() {
           --slate-750: #293548; --slate-800: #1e293b; --slate-900: #0f172a; --slate-950: #020617;
           --blue-400: #60a5fa; --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8;
           --emerald-400: #34d399; --emerald-500: #10b981; --emerald-600: #059669; --emerald-700: #047857;
-          --bmcf-bg: var(--slate-900); --bmcf-card: var(--slate-800); --bmcf-border: var(--slate-700); 
+          --bmcf-bg: var(--slate-900); --bmcf-card: var(--slate-800); --bmcf-border: rgba(0,0,0,0.95); 
           --bmcf-muted: var(--slate-400); --bmcf-text: var(--slate-100); --bmcf-text-muted: var(--slate-300);
         }
         .bmcf-overlay { 
@@ -3652,7 +3652,7 @@ function buildColorFilterOverlay() {
           padding: 0 18px; min-width: 120px; border-radius: 12px; border: 2px solid #ff0000; 
           font-size: 0.9em; font-weight: 600; white-space: nowrap; cursor: pointer; 
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
-          background: var(--slate-700); color: var(--bmcf-text);
+          background: rgba(0,0,0,0.95); color: var(--bmcf-text);
         }
         .bmcf-btn::before {
           content: ''; position: absolute; inset: 0; border-radius: 12px; 
@@ -4048,7 +4048,7 @@ function buildColorFilterOverlay() {
           ${templateManager.getIncludeWrongColorsInProgress() && totalWrong > 0 ? ` (${totalWrong.toLocaleString()} ピクセル間違っています)` : ''}
         </div>
         <div style="
-          width: 100%; height: 12px; background: var(--slate-700); 
+          width: 100%; height: 12px; background: rgba(0,0,0,0.95); 
           border-radius: 8px; overflow: hidden; position: relative;
           box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         ">
@@ -4095,7 +4095,7 @@ function buildColorFilterOverlay() {
       cursor: pointer;
     `;
     includeWrongProgressContainer.onmouseover = () => {
-      includeWrongProgressContainer.style.background = 'linear-gradient(135deg, var(--slate-750), var(--slate-700))';
+      includeWrongProgressContainer.style.background = 'linear-gradient(135deg, var(--slate-750), rgba(0,0,0,0.95))';
       includeWrongProgressContainer.style.transform = 'translateY(-1px)';
     };
     includeWrongProgressContainer.onmouseout = () => {
@@ -4341,9 +4341,9 @@ function buildColorFilterOverlay() {
     filterSelect.style.cssText = `
       flex: 1;
       padding: 6px 14px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgb(255, 0, 0);
       border-radius: 6px;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgb(0, 0, 0);
       color: white;
       font-size: 0.9em;
       outline: none;
@@ -5711,7 +5711,7 @@ function buildColorFilterOverlay() {
       top: 100px;
       right: 20px;
       width: 220px;
-      background: var(--slate-800);
+      background: rgba(0,0,0,0.95);
       border: 2px solid #ff0000;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
@@ -5732,7 +5732,7 @@ function buildColorFilterOverlay() {
       align-items: center;
       justify-content: space-between;
       padding: 8px 12px;
-      background: var(--slate-700);
+      background: rgba(0,0,0,0.95);
       border-bottom: 2px solid #ff0000;
       border-radius: 12px 12px 0 0;
       transition: border-radius 0.3s ease, border-bottom 0.3s ease;
@@ -5896,7 +5896,7 @@ function buildColorFilterOverlay() {
     const compactSearchContainer = document.createElement('div');
     compactSearchContainer.style.cssText = `
       padding: 6px 12px;
-      background: var(--slate-700);
+      background: rgba(0,0,0,0.95);
       border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
@@ -5909,7 +5909,7 @@ function buildColorFilterOverlay() {
     searchInput.style.cssText = `
       flex: 1;
       padding: 4px 8px;
-      background: var(--slate-600);
+      background: #000;
       border: 2px solid rgb(255, 0, 0);
       border-radius: 4px;
       color: var(--bmcf-text);
@@ -5975,7 +5975,7 @@ function buildColorFilterOverlay() {
     const compactBulkContainer = document.createElement('div');
     compactBulkContainer.style.cssText = `
       padding: 3px 8px;
-      background: var(--slate-700);
+      background: rgba(0,0,0,0.95);
       border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
@@ -6062,7 +6062,7 @@ function buildColorFilterOverlay() {
     const compactSortContainer = document.createElement('div');
     compactSortContainer.style.cssText = `
       padding: 8px 12px;
-      background: var(--slate-700);
+      background: rgba(0,0,0,0.95);
       border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
@@ -6462,13 +6462,13 @@ function buildColorFilterOverlay() {
         align-items: center;
         gap: 6px;
         padding: 4px 8px;
-        border-bottom: 1px solid var(--slate-700);
+        border-bottom: 1px solid rgba(0,0,0,0.95);
         cursor: pointer;
         transition: background-color 0.15s ease;
         min-height: 32px;
         ${isDisabled ? 'opacity: 0.5; background: rgba(244, 67, 54, 0.1);' : ''}
       `;
-      item.onmouseover = () => item.style.backgroundColor = 'var(--slate-700)';
+      item.onmouseover = () => item.style.backgroundColor = 'rgba(0,0,0,0.95)';
       item.onmouseout = () => item.style.backgroundColor = '';
 
       // Color swatch
@@ -8314,7 +8314,7 @@ function buildCrosshairSettingsOverlay() {
           --slate-750: #293548; --slate-800: #1e293b; --slate-900: #0f172a; --slate-950: #020617;
           --blue-400: #60a5fa; --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8;
           --emerald-400: #34d399; --emerald-500: #10b981; --emerald-600: #059669; --emerald-700: #047857;
-          --bmcf-bg: var(--slate-900); --bmcf-card: var(--slate-800); --bmcf-border: var(--slate-700); 
+          --bmcf-bg: var(--slate-900); --bmcf-card: var(--slate-800); --bmcf-border: rgba(0,0,0,0.95); 
           --bmcf-muted: var(--slate-400); --bmcf-text: var(--slate-100); --bmcf-text-muted: var(--slate-300);
         }
         
@@ -8443,7 +8443,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: space-between;
     align-items: center;
     padding: ${headerPadding};
-    border-bottom: 1px solid var(--slate-700);
+    border-bottom: 1px solid rgba(0,0,0,0.95);
     background: #000000e6;
     cursor: move;
     user-select: none;
@@ -8532,7 +8532,7 @@ function buildCrosshairSettingsOverlay() {
   const previewBorderRadius = isMobileMode ? '12px' : '16px';
   currentColorPreview.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${previewBorderRadius};
     padding: ${previewPadding};
     margin-bottom: ${previewMargin};
@@ -8558,7 +8558,7 @@ function buildCrosshairSettingsOverlay() {
     height: 60px;
     margin: 0 auto 12px;
     position: relative;
-    background: var(--slate-700);
+    background: rgba(0,0,0,0.95);
     border: 2px solid var(--slate-500);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -8797,7 +8797,7 @@ function buildCrosshairSettingsOverlay() {
         padding: ${inputPadding};
         border: 2px solid rgb(255, 0, 0);
         border-radius: 4px;
-        background: var(--slate-700);
+        background: rgba(0,0,0,0.95);
         color: var(--slate-100);
         font-size: ${inputFontSize};
         text-align: center;
@@ -8957,7 +8957,7 @@ function buildCrosshairSettingsOverlay() {
   const sectionBorderRadius = isMobileMode ? '8px' : '12px';
   alphaSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9015,7 +9015,7 @@ function buildCrosshairSettingsOverlay() {
   const borderSection = document.createElement('div');
   borderSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9094,7 +9094,7 @@ function buildCrosshairSettingsOverlay() {
   const sizeSection = document.createElement('div');
   sizeSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9182,7 +9182,7 @@ function buildCrosshairSettingsOverlay() {
   const radiusSection = document.createElement('div');
   radiusSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9272,7 +9272,7 @@ function buildCrosshairSettingsOverlay() {
     color: var(--slate-100);
     min-width: 32px;
     text-align: center;
-    background: var(--slate-700);
+    background: rgba(0,0,0,0.95);
     padding: 6px 12px;
     border-radius: 6px;
     border: 1px solid var(--slate-600);
@@ -9317,7 +9317,7 @@ function buildCrosshairSettingsOverlay() {
   const trackerSection = document.createElement('div');
   trackerSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9401,7 +9401,7 @@ function buildCrosshairSettingsOverlay() {
   const mobileSection = document.createElement('div');
   mobileSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9509,7 +9509,7 @@ function buildCrosshairSettingsOverlay() {
   const collapseSection = document.createElement('div');
   collapseSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9619,7 +9619,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: center;
     align-items: center;
     padding: ${footerPadding};
-    border-top: 1px solid var(--slate-700);
+    border-top: 1px solid rgba(0,0,0,0.95);
     background: #000000e6;
     position: relative;
     z-index: 1;
@@ -9825,7 +9825,7 @@ function buildCrosshairSettingsOverlay() {
   const usernameSection = document.createElement('div');
   usernameSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9857,7 +9857,7 @@ function buildCrosshairSettingsOverlay() {
   const leftOnColorSection = document.createElement('div');
   leftOnColorSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9952,7 +9952,7 @@ function buildCrosshairSettingsOverlay() {
   const navigationSection = document.createElement('div');
   navigationSection.style.cssText = `
     background: #000000e6;
-    border: 1px solid var(--slate-700);
+    border: 1px solid rgba(0,0,0,0.95);
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
