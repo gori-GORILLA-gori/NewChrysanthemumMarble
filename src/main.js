@@ -5766,7 +5766,7 @@ function buildColorFilterOverlay() {
     });
     
     const compactTitle = document.createElement('span');
-    compactTitle.textContent = 'Color Toggle';
+    compactTitle.textContent = 'カラー切り替え';
     compactTitle.style.cssText = `
       font-size: 12px;
       font-weight: 600;
@@ -5904,7 +5904,7 @@ function buildColorFilterOverlay() {
     
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
-    searchInput.placeholder = 'Search colors...';
+    searchInput.placeholder = '色を検索...';
     searchInput.style.cssText = `
       flex: 1;
       padding: 4px 8px;
@@ -5983,7 +5983,7 @@ function buildColorFilterOverlay() {
     `;
     
     const disableAllBtn = document.createElement('button');
-    disableAllBtn.textContent = 'Disable';
+    disableAllBtn.textContent = 'すべて無効化';
     disableAllBtn.style.cssText = `
       background: #dc2626;
       color: white;
@@ -5999,7 +5999,7 @@ function buildColorFilterOverlay() {
     disableAllBtn.addEventListener('mouseleave', () => disableAllBtn.style.background = '#dc2626');
     
     const enableAllBtn = document.createElement('button');
-    enableAllBtn.textContent = '有効化';
+    enableAllBtn.textContent = 'すべて有効化';
     enableAllBtn.style.cssText = `
       background: #16a34a;
       color: white;
@@ -6069,7 +6069,7 @@ function buildColorFilterOverlay() {
     `;
     
     const sortLabel = document.createElement('span');
-    sortLabel.textContent = 'Sort:';
+    sortLabel.textContent = 'ソート:';
     sortLabel.style.cssText = `
       font-size: 11px;
       color: var(--bmcf-text-muted);
@@ -6091,16 +6091,17 @@ function buildColorFilterOverlay() {
     
     // Sort options
     const sortOptions = [
-      { value: 'default', text: 'Default Order' },
-      { value: 'name', text: 'By Name' },
-      { value: 'premium', text: 'Premium (Most Missing)' },
-      { value: 'most-missing', text: 'Most Pixels Missing' },
-      { value: 'less-missing', text: 'Less Pixels Missing' },
-      { value: 'remaining', text: 'By Remaining' },
-      { value: 'progress', text: 'By Progress' },
-      { value: 'most-painted', text: 'Most Painted' },
-      { value: 'less-painted', text: 'Less Painted' },
-      { value: 'enhanced', text: 'Enhanced Only' }
+      { value: 'default', text: 'デフォルト' },
+      { value: 'name', text: '名前(A-Z)' },
+      { value: 'premium', text: 'プレミアム' },
+      { value: 'most-missing', text: '塗られていないピクセルの量(多)' },
+      { value: 'less-missing', text: '塗られていないピクセルの量(少)' },
+      { value: 'remaining', text: '合計ピクセルの量(多)' },
+      { value: 'progress', text: '正しい割合(多)' },
+      { value: 'most-painted', text: '合計ピクセルの量(多)' },
+      { value: 'less-painted', text: '合計ピクセル(少)' },
+      { value: 'enhanced', text: '強調表示のみ' }
+
     ];
     
     sortOptions.forEach(option => {
