@@ -4099,7 +4099,7 @@ function buildColorFilterOverlay() {
       includeWrongProgressContainer.style.transform = 'translateY(-1px)';
     };
     includeWrongProgressContainer.onmouseout = () => {
-      includeWrongProgressContainer.style.background = 'linear-gradient(135deg, var(--slate-800), var(--slate-750))';
+      includeWrongProgressContainer.style.background = '#000';
       includeWrongProgressContainer.style.transform = '';
     };
 
@@ -4173,7 +4173,7 @@ function buildColorFilterOverlay() {
       padding: 14px 50px 14px 48px;
       border: 2px solid #ff0000;
       border-radius: 12px;
-      background: var(--slate-800);
+      background: #000;
       color: var(--bmcf-text);
       font-size: 0.95em;
       font-weight: 400;
@@ -4395,7 +4395,7 @@ function buildColorFilterOverlay() {
     enhancedInfo.textContent = 'ピクセルを強調表示します。';
     enhancedInfo.style.cssText = `
       background: #000000ff;
-      boader: 2px solid #ff0000;
+      border: 2px solid #ff0000;
       color: white;
       padding: 6px 14px;
       border-radius: 6px;
@@ -4469,9 +4469,9 @@ function buildColorFilterOverlay() {
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      background: rgba(255, 255, 255, 0.1);
+      background: #000
       border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid #ff0000;
       margin-top: 10px;
     `;
 
@@ -4494,6 +4494,7 @@ function buildColorFilterOverlay() {
       cursor: pointer;
       user-select: none;
       flex: 1;
+      border: 2px solid #ff0000
     `;
 
     // Event listener for enhance wrong colors
