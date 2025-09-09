@@ -3632,7 +3632,6 @@ function buildColorFilterOverlay() {
         }
         .bmcf-overlay::before {
           content: ''; position: absolute; inset: 0; border-radius: 20px; 
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05)); 
           pointer-events: none;
         }
         .bmcf-header { 
@@ -4354,7 +4353,7 @@ function buildColorFilterOverlay() {
     // Filter options
     const filterOptions = [
       { value: 'default', text: 'デフォルト' },
-      { value: 'premium', text: 'プレミアム' },
+      { value: 'premium', text: 'プレミアム(最も欠損が多い)' },
       { value: 'enhanced', text: '強調表示のみ' },
       { value: 'wrong-desc', text: '間違ったピクセルの量(多)' },
       { value: 'wrong-asc', text: '間違ったピクセルの量(少)' },
@@ -4395,7 +4394,8 @@ function buildColorFilterOverlay() {
     const enhancedInfo = document.createElement('div');
     enhancedInfo.textContent = 'ピクセルを強調表示します。';
     enhancedInfo.style.cssText = `
-      background: #333;
+      background: #000000ff;
+      boader: 2px solid #ff0000;
       color: white;
       padding: 6px 14px;
       border-radius: 6px;
@@ -4445,9 +4445,9 @@ function buildColorFilterOverlay() {
     const disableAllEnhancedButton = document.createElement('button');
     disableAllEnhancedButton.textContent = 'すべての強調表示を無効化';
     disableAllEnhancedButton.style.cssText = `
-      background: #6c757d;
+      background: #000000ff;
       color: white;
-      border: none;
+      border: 2px solid #ff0000;
       padding: 6px 14px;
       border-radius: 6px;
       cursor: pointer;
@@ -6093,7 +6093,7 @@ function buildColorFilterOverlay() {
     const sortOptions = [
       { value: 'default', text: 'デフォルト' },
       { value: 'name', text: '名前(A-Z)' },
-      { value: 'premium', text: 'プレミアム' },
+      { value: 'premium', text: 'プレミアム(最も欠損が多い)' },
       { value: 'most-missing', text: '塗られていないピクセルの量(多)' },
       { value: 'less-missing', text: '塗られていないピクセルの量(少)' },
       { value: 'remaining', text: '合計ピクセルの量(多)' },
