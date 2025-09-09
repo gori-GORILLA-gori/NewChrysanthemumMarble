@@ -1218,7 +1218,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         position: absolute;
         inset: 0;
         border-radius: 16px;
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
+        background: #000;
         pointer-events: none;
       }
       
@@ -1528,7 +1528,7 @@ function deleteSelectedTemplate(instance) {
         position: absolute;
         inset: 0;
         border-radius: 20px;
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05));
+        background: #000;
         pointer-events: none;
       }
       
@@ -3638,14 +3638,14 @@ function buildColorFilterOverlay() {
         .bmcf-header { 
           display: flex; flex-direction: column; padding: 16px 20px 12px 20px; 
           border-bottom: 2px solid #ff0000; 
-          background: #000000e6; 
+          background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
         .bmcf-content { padding: 20px; overflow: auto; position: relative; z-index: 1; }
         .bmcf-footer { 
           display: flex; gap: 12px; justify-content: center; align-items: center; padding: 16px 20px; 
           border-top: 2px solid #ff0000; 
-          background: #000000e6; 
+          background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
         .bmcf-btn { 
@@ -4030,8 +4030,7 @@ function buildColorFilterOverlay() {
     progressSummary.innerHTML = `
       <div style="
         position: absolute; inset: 0; 
-        background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1), transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08), transparent 50%);
+        background: #000
         pointer-events: none;
       "></div>
       <div style="position: relative; z-index: 1;">
@@ -4041,7 +4040,7 @@ function buildColorFilterOverlay() {
         ">
           <span style="margin-right: 8px;">📊</span>
           <span style="
-            background: #000;
+            background: var(--bmcf-text);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
           ">テンプレート進捗状況: ${overallProgress}%</span>
         </div>
