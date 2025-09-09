@@ -325,7 +325,7 @@ input[type="file"][id*="template"] {
 /* Color filter overlay styles */
 #bm-color-filter-overlay {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #ff0000;
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar {

@@ -3624,7 +3624,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-overlay { 
           width: min(94vw, 670px); max-height: 88vh; background: var(--bmcf-bg); color: var(--bmcf-text); 
-          border-radius: 20px; border: 1px solid var(--bmcf-border); 
+          border-radius: 20px; border: 2px solid #ff0000; 
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05); 
           display: flex; flex-direction: column; overflow: hidden; 
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
@@ -3637,20 +3637,20 @@ function buildColorFilterOverlay() {
         }
         .bmcf-header { 
           display: flex; flex-direction: column; padding: 16px 20px 12px 20px; 
-          border-bottom: 1px solid var(--bmcf-border); 
+          border-bottom: 2px solid #ff0000; 
           background: rgba(0, 0, 0, 0.9); 
           position: relative; z-index: 1;
         }
         .bmcf-content { padding: 20px; overflow: auto; position: relative; z-index: 1; }
         .bmcf-footer { 
           display: flex; gap: 12px; justify-content: center; align-items: center; padding: 16px 20px; 
-          border-top: 1px solid var(--bmcf-border); 
+          border-top: 2px solid #ff0000; 
           background: rgba(0, 0, 0, 0.9); 
           position: relative; z-index: 1;
         }
         .bmcf-btn { 
           display: inline-flex; align-items: center; justify-content: center; height: 40px; 
-          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 1px solid var(--bmcf-border); 
+          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 2px solid #ff0000; 
           font-size: 0.9em; font-weight: 600; white-space: nowrap; cursor: pointer; 
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
           background: var(--slate-700); color: var(--bmcf-text);
@@ -3680,7 +3680,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-input { 
           width: 100%; height: 44px; padding: 12px 16px; border-radius: 12px; 
-          border: 1px solid var(--bmcf-border); background: var(--slate-800); color: var(--bmcf-text); 
+          border: 2px solid #ff0000; background: var(--slate-800); color: var(--bmcf-text); 
           outline: none; font-size: 0.95em; transition: all 0.2s ease;
         }
         .bmcf-input:focus { 
@@ -4016,7 +4016,7 @@ function buildColorFilterOverlay() {
     const progressSummary = document.createElement('div');
     progressSummary.style.cssText = `
       background: rgba(0, 0, 0, 0.9);
-      border: 1px solid var(--bmcf-border);
+      border: 2px solid #ff0000;
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 24px;
@@ -4091,7 +4091,7 @@ function buildColorFilterOverlay() {
       padding: 12px 16px;
       background: rgba(0, 0, 0, 0.9);
       border-radius: 12px;
-      border: 1px solid var(--bmcf-border);
+      border: 2px solid #ff0000;
       margin-bottom: 24px;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -4173,7 +4173,7 @@ function buildColorFilterOverlay() {
     searchInput.style.cssText = `
       width: 100%;
       padding: 14px 50px 14px 48px;
-      border: 1px solid var(--bmcf-border);
+      border: 2px solid #ff0000;
       border-radius: 12px;
       background: var(--slate-800);
       color: var(--bmcf-text);
@@ -5712,7 +5712,7 @@ function buildColorFilterOverlay() {
       right: 20px;
       width: 220px;
       background: var(--slate-800);
-      border: 1px solid var(--bmcf-border);
+      border: 2px solid #ff0000;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       z-index: 999999;
@@ -5733,7 +5733,7 @@ function buildColorFilterOverlay() {
       justify-content: space-between;
       padding: 8px 12px;
       background: var(--slate-700);
-      border-bottom: 1px solid var(--bmcf-border);
+      border-bottom: 2px solid #ff0000;
       border-radius: 12px 12px 0 0;
       transition: border-radius 0.3s ease, border-bottom 0.3s ease;
     `;
@@ -5835,7 +5835,7 @@ function buildColorFilterOverlay() {
       compactCollapsibleContent.style.pointerEvents = 'auto';
       // Restore original border radius when expanded
       compactHeader.style.borderRadius = '12px 12px 0 0';
-      compactHeader.style.borderBottom = '1px solid var(--bmcf-border)';
+      compactHeader.style.borderBottom = '2px solid #ff0000';
     }
 
     // Add collapse functionality - only on arrow click
@@ -5881,7 +5881,7 @@ function buildColorFilterOverlay() {
         compactCollapseArrow.style.transform = 'rotate(0deg)';
         // Restore border radius when expanding
         compactHeader.style.borderRadius = '12px 12px 0 0';
-        compactHeader.style.borderBottom = '1px solid var(--bmcf-border)';
+        compactHeader.style.borderBottom = '2px solid #ff0000';
         
         // After transition, set to auto for dynamic resizing
         setTimeout(() => {
@@ -5897,7 +5897,7 @@ function buildColorFilterOverlay() {
     compactSearchContainer.style.cssText = `
       padding: 6px 12px;
       background: var(--slate-700);
-      border-bottom: 1px solid var(--bmcf-border);
+      border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -5976,7 +5976,7 @@ function buildColorFilterOverlay() {
     compactBulkContainer.style.cssText = `
       padding: 3px 8px;
       background: var(--slate-700);
-      border-bottom: 1px solid var(--bmcf-border);
+      border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -6063,7 +6063,7 @@ function buildColorFilterOverlay() {
     compactSortContainer.style.cssText = `
       padding: 8px 12px;
       background: var(--slate-700);
-      border-bottom: 1px solid var(--bmcf-border);
+      border-bottom: 2px solid #ff0000;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -9707,7 +9707,7 @@ function buildCrosshairSettingsOverlay() {
   `;
   applyButton.onmouseover = () => {
     applyButton.style.transform = 'translateY(-1px)';
-    applyButton.style.background = '#d10000';
+    applyButton.style.background = 'linear-gradient(135deg, var(--blue-600), var(--blue-700))';
     applyButton.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.4)';
   };
   applyButton.onmouseout = () => {
