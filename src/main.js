@@ -4469,11 +4469,10 @@ function buildColorFilterOverlay() {
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      background: #000
-      border-radius: 6px;
       border: 2px solid #ff0000;
       margin-top: 10px;
       border-radius: 6px;
+      background: #000;
     `;
 
     const enhanceWrongCheckbox = document.createElement('input');
