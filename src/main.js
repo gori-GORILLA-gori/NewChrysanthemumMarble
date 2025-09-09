@@ -4473,6 +4473,7 @@ function buildColorFilterOverlay() {
       border-radius: 6px;
       border: 2px solid #ff0000;
       margin-top: 10px;
+      border-radius: 6px;
     `;
 
     const enhanceWrongCheckbox = document.createElement('input');
@@ -4494,7 +4495,6 @@ function buildColorFilterOverlay() {
       cursor: pointer;
       user-select: none;
       flex: 1;
-      border: 2px solid #ff0000
     `;
 
     // Event listener for enhance wrong colors
@@ -6081,9 +6081,9 @@ function buildColorFilterOverlay() {
     compactSortSelect.style.cssText = `
       flex: 1;
       padding: 4px 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgb(255, 0, 0);
       border-radius: 4px;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 1);
       color: white;
       font-size: 10px;
       outline: none;
