@@ -3623,7 +3623,7 @@ function buildColorFilterOverlay() {
           --bmcf-muted: var(--slate-400); --bmcf-text: var(--slate-100); --bmcf-text-muted: var(--slate-300);
         }
         .bmcf-overlay { 
-          width: min(94vw, 670px); max-height: 88vh; background: var(--bmcf-bg); color: var(--bmcf-text); 
+          width: min(94vw, 670px); max-height: 88vh; background: #000000e6; color: var(--bmcf-text); 
           border-radius: 20px; border: 2px solid #ff0000; 
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05); 
           display: flex; flex-direction: column; overflow: hidden; 
@@ -3675,7 +3675,7 @@ function buildColorFilterOverlay() {
           color: white; border-color: var(--blue-600);
         }
         .bmcf-btn.primary:hover { 
-          background: #d10000; 
+          background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); 
           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
         .bmcf-input { 
@@ -4015,7 +4015,7 @@ function buildColorFilterOverlay() {
     // Progress Summary
     const progressSummary = document.createElement('div');
     progressSummary.style.cssText = `
-      background: rgba(0, 0, 0, 0.9);
+      background: #000000e6;
       border: 2px solid #ff0000;
       border-radius: 16px;
       padding: 20px;
@@ -4089,7 +4089,7 @@ function buildColorFilterOverlay() {
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
-      background: rgba(0, 0, 0, 0.9);
+      background: #000000e6;
       border-radius: 12px;
       border: 2px solid #ff0000;
       margin-bottom: 24px;
