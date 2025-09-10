@@ -1,83 +1,77 @@
-# Skirk Marble - FORK SUMMARY
+# NewChrysanthemumMarble
 
-This Blue Marble fork adds several improvements focused on user experience and productivity for wplace.live.
+`wplace.live` でのピクセルアート制作を支援するための多機能ユーザースクリプトです。
 
-## Installation
+このスクリプトは、[Blue Marble](https://github.com/Hao-1337/Wplace-BM) をベースに、作業効率とユーザー体験を向上させるための多くの改良が加えられたフォークです。
 
-**Important:** Remove the original Blue Marble before installing Skirk Marble to avoid conflicts between scripts.
+## 概要
 
-## Individual Color Progress
+`wplace.live`は、多くのユーザーが協力して一枚の巨大なキャンバスに絵を描く、コラボレーションプラットフォームです。このスクリプトを導入することで、テンプレートの管理、描画進捗の確認、エラー箇所の特定などが容易になり、より快適にピクセルアート制作に貢献できます。
 
-View the specific progress of each color in your template. Each color shows how many pixels have been painted, how many are wrong, and how many still need to be completed.
+## インストール方法
 
-<img width="661" height="796" alt="image" src="https://github.com/user-attachments/assets/6e764705-1e14-48db-92ab-c2a0679c03e8" />
+**重要:** スクリプトの競合を避けるため、導入前にオリジナルの「Blue Marble」や他のフォーク版がインストールされている場合は、必ず削除してください。
 
-# Template Management
+本スクリプトの利用には、[Tampermonkey](https://www.tampermonkey.net/) などのユーザースクリプトマネージャーが必要です。
 
-## Features
+1.  お使いのブラウザに合ったTampermonkeyをインストールします。
+2.  このプロジェクトのユーザースクリプトファイル（`.user.js`）をTampermonkeyにインストールします。
+3.  `wplace.live`のページを開くと、スクリプトが自動的に有効になります。
 
-- **Export Templates:** Save your templates as `.json` files to back them up or share with others.  
-- **Import Templates:** Load templates from `.json` files to quickly load the template.
+## 主な機能
 
-This makes it easier to manage, transfer, and share with friends for big projects.
+*   **テンプレート管理:** テンプレートのインポート・エクスポート機能。
+*   **色ごとの進捗確認:** テンプレート内の各色について、描画状況を詳細に表示。
+*   **拡張モード（ハイライト）:** 特定の色が使われているピクセルをキャンバス上で強調表示。
+*   **総合進捗バー:** テンプレート全体の進捗率やピクセル数を視覚的に表示。
+*   **エラーマップ:** テンプレートと異なる色が置かれているピクセルを自動でハイライト。
+*   **タイルの一時停止:** キャンバスの更新を停止し、描画時のラグを完全に排除。
+*   **高度な設定:** 十字カーソルのカスタマイズやモバイル向けUIなど。
+*   **ロケーションシステム:** お気に入りの座標を保存・検索・移動。
+*   **ピクセルカウンター:** 各色について、残りの必要ピクセル数を表示。
 
-## Enhanced Mode (Highlight)
+## 機能詳細
 
-Activate enhanced mode to highlight specific pixels on the map, making it easier to locate colors that need to be painted. Simply select a color and it will be visually highlighted.
+### テンプレート管理
+テンプレートを`.json`ファイルとしてエクスポート（保存）したり、インポート（読み込み）したりできます。これにより、テンプレートのバックアップや、大規模プロジェクトでの共同作業者との共有が簡単になります。
 
-<img width="793" height="713" alt="image" src="https://github.com/user-attachments/assets/33025786-8e91-4f79-bb8e-240fcbec7966" />
+### 色ごとの進捗確認
+テンプレートで使われている各色について、描画済みのピクセル数、間違っているピクセル数、そして残りのピクセル数を個別に確認できます。
 
+### 拡張モード（ハイライト）
+拡張モードを有効にすると、キャンバス上の特定のピクセルをハイライト表示できます。色を選択するだけで、その色がどこに配置されるべきかが一目でわかります。
 
-## Total Progress Bar
+### 総合進捗バー
+テンプレート全体の進捗状況を示す視覚的なバーです。完了率（%）や、総ピクセル数のうちどれだけ描画が完了したかを表示します。
 
-A visual bar shows the overall template progress, including completion percentage and total pixels painted versus pixels needed.
-<img width="313" height="115" alt="image" src="https://github.com/user-attachments/assets/8e827fd9-54c1-4955-9616-4fe9905d9500" />
+### エラーマップ
+間違った色で塗られているピクセルを素早く見つけられます。エラーマップは修正が必要な箇所を自動的にハイライトするため、効率的な修正作業が可能です。
 
-## Error Map
+### タイルの一時停止
+描画中のラグを100%解消するため、キャンバスを完全に「凍結」させます。有効化すると、テンプレートは静的な状態になり更新されなくなるため、最大限のパフォーマンスを発揮します。リアルタイムの更新を確認したい場合は、再度有効化してください。
 
-Find pixels painted with incorrect colors quickly. The error map automatically highlights where errors are for efficient correction.
-<img width="1905" height="920" alt="image" src="https://github.com/user-attachments/assets/7f19d4ea-a92a-4179-b749-eeb5d9da0a11" />
-<img width="1876" height="885" alt="image" src="https://github.com/user-attachments/assets/353e8017-f26c-4ae8-9cb2-66dc754afc97" />
+### 高度な設定
+- **モバイルモード:** モバイルデバイスに最適化された、コンパクトなインターフェース。
+- **十字カーソルのカスタマイズ:** ハイライト色、サイズ、透明度、枠線などを自由に設定。
+- **コーナーボーダー:** ピクセルの角に境界線を追加し、視認性と描画精度を向上。
 
+### ロケーションシステム
+- **場所の検索:** 世界中のあらゆる場所を検索し、マップ上のその位置へ直接移動できます。
+- **カスタムお気に入り:** `wplace.live`のリンクを貼り付けたり、座標を手動で入力したりして、重要な場所を保存できます。作業エリアや特定のプロジェクト、参照点をマークするのに最適です。
 
-*Based on: [Hao-1337/Wplace-BM](https://github.com/Hao-1337/Wplace-BM)*
+### ピクセルカウンター
+追加のメニューを開くことなく、各色についてあと何ピクセル必要かがカラーバー上に直接表示されます。
 
-## Advanced Settings
+## 使用方法
 
-### Mobile Mode
-Interface optimized for mobile devices, with compact elements and simplified navigation.
+1.  通常通りにテンプレートを読み込みます。
+2.  設定画面を開き、好みに合わせて体験をカスタマイズします。
+3.  特定の色を塗る際は、拡張モードを有効にして作業箇所をハイライトします。
+4.  パフォーマンスが低いと感じたら、タイルの一時停止機能を利用します。
+5.  進捗バーやカウンターで、テンプレートの完成状況を随時確認します。
 
-### Crosshair Customization
-- Choose highlight color
-- Adjust crosshair size
-- Configure transparency and borders
+## クレジット
 
-### Corner Borders
-Add borders to pixel corners for better visualization and precision when painting.
+このプロジェクトは、以下の素晴らしいプロジェクトに基づいています。
 
-## Pause Tiles
-
-Completely freeze the canvas to eliminate 100% of lag during painting. When activated, the template stays static and doesn't update, providing maximum performance. Reactivate when necessary to see real-time updates.
-
-## Location System
-
-### Location Search
-Search for any location in the world and navigate directly to it on the map.
-
-### Custom Favorites
-Save important locations by pasting wplace.live links or entering coordinates manually. Ideal for marking work areas, specific projects, or reference points.
-
-*Based on: [pixelkat5/Wplace-Red-planet](https://github.com/pixelkat5/Wplace-Red-planet/tree/main/dist)*
-
-## Pixel Counter
-
-See directly on the color bar how many pixels are still needed for each specific color, without having to open additional menus.
-<img width="1894" height="153" alt="image" src="https://github.com/user-attachments/assets/fbde6440-d231-49c8-96a3-dab8fe1a9d40" />
-
-## How to Use
-
-1. Load your template normally
-2. Use settings to customize the experience
-3. Activate enhanced mode to highlight specific colors
-4. Use pause tiles for better performance when needed
-5. Monitor progress through visual bars and counters
+*   [Seris0/Wplace-BlueMarble](https://github.com/Seris0/Wplace-BlueMarble)
