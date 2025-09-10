@@ -1961,10 +1961,10 @@ function showImportDialog(instance) {
 
   const container = document.createElement('div');
   container.style.cssText = `
-    background: #1e293b;
+    background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 1px solid #334155;
+    border: 2px solid #ff0000;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -1990,7 +1990,7 @@ function showImportDialog(instance) {
   // Drop zone
   const dropZone = document.createElement('div');
   dropZone.style.cssText = `
-    border: 2px dashed #475569;
+    border: 2px dashed #ff0000;
     border-radius: 12px;
     padding: 60px 20px;
     margin: 20px 0;
