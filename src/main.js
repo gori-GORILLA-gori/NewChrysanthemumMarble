@@ -1994,7 +1994,7 @@ function showImportDialog(instance) {
     border-radius: 12px;
     padding: 60px 20px;
     margin: 20px 0;
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.03);
     transition: all 0.2s ease;
     cursor: pointer;
   `;
