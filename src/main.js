@@ -198,7 +198,7 @@ const searchWindowCSS = `
   width: min(480px,94vw); max-height: min(70vh, 600px);
   background: rgba(0,0,0,0.9); color: #f1f5f9; border-radius: 14px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
   backdrop-filter: blur(14px);
   font: 14px/1.5 Roboto Mono, monospace, Arial;
   display: none;
@@ -227,7 +227,7 @@ const searchWindowCSS = `
   width: 95%;
   height: 10px;
   border-radius: 6px;
-  background: #ff0000;
+  background: #a50e1e;
   opacity: 0.7;
 }
 #skirk-search-draggable .hdr {
@@ -243,7 +243,7 @@ const searchWindowCSS = `
   display: flex; gap: 8px;
 }
 #skirk-search-draggable .hdr button {
-  border: 1px solid #ff0000; padding: 8px 10px; border-radius: 8px;
+  border: 1px solid #a50e1e; padding: 8px 10px; border-radius: 8px;
   background: #000; color: #f1f5f9; font: 13px monospace;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -261,7 +261,7 @@ const searchWindowCSS = `
 }
 #skirk-search-input {
   width: 100%; padding: 12px 14px; border-radius: 10px;
-  border: 1px solid #ff0000; background: #000;
+  border: 1px solid #a50e1e; background: #000;
   color: #f1f5f9; font: 14px monospace;
   margin-bottom: 12px;
   transition: all 0.2s ease;
@@ -354,7 +354,7 @@ const searchWindowCSS = `
 
 /* Favorites Menu */
 #skirk-favorites-menu {
-  border-top: 1px solid #ff0000;
+  border-top: 1px solid #a50e1e;
   margin-top: 12px;
   padding-top: 12px;
 }
@@ -394,7 +394,7 @@ const searchWindowCSS = `
 }
 #skirk-clear-favorites {
   background: #000;
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
   color: #cbd5e1;
   cursor: pointer;
   font-size: 11px;
@@ -403,8 +403,8 @@ const searchWindowCSS = `
   transition: all 0.2s ease;
 }
 #skirk-clear-favorites:hover {
-  color: #ff0000;
-  background: rgba(255, 0, 0, 0.2);
+  color: #a50e1e;
+  background: rgba(0, 0, 0, 0.2);
 }
 #skirk-favorites-list {
   max-height: 200px;
@@ -414,7 +414,7 @@ const searchWindowCSS = `
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
   background: #000;
   color: #f1f5f9;
   font: 12px monospace;
@@ -423,7 +423,7 @@ const searchWindowCSS = `
 }
 .skirk-favorites-filter:focus {
   outline: none;
-  border-color: #ff0000ff;
+  border-color: #a50e1eff;
   box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
 .skirk-favorite-item {
@@ -1204,7 +1204,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         background: #000;
         color: var(--slate-100, #f1f5f9);
         border-radius: 16px;
-        border: 1px solid #ff0000;
+        border: 1px solid #a50e1e;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(16px);
         max-width: 400px;
@@ -1224,7 +1224,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       
       .bmcd-header { 
         padding: 20px 24px 16px 24px;
-        border-bottom: 1px solid #ff0000;
+        border-bottom: 1px solid #a50e1e;
         background: #000;
         position: relative;
         z-index: 1;
@@ -1262,7 +1262,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         justify-content: center;
         align-items: center;
         padding: 16px 24px 20px 24px;
-        border-top: 1px solid #ff0000;
+        border-top: 1px solid #a50e1e;
         background: #000;
         position: relative;
         z-index: 1;
@@ -1324,7 +1324,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       .bmcd-btn-secondary {
         background: #000;
         color: var(--slate-100, #f1f5f9);
-        border: 1px solid #ff0000;
+        border: 1px solid #a50e1e;
       }
       
       .bmcd-btn-secondary:hover {
@@ -1511,7 +1511,7 @@ function deleteSelectedTemplate(instance) {
         background: #000;
         color: var(--bmdt-text);
         border-radius: 20px;
-        border: 1px solid #ff0000;
+        border: 1px solid #a50e1e;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(16px);
         max-width: 500px;
@@ -1964,7 +1964,7 @@ function showImportDialog(instance) {
     background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -1990,7 +1990,7 @@ function showImportDialog(instance) {
   // Drop zone
   const dropZone = document.createElement('div');
   dropZone.style.cssText = `
-    border: 1px dashed #ff0000;
+    border: 1px dashed #a50e1e;
     border-radius: 12px;
     padding: 60px 20px;
     margin: 20px 0;
@@ -2152,7 +2152,7 @@ function showTemplateManageDialog(instance) {
     background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -2355,7 +2355,7 @@ function showTemplateManageDialog(instance) {
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px 16px 24px;
-    border-bottom: 1px solid #ff0000;
+    border-bottom: 1px solid #a50e1e;
     background: #000;
   `;
   
@@ -2432,7 +2432,7 @@ function showTemplateManageDialog(instance) {
       padding: 16px;
       background: #000000ff;
       border-radius: 12px;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       transition: all 0.2s ease;
     `;
     templateItem.onmouseover = () => {
@@ -2458,7 +2458,7 @@ function showTemplateManageDialog(instance) {
     renameBtn.innerHTML = icons.pencilIcon;
     renameBtn.title = 'Rename template';
     renameBtn.style.cssText = `
-      padding: 6px; border: 1px solid #ff0000; border-radius: 8px; cursor: pointer;
+      padding: 6px; border: 1px solid #a50e1e; border-radius: 8px; cursor: pointer;
       background: #000000; color: #e2e8f0; min-width: 32px; height: 32px; display:flex; align-items:center; justify-content:center;`;
     const nameLabel = document.createElement('div');
     nameLabel.textContent = templateName;
@@ -2592,7 +2592,7 @@ function showTemplateManageDialog(instance) {
     toggleBtn.textContent = isEnabled ? '有効' : '無効';
     toggleBtn.style.cssText = `
       padding: 8px 16px;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85em;
@@ -2775,7 +2775,7 @@ function showTemplateManageDialog(instance) {
   // Footer with actions that keep dialog open
   const footer = document.createElement('div');
   footer.style.cssText = `
-    display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #ff0000;
+    display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #a50e1e;
     background: #000; position: sticky; bottom: 0; justify-content: center; align-items: center;`
   ;
   const enableAllBtn = document.createElement('button');
@@ -2795,7 +2795,7 @@ function showTemplateManageDialog(instance) {
   };
   const disableAllBtn = document.createElement('button');
   disableAllBtn.textContent = 'すべて無効化';
-  disableAllBtn.style.cssText = `padding: 10px 16px; border: 1px solid #ff0000; border-radius: 8px; cursor: pointer; font-weight: 600; background: #000; color: #e2e8f0;`;
+  disableAllBtn.style.cssText = `padding: 10px 16px; border: 1px solid #a50e1e; border-radius: 8px; cursor: pointer; font-weight: 600; background: #000; color: #e2e8f0;`;
   disableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, false));
     instance.handleDisplayStatus('Disabled all templates');
@@ -3624,7 +3624,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-overlay { 
           width: min(94vw, 670px); max-height: 88vh; background: #000000e6; color: var(--bmcf-text); 
-          border-radius: 20px; border: 1px solid #ff0000; 
+          border-radius: 20px; border: 1px solid #a50e1e; 
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05); 
           display: flex; flex-direction: column; overflow: hidden; 
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
@@ -3636,20 +3636,20 @@ function buildColorFilterOverlay() {
         }
         .bmcf-header { 
           display: flex; flex-direction: column; padding: 16px 20px 12px 20px; 
-          border-bottom: 1px solid #ff0000; 
+          border-bottom: 1px solid #a50e1e; 
           background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
         .bmcf-content { padding: 20px; overflow: auto; position: relative; z-index: 1; }
         .bmcf-footer { 
           display: flex; gap: 12px; justify-content: center; align-items: center; padding: 16px 20px; 
-          border-top: 1px solid #ff0000; 
+          border-top: 1px solid #a50e1e; 
           background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
         .bmcf-btn { 
           display: inline-flex; align-items: center; justify-content: center; height: 40px; 
-          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 1px solid #ff0000; 
+          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 1px solid #a50e1e; 
           font-size: 0.9em; font-weight: 600; white-space: nowrap; cursor: pointer; 
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
           background: rgba(0,0,0,0.95); color: var(--bmcf-text);
@@ -3679,7 +3679,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-input { 
           width: 100%; height: 44px; padding: 12px 16px; border-radius: 12px; 
-          border: 1px solid #ff0000; background: var(--slate-800); color: var(--bmcf-text); 
+          border: 1px solid #a50e1e; background: var(--slate-800); color: var(--bmcf-text); 
           outline: none; font-size: 0.95em; transition: all 0.2s ease;
         }
         .bmcf-input:focus { 
@@ -3727,7 +3727,7 @@ function buildColorFilterOverlay() {
     const dragBar = document.createElement('div');
     dragBar.className = 'bmcf-drag-bar';
     dragBar.style.cssText = `
-      background: #ff0000;
+      background: #a50e1e;
       border-radius: 4px;
       cursor: grab;
       width: 100%;
@@ -3820,7 +3820,7 @@ function buildColorFilterOverlay() {
     settingsButton.innerHTML = icons.settingsIcon;
     settingsButton.style.cssText = `
       background: #000;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3861,7 +3861,7 @@ function buildColorFilterOverlay() {
     viewToggleButton.title = 'Toggle between Grid and List view';
     viewToggleButton.style.cssText = `
       background: #000;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3969,7 +3969,7 @@ function buildColorFilterOverlay() {
     compactListButton.title = 'コンパクトカラーリストの切り替え';
     compactListButton.style.cssText = `
       background: #000;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -4015,7 +4015,7 @@ function buildColorFilterOverlay() {
     const progressSummary = document.createElement('div');
     progressSummary.style.cssText = `
       background: #000000e6;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 24px;
@@ -4089,7 +4089,7 @@ function buildColorFilterOverlay() {
       padding: 12px 16px;
       background: #000000e6;
       border-radius: 12px;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       margin-bottom: 24px;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -4171,7 +4171,7 @@ function buildColorFilterOverlay() {
     searchInput.style.cssText = `
       width: 100%;
       padding: 14px 50px 14px 48px;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       border-radius: 12px;
       background: #000;
       color: var(--bmcf-text);
@@ -4209,7 +4209,7 @@ function buildColorFilterOverlay() {
       top: 50%;
       transform: translateY(-50%);
       background: var(--slate-600);
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       border-radius: 8px;
       color: var(--slate-300);
       font-size: 12px;
@@ -4341,7 +4341,7 @@ function buildColorFilterOverlay() {
     filterSelect.style.cssText = `
       flex: 1;
       padding: 6px 14px;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       border-radius: 6px;
       background: rgb(0, 0, 0);
       color: white;
@@ -4395,7 +4395,7 @@ function buildColorFilterOverlay() {
     enhancedInfo.textContent = 'ピクセルを強調表示します。';
     enhancedInfo.style.cssText = `
       background: #000000ff;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       color: white;
       padding: 6px 14px;
       border-radius: 6px;
@@ -4447,7 +4447,7 @@ function buildColorFilterOverlay() {
     disableAllEnhancedButton.style.cssText = `
       background: #000000ff;
       color: white;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       padding: 6px 14px;
       border-radius: 6px;
       cursor: pointer;
@@ -4469,7 +4469,7 @@ function buildColorFilterOverlay() {
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       margin-top: 10px;
       border-radius: 6px;
       background: #000;
@@ -5711,7 +5711,7 @@ function buildColorFilterOverlay() {
       right: 20px;
       width: 220px;
       background: rgba(0,0,0,0.95);
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       z-index: 999999;
@@ -5732,7 +5732,7 @@ function buildColorFilterOverlay() {
       justify-content: space-between;
       padding: 8px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid #ff0000;
+      border-bottom: 1px solid #a50e1e;
       border-radius: 12px 12px 0 0;
       transition: border-radius 0.3s ease, border-bottom 0.3s ease;
     `;
@@ -5834,7 +5834,7 @@ function buildColorFilterOverlay() {
       compactCollapsibleContent.style.pointerEvents = 'auto';
       // Restore original border radius when expanded
       compactHeader.style.borderRadius = '12px 12px 0 0';
-      compactHeader.style.borderBottom = '2px solid #ff0000';
+      compactHeader.style.borderBottom = '2px solid #a50e1e';
     }
 
     // Add collapse functionality - only on arrow click
@@ -5880,7 +5880,7 @@ function buildColorFilterOverlay() {
         compactCollapseArrow.style.transform = 'rotate(0deg)';
         // Restore border radius when expanding
         compactHeader.style.borderRadius = '12px 12px 0 0';
-        compactHeader.style.borderBottom = '2px solid #ff0000';
+        compactHeader.style.borderBottom = '2px solid #a50e1e';
         
         // After transition, set to auto for dynamic resizing
         setTimeout(() => {
@@ -5896,7 +5896,7 @@ function buildColorFilterOverlay() {
     compactSearchContainer.style.cssText = `
       padding: 6px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid #ff0000;
+      border-bottom: 1px solid #a50e1e;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -5909,7 +5909,7 @@ function buildColorFilterOverlay() {
       flex: 1;
       padding: 4px 8px;
       background: #000;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       border-radius: 4px;
       color: var(--bmcf-text);
       font-size: 11px;
@@ -5920,12 +5920,12 @@ function buildColorFilterOverlay() {
     
     // Search input focus/blur effects
     searchInput.addEventListener('focus', () => {
-      searchInput.style.borderColor = '#ff0000';
+      searchInput.style.borderColor = '#a50e1e';
       searchInput.style.background = '#000';
     });
     
     searchInput.addEventListener('blur', () => {
-      searchInput.style.borderColor = '#ff0000';
+      searchInput.style.borderColor = '#a50e1e';
       searchInput.style.background = '#000';
     });
     
@@ -5975,7 +5975,7 @@ function buildColorFilterOverlay() {
     compactBulkContainer.style.cssText = `
       padding: 3px 8px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid #ff0000;
+      border-bottom: 1px solid #a50e1e;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -6062,7 +6062,7 @@ function buildColorFilterOverlay() {
     compactSortContainer.style.cssText = `
       padding: 8px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid #ff0000;
+      border-bottom: 1px solid #a50e1e;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -6080,7 +6080,7 @@ function buildColorFilterOverlay() {
     compactSortSelect.style.cssText = `
       flex: 1;
       padding: 4px 8px;
-      border: 1px solid rgb(255, 0, 0);
+      border: 1px solid #a50e1e;
       border-radius: 4px;
       background: rgba(0, 0, 0, 1);
       color: white;
@@ -7880,7 +7880,7 @@ function applyMobileModeToColorFilter(enableMobile) {
         padding: 8px 10px 6px 10px !important; 
       }
       .bmcf-drag-bar { 
-        background: #ff0000 !important;
+        background: #a50e1e !important;
         height: 10px !important; 
         margin-bottom: 6px !important; 
       }
@@ -8079,7 +8079,7 @@ function updateMiniTracker() {
   
   tracker.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000ff;
+    border: 1px solid #a50e1eff;
     border-radius: 12px;
     padding: 12px 16px;
     margin-top: 8px;
@@ -8146,7 +8146,7 @@ function updateMiniTracker() {
       overflow: hidden;
       grid-row: 3;
       width: 100%;
-      border: 1px solid #ff0000ff;
+      border: 1px solid #a50e1eff;
       min-width: 0;
     }
     .tracker-bar {
@@ -8420,7 +8420,7 @@ function buildCrosshairSettingsOverlay() {
       flex-direction: column;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      border: 1px solid #ff0000;
+      border: 1px solid #a50e1e;
       backdrop-filter: blur(16px);
       overflow: hidden;
     `;
@@ -8442,7 +8442,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: space-between;
     align-items: center;
     padding: ${headerPadding};
-    border-bottom: 1px solid #ff0000;
+    border-bottom: 1px solid #a50e1e;
     background: #000000e6;
     cursor: move;
     user-select: none;
@@ -8531,7 +8531,7 @@ function buildCrosshairSettingsOverlay() {
   const previewBorderRadius = isMobileMode ? '12px' : '16px';
   currentColorPreview.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${previewBorderRadius};
     padding: ${previewPadding};
     margin-bottom: ${previewMargin};
@@ -8794,7 +8794,7 @@ function buildCrosshairSettingsOverlay() {
       rInput.style.cssText = `
         width: 100%;
         padding: ${inputPadding};
-        border: 1px solid rgb(255, 0, 0);
+        border: 1px solid #a50e1e;
         border-radius: 4px;
         background: rgba(0,0,0,0.95);
         color: var(--slate-100);
@@ -8956,7 +8956,7 @@ function buildCrosshairSettingsOverlay() {
   const sectionBorderRadius = isMobileMode ? '8px' : '12px';
   alphaSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9014,7 +9014,7 @@ function buildCrosshairSettingsOverlay() {
   const borderSection = document.createElement('div');
   borderSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9093,7 +9093,7 @@ function buildCrosshairSettingsOverlay() {
   const sizeSection = document.createElement('div');
   sizeSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9181,7 +9181,7 @@ function buildCrosshairSettingsOverlay() {
   const radiusSection = document.createElement('div');
   radiusSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9316,7 +9316,7 @@ function buildCrosshairSettingsOverlay() {
   const trackerSection = document.createElement('div');
   trackerSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9400,7 +9400,7 @@ function buildCrosshairSettingsOverlay() {
   const mobileSection = document.createElement('div');
   mobileSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9508,7 +9508,7 @@ function buildCrosshairSettingsOverlay() {
   const collapseSection = document.createElement('div');
   collapseSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9618,7 +9618,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: center;
     align-items: center;
     padding: ${footerPadding};
-    border-top: 1px solid #ff0000;
+    border-top: 1px solid #a50e1e;
     background: #000000e6;
     position: relative;
     z-index: 1;
@@ -9638,7 +9638,7 @@ function buildCrosshairSettingsOverlay() {
   cancelButton.textContent = 'キャンセル';
   cancelButton.style.cssText = `
     background: #000;
-    border: 1px solid rgb(255, 0, 0);
+    border: 1px solid #a50e1e;
     color: var(--slate-100);
     padding: 14px 20px;
     border-radius: 12px;
@@ -9824,7 +9824,7 @@ function buildCrosshairSettingsOverlay() {
   const usernameSection = document.createElement('div');
   usernameSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9856,7 +9856,7 @@ function buildCrosshairSettingsOverlay() {
   const leftOnColorSection = document.createElement('div');
   leftOnColorSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9951,7 +9951,7 @@ function buildCrosshairSettingsOverlay() {
   const navigationSection = document.createElement('div');
   navigationSection.style.cssText = `
     background: #000;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9988,7 +9988,7 @@ function buildCrosshairSettingsOverlay() {
     padding: 4px;
     background: #000;
     border-radius: 8px;
-    border: 1px solid #ff0000;
+    border: 1px solid #a50e1e;
   `;
 
   const flytoButton = document.createElement('button');
@@ -10003,7 +10003,7 @@ function buildCrosshairSettingsOverlay() {
     font-weight: 600;
     transition: all 0.2s ease;
     ${tempNavigationMethod === 'flyto' 
-      ? 'background: #ff0000; color: white;'
+      ? 'background: #a50e1e; color: white;'
       : 'background: transparent; color: var(--slate-300);'
     }
   `;
@@ -10020,14 +10020,14 @@ function buildCrosshairSettingsOverlay() {
     font-weight: 600;
     transition: all 0.2s ease;
     ${tempNavigationMethod === 'openurl' 
-      ? 'background: #ff0000; color: white;'
+      ? 'background: #a50e1e; color: white;'
       : 'background: transparent; color: var(--slate-300);'
     }
   `;
 
   flytoButton.onclick = () => {
     tempNavigationMethod = 'そこへ移動';
-    flytoButton.style.background = '#ff0000';
+    flytoButton.style.background = '#a50e1e';
     flytoButton.style.color = 'white';
     openurlButton.style.background = 'transparent';
     openurlButton.style.color = 'var(--slate-300)';
@@ -10035,7 +10035,7 @@ function buildCrosshairSettingsOverlay() {
 
   openurlButton.onclick = () => {
     tempNavigationMethod = 'URLを開く';
-    openurlButton.style.background = '#ff0000';
+    openurlButton.style.background = '#a50e1e';
     openurlButton.style.color = 'white';
     flytoButton.style.background = 'transparent';
     flytoButton.style.color = 'var(--slate-300)';

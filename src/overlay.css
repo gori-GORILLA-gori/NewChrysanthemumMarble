@@ -7,7 +7,7 @@
   color: #f1f5f9;
   padding: 12px;
   border-radius: 16px;
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
   z-index: 9000;
@@ -46,7 +46,7 @@ div#bm-overlay {
 /* The drag bar */
 #bm-bar-drag {
   margin-bottom: 0.5em;
-  background: #ff0000;
+  background: #a50e1e;
   border-radius: 4px;
   cursor: grab;
   width: 100%;
@@ -247,7 +247,7 @@ input[type="file"][id*="template"] {
 #bm-output-status {
   font-size: 0.85rem;
   background: #000;
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
   color: #cbd5e1;
   padding: 0.5rem;
   height: 3.75em;
@@ -302,7 +302,7 @@ input[type="file"][id*="template"] {
 
 /* Color filter button special styling - now integrated in grid */
 #bm-button-color-filter {
-  background: linear-gradient(90deg, #ff3f3f, #ff0000);
+  background: linear-gradient(90deg, #ff3f3f, #a50e1e);
   background-size: 300% 300%;
   animation: colorShift 3s ease-in-out infinite;
   font-weight: bold;
@@ -325,7 +325,7 @@ input[type="file"][id*="template"] {
 /* Color filter overlay styles */
 #bm-color-filter-overlay {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar {
@@ -333,17 +333,17 @@ input[type="file"][id*="template"] {
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar-track {
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: linear-gradient(135deg, #000000f1, #a50e1e);
   border-radius: 4px;
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: linear-gradient(135deg, #000000f1, #a50e1e);
   border-radius: 4px;
 }
 
 #bm-color-filter-overlay::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #000000f1, #ff0000);
+  background: linear-gradient(135deg, #000000f1, #a50e1e);
 }
 
 /* CRITICAL: Remove red borders from HTML5 validation on coordinate inputs */
@@ -466,7 +466,7 @@ input[type="file"][id*="template"] {
   width: 100%;
   height: 2.2rem;
   background: #000;
-  border: 1px solid #ff0000 !important;
+  border: 1px solid #a50e1e !important;
   color: #f1f5f9;
   padding: 0 0.5rem;
   font-size: 0.9rem;
@@ -570,7 +570,7 @@ div:has(> #bm-input-file-template) > button {
   background-color: #000000;
   border-radius: .25rem;
 
-  border: 1px solid #ff0000;
+  border: 1px solid #a50e1e;
 
   transition: background-color 0.25s;
   
