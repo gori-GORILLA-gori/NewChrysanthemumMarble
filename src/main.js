@@ -1170,7 +1170,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         left: 0;
         width: 100%;
         height: 100%;
-        background: #000000e6;
+        background: #000;
         backdrop-filter: blur(12px);
         display: flex;
         justify-content: center;
@@ -1201,10 +1201,10 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: var(--slate-900, #0f172a);
+        background: #000;
         color: var(--slate-100, #f1f5f9);
         border-radius: 16px;
-        border: 1px solid var(--slate-700, #334155);
+        border: 2px solid #ff0000;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(16px);
         max-width: 400px;
@@ -1224,8 +1224,8 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       
       .bmcd-header { 
         padding: 20px 24px 16px 24px;
-        border-bottom: 1px solid var(--slate-700, #334155);
-        background: linear-gradient(135deg, var(--slate-800, #1e293b), var(--slate-750, #293548));
+        border-bottom: 2px solid #ff0000;
+        background: #000;
         position: relative;
         z-index: 1;
       }
@@ -1262,8 +1262,8 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         justify-content: center;
         align-items: center;
         padding: 16px 24px 20px 24px;
-        border-top: 1px solid var(--slate-700, #334155);
-        background: linear-gradient(135deg, var(--slate-800, #1e293b), var(--slate-750, #293548));
+        border-top: 2px solid #ff0000;
+        background: #000;
         position: relative;
         z-index: 1;
       }
@@ -1313,7 +1313,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       .bmcd-btn-danger {
         background: linear-gradient(135deg, var(--red-500, #ef4444), var(--red-600, #dc2626));
         color: white;
-        border-color: var(--red-600, #dc2626);
+        border: 2px solid var(--red-600, #dc2626);
       }
       
       .bmcd-btn-danger:hover {
@@ -1322,13 +1322,13 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       }
       
       .bmcd-btn-secondary {
-        background: var(--slate-700, #334155);
+        background: #000;
         color: var(--slate-100, #f1f5f9);
-        border-color: var(--slate-600, #475569);
+        border: 2px solid #ff0000;
       }
       
       .bmcd-btn-secondary:hover {
-        background: var(--slate-600, #475569);
+        background: #1f1f1f;
       }
       
       @media (max-width: 520px) {
