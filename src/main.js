@@ -8420,7 +8420,7 @@ function buildCrosshairSettingsOverlay() {
       flex-direction: column;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      border: 1px solid #334155;
+      border: 2px solid #ff0000;
       backdrop-filter: blur(16px);
       overflow: hidden;
     `;
@@ -8442,7 +8442,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: space-between;
     align-items: center;
     padding: ${headerPadding};
-    border-bottom: 1px solid rgba(0,0,0,0.95);
+    border-bottom: 2px solid #ff0000;
     background: #000000e6;
     cursor: move;
     user-select: none;
@@ -8530,8 +8530,8 @@ function buildCrosshairSettingsOverlay() {
   const previewMargin = isMobileMode ? '16px' : '24px';
   const previewBorderRadius = isMobileMode ? '12px' : '16px';
   currentColorPreview.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${previewBorderRadius};
     padding: ${previewPadding};
     margin-bottom: ${previewMargin};
@@ -8955,8 +8955,8 @@ function buildCrosshairSettingsOverlay() {
   const sectionMargin = isMobileMode ? '14px' : '20px';
   const sectionBorderRadius = isMobileMode ? '8px' : '12px';
   alphaSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9013,8 +9013,8 @@ function buildCrosshairSettingsOverlay() {
   // Border options section
   const borderSection = document.createElement('div');
   borderSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9092,8 +9092,8 @@ function buildCrosshairSettingsOverlay() {
   // Crosshair Size section
   const sizeSection = document.createElement('div');
   sizeSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9180,8 +9180,8 @@ function buildCrosshairSettingsOverlay() {
   // Crosshair Radius section (only show when enhanced size is enabled)
   const radiusSection = document.createElement('div');
   radiusSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9315,8 +9315,8 @@ function buildCrosshairSettingsOverlay() {
   // Mini tracker section
   const trackerSection = document.createElement('div');
   trackerSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9399,8 +9399,8 @@ function buildCrosshairSettingsOverlay() {
   // Mobile Mode Section
   const mobileSection = document.createElement('div');
   mobileSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9507,8 +9507,8 @@ function buildCrosshairSettingsOverlay() {
   // Collapse Mini Template Section
   const collapseSection = document.createElement('div');
   collapseSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9618,7 +9618,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: center;
     align-items: center;
     padding: ${footerPadding};
-    border-top: 1px solid rgba(0,0,0,0.95);
+    border-top: 2px solid #ff0000;
     background: #000000e6;
     position: relative;
     z-index: 1;
@@ -9823,8 +9823,8 @@ function buildCrosshairSettingsOverlay() {
   // Username visibility setting
   const usernameSection = document.createElement('div');
   usernameSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9855,8 +9855,8 @@ function buildCrosshairSettingsOverlay() {
   // Show Left number on color cards (compact mode)
   const leftOnColorSection = document.createElement('div');
   leftOnColorSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9950,8 +9950,8 @@ function buildCrosshairSettingsOverlay() {
   // Navigation method section
   const navigationSection = document.createElement('div');
   navigationSection.style.cssText = `
-    background: #000000e6;
-    border: 1px solid rgba(0,0,0,0.95);
+    background: #000;
+    border: 2px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
