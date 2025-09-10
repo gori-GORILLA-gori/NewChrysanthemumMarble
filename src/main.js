@@ -354,7 +354,7 @@ const searchWindowCSS = `
 
 /* Favorites Menu */
 #skirk-favorites-menu {
-  border-top: 2px solid #ff0000;
+  border-top: 1px solid #ff0000;
   margin-top: 12px;
   padding-top: 12px;
 }
@@ -1224,7 +1224,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       
       .bmcd-header { 
         padding: 20px 24px 16px 24px;
-        border-bottom: 2px solid #ff0000;
+        border-bottom: 1px solid #ff0000;
         background: #000;
         position: relative;
         z-index: 1;
@@ -1262,7 +1262,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         justify-content: center;
         align-items: center;
         padding: 16px 24px 20px 24px;
-        border-top: 2px solid #ff0000;
+        border-top: 1px solid #ff0000;
         background: #000;
         position: relative;
         z-index: 1;
@@ -2355,7 +2355,7 @@ function showTemplateManageDialog(instance) {
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px 16px 24px;
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 1px solid #ff0000;
     background: #000;
   `;
   
@@ -2775,7 +2775,7 @@ function showTemplateManageDialog(instance) {
   // Footer with actions that keep dialog open
   const footer = document.createElement('div');
   footer.style.cssText = `
-    display: flex; gap: 12px; padding: 12px 16px; border-top: 2px solid #ff0000;
+    display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #ff0000;
     background: #000; position: sticky; bottom: 0; justify-content: center; align-items: center;`
   ;
   const enableAllBtn = document.createElement('button');
@@ -3636,14 +3636,14 @@ function buildColorFilterOverlay() {
         }
         .bmcf-header { 
           display: flex; flex-direction: column; padding: 16px 20px 12px 20px; 
-          border-bottom: 2px solid #ff0000; 
+          border-bottom: 1px solid #ff0000; 
           background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
         .bmcf-content { padding: 20px; overflow: auto; position: relative; z-index: 1; }
         .bmcf-footer { 
           display: flex; gap: 12px; justify-content: center; align-items: center; padding: 16px 20px; 
-          border-top: 2px solid #ff0000; 
+          border-top: 1px solid #ff0000; 
           background: rgba(0, 0, 0, 0); 
           position: relative; z-index: 1;
         }
@@ -5732,7 +5732,7 @@ function buildColorFilterOverlay() {
       justify-content: space-between;
       padding: 8px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 1px solid #ff0000;
       border-radius: 12px 12px 0 0;
       transition: border-radius 0.3s ease, border-bottom 0.3s ease;
     `;
@@ -5896,7 +5896,7 @@ function buildColorFilterOverlay() {
     compactSearchContainer.style.cssText = `
       padding: 6px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 1px solid #ff0000;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -5975,7 +5975,7 @@ function buildColorFilterOverlay() {
     compactBulkContainer.style.cssText = `
       padding: 3px 8px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 1px solid #ff0000;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -6062,7 +6062,7 @@ function buildColorFilterOverlay() {
     compactSortContainer.style.cssText = `
       padding: 8px 12px;
       background: rgba(0,0,0,0.95);
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 1px solid #ff0000;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -8442,7 +8442,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: space-between;
     align-items: center;
     padding: ${headerPadding};
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 1px solid #ff0000;
     background: #000000e6;
     cursor: move;
     user-select: none;
@@ -9618,7 +9618,7 @@ function buildCrosshairSettingsOverlay() {
     justify-content: center;
     align-items: center;
     padding: ${footerPadding};
-    border-top: 2px solid #ff0000;
+    border-top: 1px solid #ff0000;
     background: #000000e6;
     position: relative;
     z-index: 1;
