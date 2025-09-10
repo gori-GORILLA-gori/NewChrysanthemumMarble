@@ -2592,7 +2592,7 @@ function showTemplateManageDialog(instance) {
     toggleBtn.textContent = isEnabled ? '有効' : '無効';
     toggleBtn.style.cssText = `
       padding: 8px 16px;
-      border: 2px solid #10b981;
+      border: 2px solid #ff0000;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85em;
@@ -2600,8 +2600,8 @@ function showTemplateManageDialog(instance) {
       transition: all 0.2s ease;
       min-width: 80px;
       ${isEnabled 
-        ? 'background: linear-gradient(135deg, #10b981, #059669); color: white; border: 2px solid #10b981;'
-        : 'background: #000 color: #e2e8f0; border: 2px solid #ff0000;'
+        ? 'background: linear-gradient(135deg, #10b981, #059669); color: white;'
+        : 'background: #000 color: #e2e8f0;'
       }
     `;
     
@@ -2613,7 +2613,7 @@ function showTemplateManageDialog(instance) {
       toggleBtn.textContent = newState ? '有効' : '無効';
       toggleBtn.style.background = newState 
         ? 'linear-gradient(135deg, #10b981, #059669)'
-        : 'linear-gradient(135deg, #64748b, #475569)';
+        : '#000';
       toggleBtn.style.color = newState ? 'white' : '#e2e8f0';
       
       instance.handleDisplayStatus(`${newState ? '有効' : '無効'} template "${templateName}"!`);
