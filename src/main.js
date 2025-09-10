@@ -8411,7 +8411,7 @@ function buildCrosshairSettingsOverlay() {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #0f172a;
+      background: rgba(0,0,0,0.9);
       color: #f1f5f9;
       padding: 0;
       ${mobileStyles}
@@ -9986,13 +9986,13 @@ function buildCrosshairSettingsOverlay() {
     display: flex;
     gap: 8px;
     padding: 4px;
-    background: var(--slate-900);
+    background: #000;
     border-radius: 8px;
-    border: 1px solid var(--slate-600);
+    border: 2px solid #ff0000);
   `;
 
   const flytoButton = document.createElement('button');
-  flytoButton.textContent = 'FlyTo';
+  flytoButton.textContent = 'そこへ移動';
   flytoButton.style.cssText = `
     flex: 1;
     padding: 8px 12px;
@@ -10003,13 +10003,13 @@ function buildCrosshairSettingsOverlay() {
     font-weight: 600;
     transition: all 0.2s ease;
     ${tempNavigationMethod === 'flyto' 
-      ? 'background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); color: white;'
+      ? 'background: #ff0000; color: white;'
       : 'background: transparent; color: var(--slate-300);'
     }
   `;
 
   const openurlButton = document.createElement('button');
-  openurlButton.textContent = 'OpenURL';
+  openurlButton.textContent = 'URLを開く';
   openurlButton.style.cssText = `
     flex: 1;
     padding: 8px 12px;
@@ -10020,7 +10020,7 @@ function buildCrosshairSettingsOverlay() {
     font-weight: 600;
     transition: all 0.2s ease;
     ${tempNavigationMethod === 'openurl' 
-      ? 'background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); color: white;'
+      ? 'background: #ff0000; color: white;'
       : 'background: transparent; color: var(--slate-300);'
     }
   `;
