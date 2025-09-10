@@ -1508,10 +1508,10 @@ function deleteSelectedTemplate(instance) {
       }
       
       .bmdt-container { 
-        background: var(--bmdt-bg);
+        background: #000;
         color: var(--bmdt-text);
         border-radius: 20px;
-        border: 1px solid var(--bmdt-border);
+        border: 2px solid #ff0000;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(16px);
         max-width: 500px;
@@ -1994,7 +1994,7 @@ function showImportDialog(instance) {
     border-radius: 12px;
     padding: 60px 20px;
     margin: 20px 0;
-    background: rgba(71, 85, 105, 0.1);
+    background: rgba(255, 255, 255, 0.16);
     transition: all 0.2s ease;
     cursor: pointer;
   `;
