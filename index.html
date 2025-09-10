@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菊のマーブル 機能詳細</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+        h1, h2, h3 {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #64b5f6;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        h2 {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        h3 {
+            color: #64b5f6;
+            margin-top: 30px;
+            font-size: 1.6em;
+        }
+        .feature-box {
+            background-color: #2b2b2b;
+            padding: 25px;
+            border-left: 6px solid #64b5f6;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 1em;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            background: #3a3a3a;
+            margin: 10px 0;
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            transition: background-color 0.3s;
+        }
+        li:hover {
+            background-color: #4a4a4a;
+        }
+        strong {
+            color: #ff8a80;
+        }
+        code {
+            background-color: #444;
+            color: #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>菊のマーブル 機能別詳細</h1>
+
+    <h2>情報表示</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>プレイヤー情報:</strong> プレイヤーの名前やレベルをはじめとする情報を表示します</li>
+            <li><strong>ミニトラッカー:</strong> メイン画面に簡略化したトラッカーでの進捗状況の確認などができます</li>
+        </ul>
+    </div>
+
+    <h2>テンプレート表示</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>テンプレート表示:</strong> マップ上に画像をテンプレートとして表示し補助として使えます</li>
+            <li><strong>カラーフィルター:</strong> テンプレート表示の特定の色の表示、非表示などを制御できます</li>
+            <li><strong>強調表示:</strong>間違った部分や塗られていない部分に十字線を追加して強調表示できます</li>
+        </ul>
+    </div>
+
+    <h2>テンプレート進捗状況</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>エラーマップモード:</strong> テンプレートがウェブサイト上に正しく配置されているかを確認するためのビューモードです。テンプレートのどのピクセルが欠けているか、または間違っているかを視覚的にハイライトします。</li>
+            <li><strong>進捗表示:</strong> テンプレートの進捗状況をパーセンテージで表示し、どれだけ配置されていてどれだけ間違っているかなどを見れます。</li>
+        </ul>
+    </div>
+
+    <h2>位置検索</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>検索機能:</strong> 入力されたキーワードに基づいて、関連する場所を検索し、結果を表示します。</li>
+            <li><strong>座標への移動:</strong> 検索結果を選択すると、マップをその場所の緯度と経度に自動的に移動させます。</li>
+            <li><strong>位置保存:</strong>Wplaceのリンクや検索した場所などを保存して、後で簡単にアクセスできるようにできます。</li>
+        </ul>
+    </div>
+
+    <h2>テンプレート管理</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>テンプレートの有効化/無効化:</strong> 個々のテンプレートの表示を簡単に切り替えることができます。</li>
+        </ul>
+    </div>
+
+    <h2>JSONでのテンプレートのインポート/エクスポート</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>エクスポート:</strong> 作成したテンプレートをJSON形式のデータとして出力し、ファイルとして保存できます。画像ファイルなども出力されます。これにより、他のユーザーと簡単に共有できます。</li>
+            <li><strong>インポート:</strong> 外部のJSONファイルからテンプレートデータを読み込み、スクリプトに反映させることができます。</li>
+        </ul>
+    </div>
+
+    <h2>スクショ（スクリーンショット）</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>スクリーンショット:</strong>カメラアイコンを押すと、現在のマップビューのスクリーンショットを撮影し、画像ファイルとして保存できます。</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
