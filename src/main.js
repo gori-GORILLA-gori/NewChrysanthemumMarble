@@ -2149,10 +2149,10 @@ function showTemplateManageDialog(instance) {
   
   const container = document.createElement('div');
   container.style.cssText = `
-    background: #1e293b;
+    background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 1px solid #334155;
+    border: 2px solid #ff0000;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -2355,8 +2355,8 @@ function showTemplateManageDialog(instance) {
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px 16px 24px;
-    border-bottom: 1px solid #334155;
-    background: linear-gradient(135deg, #1e293b, #293548);
+    border-bottom: 2px solid #ff0000;
+    background: #000;
   `;
   
   const title = document.createElement('h3');
@@ -2430,17 +2430,17 @@ function showTemplateManageDialog(instance) {
       justify-content: space-between;
       align-items: center;
       padding: 16px;
-      background: #334155;
+      background: #000000ff;
       border-radius: 12px;
-      border: 1px solid #475569;
+      border: 2px solid #ff0000;
       transition: all 0.2s ease;
     `;
     templateItem.onmouseover = () => {
-      templateItem.style.background = '#3f4b5f';
+      templateItem.style.background = '#181818';
       templateItem.style.transform = 'translateY(-1px)';
     };
     templateItem.onmouseout = () => {
-      templateItem.style.background = '#334155';
+      templateItem.style.background = '#000000';
       templateItem.style.transform = '';
     };
     
@@ -2458,8 +2458,8 @@ function showTemplateManageDialog(instance) {
     renameBtn.innerHTML = icons.pencilIcon;
     renameBtn.title = 'Rename template';
     renameBtn.style.cssText = `
-      padding: 6px; border: 1px solid #475569; border-radius: 8px; cursor: pointer;
-      background: #1f2937; color: #e2e8f0; min-width: 32px; height: 32px; display:flex; align-items:center; justify-content:center;`;
+      padding: 6px; border: 2px solid #ff0000; border-radius: 8px; cursor: pointer;
+      background: #000000; color: #e2e8f0; min-width: 32px; height: 32px; display:flex; align-items:center; justify-content:center;`;
     const nameLabel = document.createElement('div');
     nameLabel.textContent = templateName;
     nameLabel.style.cssText = `
@@ -2592,7 +2592,7 @@ function showTemplateManageDialog(instance) {
     toggleBtn.textContent = isEnabled ? '有効' : '無効';
     toggleBtn.style.cssText = `
       padding: 8px 16px;
-      border: none;
+      border: 2px solid #10b981;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85em;
@@ -2600,8 +2600,8 @@ function showTemplateManageDialog(instance) {
       transition: all 0.2s ease;
       min-width: 80px;
       ${isEnabled 
-        ? 'background: linear-gradient(135deg, #10b981, #059669); color: white;'
-        : 'background: linear-gradient(135deg, #64748b, #475569); color: #e2e8f0;'
+        ? 'background: linear-gradient(135deg, #10b981, #059669); color: white; border: 2px solid #10b981;'
+        : 'background: #000 color: #e2e8f0; border: 2px solid #ff0000;'
       }
     `;
     
@@ -2775,12 +2775,12 @@ function showTemplateManageDialog(instance) {
   // Footer with actions that keep dialog open
   const footer = document.createElement('div');
   footer.style.cssText = `
-    display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #334155;
-    background: #1b2433; position: sticky; bottom: 0; justify-content: center; align-items: center;`
+    display: flex; gap: 12px; padding: 12px 16px; border-top: 2px solid #ff0000;
+    background: #000; position: sticky; bottom: 0; justify-content: center; align-items: center;`
   ;
   const enableAllBtn = document.createElement('button');
   enableAllBtn.textContent = 'すべて有効化';
-  enableAllBtn.style.cssText = `padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#10b981,#059669); color: white;`;
+  enableAllBtn.style.cssText = `padding: 10px 16px; border: 2px solid #10b981; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#10b981,#059669); color: white;`;
   enableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, true));
     instance.handleDisplayStatus('Enabled all templates');
@@ -2795,7 +2795,7 @@ function showTemplateManageDialog(instance) {
   };
   const disableAllBtn = document.createElement('button');
   disableAllBtn.textContent = 'すべて無効化';
-  disableAllBtn.style.cssText = `padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#64748b,#475569); color: #e2e8f0;`;
+  disableAllBtn.style.cssText = `padding: 10px 16px; border: 2px solid #ff0000; border-radius: 8px; cursor: pointer; font-weight: 600; background: #000; color: #e2e8f0;`;
   disableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, false));
     instance.handleDisplayStatus('Disabled all templates');
