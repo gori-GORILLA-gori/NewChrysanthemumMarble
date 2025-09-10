@@ -198,7 +198,7 @@ const searchWindowCSS = `
   width: min(480px,94vw); max-height: min(70vh, 600px);
   background: rgba(0,0,0,0.9); color: #f1f5f9; border-radius: 14px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  border: 2px solid #ff0000;
+  border: 1px solid #ff0000;
   backdrop-filter: blur(14px);
   font: 14px/1.5 Roboto Mono, monospace, Arial;
   display: none;
@@ -243,7 +243,7 @@ const searchWindowCSS = `
   display: flex; gap: 8px;
 }
 #skirk-search-draggable .hdr button {
-  border: 2px solid #ff0000; padding: 8px 10px; border-radius: 8px;
+  border: 1px solid #ff0000; padding: 8px 10px; border-radius: 8px;
   background: #000; color: #f1f5f9; font: 13px monospace;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -261,7 +261,7 @@ const searchWindowCSS = `
 }
 #skirk-search-input {
   width: 100%; padding: 12px 14px; border-radius: 10px;
-  border: 2px solid #ff0000; background: #000;
+  border: 1px solid #ff0000; background: #000;
   color: #f1f5f9; font: 14px monospace;
   margin-bottom: 12px;
   transition: all 0.2s ease;
@@ -394,7 +394,7 @@ const searchWindowCSS = `
 }
 #skirk-clear-favorites {
   background: #000;
-  border: 2px solid #ff0000;
+  border: 1px solid #ff0000;
   color: #cbd5e1;
   cursor: pointer;
   font-size: 11px;
@@ -414,7 +414,7 @@ const searchWindowCSS = `
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 2px solid #ff0000;
+  border: 1px solid #ff0000;
   background: #000;
   color: #f1f5f9;
   font: 12px monospace;
@@ -1204,7 +1204,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
         background: #000;
         color: var(--slate-100, #f1f5f9);
         border-radius: 16px;
-        border: 2px solid #ff0000;
+        border: 1px solid #ff0000;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(16px);
         max-width: 400px;
@@ -1313,7 +1313,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       .bmcd-btn-danger {
         background: linear-gradient(135deg, var(--red-500, #ef4444), var(--red-600, #dc2626));
         color: white;
-        border: 2px solid var(--red-600, #dc2626);
+        border: 1px solid var(--red-600, #dc2626);
       }
       
       .bmcd-btn-danger:hover {
@@ -1324,7 +1324,7 @@ function showCustomConfirmDialog(title, message, onConfirm, onCancel = null) {
       .bmcd-btn-secondary {
         background: #000;
         color: var(--slate-100, #f1f5f9);
-        border: 2px solid #ff0000;
+        border: 1px solid #ff0000;
       }
       
       .bmcd-btn-secondary:hover {
@@ -1511,7 +1511,7 @@ function deleteSelectedTemplate(instance) {
         background: #000;
         color: var(--bmdt-text);
         border-radius: 20px;
-        border: 2px solid #ff0000;
+        border: 1px solid #ff0000;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(16px);
         max-width: 500px;
@@ -1964,7 +1964,7 @@ function showImportDialog(instance) {
     background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -1990,7 +1990,7 @@ function showImportDialog(instance) {
   // Drop zone
   const dropZone = document.createElement('div');
   dropZone.style.cssText = `
-    border: 2px dashed #ff0000;
+    border: 1px dashed #ff0000;
     border-radius: 12px;
     padding: 60px 20px;
     margin: 20px 0;
@@ -2152,7 +2152,7 @@ function showTemplateManageDialog(instance) {
     background: #000000;
     color: #f1f5f9;
     border-radius: 20px;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
     max-width: 500px;
@@ -2432,7 +2432,7 @@ function showTemplateManageDialog(instance) {
       padding: 16px;
       background: #000000ff;
       border-radius: 12px;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       transition: all 0.2s ease;
     `;
     templateItem.onmouseover = () => {
@@ -2458,7 +2458,7 @@ function showTemplateManageDialog(instance) {
     renameBtn.innerHTML = icons.pencilIcon;
     renameBtn.title = 'Rename template';
     renameBtn.style.cssText = `
-      padding: 6px; border: 2px solid #ff0000; border-radius: 8px; cursor: pointer;
+      padding: 6px; border: 1px solid #ff0000; border-radius: 8px; cursor: pointer;
       background: #000000; color: #e2e8f0; min-width: 32px; height: 32px; display:flex; align-items:center; justify-content:center;`;
     const nameLabel = document.createElement('div');
     nameLabel.textContent = templateName;
@@ -2592,7 +2592,7 @@ function showTemplateManageDialog(instance) {
     toggleBtn.textContent = isEnabled ? '有効' : '無効';
     toggleBtn.style.cssText = `
       padding: 8px 16px;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85em;
@@ -2780,7 +2780,7 @@ function showTemplateManageDialog(instance) {
   ;
   const enableAllBtn = document.createElement('button');
   enableAllBtn.textContent = 'すべて有効化';
-  enableAllBtn.style.cssText = `padding: 10px 16px; border: 2px solid #10b981; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#10b981,#059669); color: white;`;
+  enableAllBtn.style.cssText = `padding: 10px 16px; border: 1px solid #10b981; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg,#10b981,#059669); color: white;`;
   enableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, true));
     instance.handleDisplayStatus('Enabled all templates');
@@ -2795,7 +2795,7 @@ function showTemplateManageDialog(instance) {
   };
   const disableAllBtn = document.createElement('button');
   disableAllBtn.textContent = 'すべて無効化';
-  disableAllBtn.style.cssText = `padding: 10px 16px; border: 2px solid #ff0000; border-radius: 8px; cursor: pointer; font-weight: 600; background: #000; color: #e2e8f0;`;
+  disableAllBtn.style.cssText = `padding: 10px 16px; border: 1px solid #ff0000; border-radius: 8px; cursor: pointer; font-weight: 600; background: #000; color: #e2e8f0;`;
   disableAllBtn.onclick = () => {
     Object.keys(templates).forEach(k => templateManager.setTemplateEnabled(k, false));
     instance.handleDisplayStatus('Disabled all templates');
@@ -3624,7 +3624,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-overlay { 
           width: min(94vw, 670px); max-height: 88vh; background: #000000e6; color: var(--bmcf-text); 
-          border-radius: 20px; border: 2px solid #ff0000; 
+          border-radius: 20px; border: 1px solid #ff0000; 
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05); 
           display: flex; flex-direction: column; overflow: hidden; 
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
@@ -3649,7 +3649,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-btn { 
           display: inline-flex; align-items: center; justify-content: center; height: 40px; 
-          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 2px solid #ff0000; 
+          padding: 0 18px; min-width: 120px; border-radius: 12px; border: 1px solid #ff0000; 
           font-size: 0.9em; font-weight: 600; white-space: nowrap; cursor: pointer; 
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
           background: rgba(0,0,0,0.95); color: var(--bmcf-text);
@@ -3679,7 +3679,7 @@ function buildColorFilterOverlay() {
         }
         .bmcf-input { 
           width: 100%; height: 44px; padding: 12px 16px; border-radius: 12px; 
-          border: 2px solid #ff0000; background: var(--slate-800); color: var(--bmcf-text); 
+          border: 1px solid #ff0000; background: var(--slate-800); color: var(--bmcf-text); 
           outline: none; font-size: 0.95em; transition: all 0.2s ease;
         }
         .bmcf-input:focus { 
@@ -3820,7 +3820,7 @@ function buildColorFilterOverlay() {
     settingsButton.innerHTML = icons.settingsIcon;
     settingsButton.style.cssText = `
       background: #000;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3861,7 +3861,7 @@ function buildColorFilterOverlay() {
     viewToggleButton.title = 'Toggle between Grid and List view';
     viewToggleButton.style.cssText = `
       background: #000;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -3969,7 +3969,7 @@ function buildColorFilterOverlay() {
     compactListButton.title = 'コンパクトカラーリストの切り替え';
     compactListButton.style.cssText = `
       background: #000;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       color: var(--slate-200);
       width: ${buttonSize};
       height: ${buttonSize};
@@ -4015,7 +4015,7 @@ function buildColorFilterOverlay() {
     const progressSummary = document.createElement('div');
     progressSummary.style.cssText = `
       background: #000000e6;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 24px;
@@ -4089,7 +4089,7 @@ function buildColorFilterOverlay() {
       padding: 12px 16px;
       background: #000000e6;
       border-radius: 12px;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       margin-bottom: 24px;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -4171,7 +4171,7 @@ function buildColorFilterOverlay() {
     searchInput.style.cssText = `
       width: 100%;
       padding: 14px 50px 14px 48px;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       border-radius: 12px;
       background: #000;
       color: var(--bmcf-text);
@@ -4209,7 +4209,7 @@ function buildColorFilterOverlay() {
       top: 50%;
       transform: translateY(-50%);
       background: var(--slate-600);
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       border-radius: 8px;
       color: var(--slate-300);
       font-size: 12px;
@@ -4341,7 +4341,7 @@ function buildColorFilterOverlay() {
     filterSelect.style.cssText = `
       flex: 1;
       padding: 6px 14px;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       border-radius: 6px;
       background: rgb(0, 0, 0);
       color: white;
@@ -4395,7 +4395,7 @@ function buildColorFilterOverlay() {
     enhancedInfo.textContent = 'ピクセルを強調表示します。';
     enhancedInfo.style.cssText = `
       background: #000000ff;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       color: white;
       padding: 6px 14px;
       border-radius: 6px;
@@ -4447,7 +4447,7 @@ function buildColorFilterOverlay() {
     disableAllEnhancedButton.style.cssText = `
       background: #000000ff;
       color: white;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       padding: 6px 14px;
       border-radius: 6px;
       cursor: pointer;
@@ -4469,7 +4469,7 @@ function buildColorFilterOverlay() {
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       margin-top: 10px;
       border-radius: 6px;
       background: #000;
@@ -5041,7 +5041,7 @@ function buildColorFilterOverlay() {
         gap: 12px;
         padding: 8px 12px;
         background: var(--slate-800);
-        border: 2px solid ${isDisabled ? '#f44336' : '#4caf50'};
+        border: 1px solid ${isDisabled ? '#f44336' : '#4caf50'};
         border-radius: 10px;
         position: relative;
         cursor: pointer;
@@ -5058,7 +5058,7 @@ function buildColorFilterOverlay() {
         height: 32px;
         background: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});
         border-radius: 6px;
-        border: 2px solid rgba(255,255,255,0.3);
+        border: 1px solid rgba(255,255,255,0.3);
         flex-shrink: 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       `;
@@ -5711,7 +5711,7 @@ function buildColorFilterOverlay() {
       right: 20px;
       width: 220px;
       background: rgba(0,0,0,0.95);
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       z-index: 999999;
@@ -5909,7 +5909,7 @@ function buildColorFilterOverlay() {
       flex: 1;
       padding: 4px 8px;
       background: #000;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       border-radius: 4px;
       color: var(--bmcf-text);
       font-size: 11px;
@@ -6080,7 +6080,7 @@ function buildColorFilterOverlay() {
     compactSortSelect.style.cssText = `
       flex: 1;
       padding: 4px 8px;
-      border: 2px solid rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
       border-radius: 4px;
       background: rgba(0, 0, 0, 1);
       color: white;
@@ -8079,7 +8079,7 @@ function updateMiniTracker() {
   
   tracker.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000ff;
+    border: 1px solid #ff0000ff;
     border-radius: 12px;
     padding: 12px 16px;
     margin-top: 8px;
@@ -8146,7 +8146,7 @@ function updateMiniTracker() {
       overflow: hidden;
       grid-row: 3;
       width: 100%;
-      border: 2px solid #ff0000ff;
+      border: 1px solid #ff0000ff;
       min-width: 0;
     }
     .tracker-bar {
@@ -8420,7 +8420,7 @@ function buildCrosshairSettingsOverlay() {
       flex-direction: column;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      border: 2px solid #ff0000;
+      border: 1px solid #ff0000;
       backdrop-filter: blur(16px);
       overflow: hidden;
     `;
@@ -8531,7 +8531,7 @@ function buildCrosshairSettingsOverlay() {
   const previewBorderRadius = isMobileMode ? '12px' : '16px';
   currentColorPreview.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${previewBorderRadius};
     padding: ${previewPadding};
     margin-bottom: ${previewMargin};
@@ -8558,7 +8558,7 @@ function buildCrosshairSettingsOverlay() {
     margin: 0 auto 12px;
     position: relative;
     background: rgba(0,0,0,0.95);
-    border: 2px solid var(--slate-500);
+    border: 1px solid var(--slate-500);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     transition: all 0.2s ease;
@@ -8608,7 +8608,7 @@ function buildCrosshairSettingsOverlay() {
           
           <div style="background: ${colorRgba};"></div>
           <div style="background: ${colorRgba};"></div>
-          <div style="background: black; border: 2px solid rgba(255,255,255,0.4); box-sizing: border-box;"></div>
+          <div style="background: black; border: 1px solid rgba(255,255,255,0.4); box-sizing: border-box;"></div>
           <div style="background: ${colorRgba};"></div>
           <div style="background: ${colorRgba};"></div>
           
@@ -8646,7 +8646,7 @@ function buildCrosshairSettingsOverlay() {
           <div style="background: ${borderEnabled ? borderRgba : 'transparent'};"></div>
           
           <div style="background: ${colorRgba};"></div>
-          <div style="background: black; border: 2px solid rgba(255,255,255,0.4); box-sizing: border-box;"></div>
+          <div style="background: black; border: 1px solid rgba(255,255,255,0.4); box-sizing: border-box;"></div>
           <div style="background: ${colorRgba};"></div>
           
           <div style="background: ${borderEnabled ? borderRgba : 'transparent'};"></div>
@@ -8716,7 +8716,7 @@ function buildCrosshairSettingsOverlay() {
       const buttonPadding = isMobileMode ? '8px' : '12px';
       colorOption.style.cssText = `
         background: ${backgroundStyle};
-        border: 2px solid ${isSelected ? 'var(--slate-100)' : 'var(--slate-600)'};
+        border: 1px solid ${isSelected ? 'var(--slate-100)' : 'var(--slate-600)'};
         border-radius: 12px;
         padding: ${buttonPadding};
         cursor: pointer;
@@ -8737,7 +8737,7 @@ function buildCrosshairSettingsOverlay() {
       const buttonPadding = isMobileMode ? '8px' : '12px';
       colorOption.style.cssText = `
         background: rgba(${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]}, ${color.alpha / 255});
-        border: 2px solid ${isSelected ? 'var(--slate-100)' : 'var(--slate-600)'};
+        border: 1px solid ${isSelected ? 'var(--slate-100)' : 'var(--slate-600)'};
         border-radius: 12px;
         padding: ${buttonPadding};
         cursor: pointer;
@@ -8794,7 +8794,7 @@ function buildCrosshairSettingsOverlay() {
       rInput.style.cssText = `
         width: 100%;
         padding: ${inputPadding};
-        border: 2px solid rgb(255, 0, 0);
+        border: 1px solid rgb(255, 0, 0);
         border-radius: 4px;
         background: rgba(0,0,0,0.95);
         color: var(--slate-100);
@@ -8956,7 +8956,7 @@ function buildCrosshairSettingsOverlay() {
   const sectionBorderRadius = isMobileMode ? '8px' : '12px';
   alphaSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9014,7 +9014,7 @@ function buildCrosshairSettingsOverlay() {
   const borderSection = document.createElement('div');
   borderSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9093,7 +9093,7 @@ function buildCrosshairSettingsOverlay() {
   const sizeSection = document.createElement('div');
   sizeSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9181,7 +9181,7 @@ function buildCrosshairSettingsOverlay() {
   const radiusSection = document.createElement('div');
   radiusSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9248,7 +9248,7 @@ function buildCrosshairSettingsOverlay() {
       background: linear-gradient(135deg, var(--slate-300), var(--slate-400));
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid var(--slate-100);
+      border: 1px solid var(--slate-100);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
     input[type="range"]::-moz-range-thumb {
@@ -9257,7 +9257,7 @@ function buildCrosshairSettingsOverlay() {
       background: linear-gradient(135deg, var(--slate-300), var(--slate-400));
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid var(--slate-100);
+      border: 1px solid var(--slate-100);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
   `;
@@ -9316,7 +9316,7 @@ function buildCrosshairSettingsOverlay() {
   const trackerSection = document.createElement('div');
   trackerSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9400,7 +9400,7 @@ function buildCrosshairSettingsOverlay() {
   const mobileSection = document.createElement('div');
   mobileSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9508,7 +9508,7 @@ function buildCrosshairSettingsOverlay() {
   const collapseSection = document.createElement('div');
   collapseSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9638,7 +9638,7 @@ function buildCrosshairSettingsOverlay() {
   cancelButton.textContent = 'キャンセル';
   cancelButton.style.cssText = `
     background: #000;
-    border: 2px solid rgb(255, 0, 0);
+    border: 1px solid rgb(255, 0, 0);
     color: var(--slate-100);
     padding: 14px 20px;
     border-radius: 12px;
@@ -9824,7 +9824,7 @@ function buildCrosshairSettingsOverlay() {
   const usernameSection = document.createElement('div');
   usernameSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9856,7 +9856,7 @@ function buildCrosshairSettingsOverlay() {
   const leftOnColorSection = document.createElement('div');
   leftOnColorSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9951,7 +9951,7 @@ function buildCrosshairSettingsOverlay() {
   const navigationSection = document.createElement('div');
   navigationSection.style.cssText = `
     background: #000;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
     border-radius: ${sectionBorderRadius};
     padding: ${sectionPadding};
     margin-bottom: ${sectionMargin};
@@ -9988,7 +9988,7 @@ function buildCrosshairSettingsOverlay() {
     padding: 4px;
     background: #000;
     border-radius: 8px;
-    border: 2px solid #ff0000;
+    border: 1px solid #ff0000;
   `;
 
   const flytoButton = document.createElement('button');
