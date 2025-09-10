@@ -196,9 +196,9 @@ const searchWindowCSS = `
   position: fixed; z-index: 2147483646;
   top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: min(480px,94vw); max-height: min(70vh, 600px);
-  background: rgba(30, 41, 59, 0.92); color: #f1f5f9; border-radius: 14px;
+  background: rgba(0,0,0,0.9); color: #f1f5f9; border-radius: 14px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  border: 1px solid #334155;
+  border: 2px solid #ff0000;
   backdrop-filter: blur(14px);
   font: 14px/1.5 Roboto Mono, monospace, Arial;
   display: none;
@@ -209,7 +209,7 @@ const searchWindowCSS = `
 }
 #skirk-search-draggable .drag-handle {
   margin-bottom: 0.4em;
-  background: linear-gradient(135deg, rgba(71,85,105,0.6), rgba(100,116,139,0.55));
+  background: #000;
   cursor: grab;
   width: 100%;
   height: 28px;
@@ -224,10 +224,10 @@ const searchWindowCSS = `
 }
 #skirk-search-draggable .drag-handle::before {
   content: '';
-  width: 56px;
-  height: 6px;
+  width: 95%;
+  height: 10px;
   border-radius: 6px;
-  background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+  background: #ff0000;
   opacity: 0.7;
 }
 #skirk-search-draggable .hdr {
@@ -243,8 +243,8 @@ const searchWindowCSS = `
   display: flex; gap: 8px;
 }
 #skirk-search-draggable .hdr button {
-  border: 1px solid #475569; padding: 8px 10px; border-radius: 8px;
-  background: #334155; color: #f1f5f9; font: 13px monospace;
+  border: 2px solid #ff0000; padding: 8px 10px; border-radius: 8px;
+  background: #000; color: #f1f5f9; font: 13px monospace;
   cursor: pointer;
   transition: all 0.18s ease;
 }
@@ -261,7 +261,7 @@ const searchWindowCSS = `
 }
 #skirk-search-input {
   width: 100%; padding: 12px 14px; border-radius: 10px;
-  border: 1px solid #475569; background: #0b1222;
+  border: 2px solid #ff0000; background: #000;
   color: #f1f5f9; font: 14px monospace;
   margin-bottom: 12px;
   transition: all 0.2s ease;
@@ -354,7 +354,7 @@ const searchWindowCSS = `
 
 /* Favorites Menu */
 #skirk-favorites-menu {
-  border-top: 1px solid #334155;
+  border-top: 2px solid #ff0000;
   margin-top: 12px;
   padding-top: 12px;
 }
@@ -385,7 +385,7 @@ const searchWindowCSS = `
   transform: rotate(-90deg);
 }
 #skirk-favorites-count {
-  background: #475569;
+  background: #000;
   color: #f1f5f9;
   border-radius: 10px;
   padding: 2px 6px;
@@ -393,8 +393,8 @@ const searchWindowCSS = `
   font-weight: 500;
 }
 #skirk-clear-favorites {
-  background: none;
-  border: 1px solid #475569;
+  background: #000;
+  border: 2px solid #ff0000;
   color: #cbd5e1;
   cursor: pointer;
   font-size: 11px;
@@ -403,8 +403,8 @@ const searchWindowCSS = `
   transition: all 0.2s ease;
 }
 #skirk-clear-favorites:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+  color: #ff0000;
+  background: rgba(255, 0, 0, 0.2);
 }
 #skirk-favorites-list {
   max-height: 200px;
@@ -414,8 +414,8 @@ const searchWindowCSS = `
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #475569;
-  background: #0b1222;
+  border: 2px solid #ff0000;
+  background: #000;
   color: #f1f5f9;
   font: 12px monospace;
   margin: 8px 0 6px 0;
@@ -423,7 +423,7 @@ const searchWindowCSS = `
 }
 .skirk-favorites-filter:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #ff0000ff;
   box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
 .skirk-favorite-item {
@@ -10122,7 +10122,7 @@ function createSearchWindow() {
   </div>
 </div>
 <div class="body">
-  <input type="text" id="skirk-search-input" 検索">
+  <input type="text" id="skirk-search-input" placeholder="検索">
   <div id="skirk-search-results"></div>
   <div id="skirk-favorites-menu" style="display: none;">
     <div id="skirk-favorites-header">
