@@ -227,7 +227,7 @@ const searchWindowCSS = `
   width: 95%;
   height: 10px;
   border-radius: 6px;
-  background: #a50e1e;
+  background: #e60000;
   opacity: 0.7;
 }
 #skirk-search-draggable .hdr {
