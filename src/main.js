@@ -9988,7 +9988,7 @@ function buildCrosshairSettingsOverlay() {
     padding: 4px;
     background: #000;
     border-radius: 8px;
-    border: 2px solid #ff0000);
+    border: 2px solid #ff0000;
   `;
 
   const flytoButton = document.createElement('button');
@@ -10026,16 +10026,16 @@ function buildCrosshairSettingsOverlay() {
   `;
 
   flytoButton.onclick = () => {
-    tempNavigationMethod = 'flyto';
-    flytoButton.style.background = 'linear-gradient(135deg, var(--blue-500), var(--blue-600))';
+    tempNavigationMethod = 'そこへ移動';
+    flytoButton.style.background = '#ff0000';
     flytoButton.style.color = 'white';
     openurlButton.style.background = 'transparent';
     openurlButton.style.color = 'var(--slate-300)';
   };
 
   openurlButton.onclick = () => {
-    tempNavigationMethod = 'openurl';
-    openurlButton.style.background = 'linear-gradient(135deg, var(--blue-500), var(--blue-600))';
+    tempNavigationMethod = 'URLを開く';
+    openurlButton.style.background = '#ff0000';
     openurlButton.style.color = 'white';
     flytoButton.style.background = 'transparent';
     flytoButton.style.color = 'var(--slate-300)';
