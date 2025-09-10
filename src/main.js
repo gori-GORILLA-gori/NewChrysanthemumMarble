@@ -3727,7 +3727,7 @@ function buildColorFilterOverlay() {
     const dragBar = document.createElement('div');
     dragBar.className = 'bmcf-drag-bar';
     dragBar.style.cssText = `
-      background: #a50e1e;
+      background: #e60000;
       border-radius: 4px;
       cursor: grab;
       width: 100%;
