@@ -5920,13 +5920,13 @@ function buildColorFilterOverlay() {
     
     // Search input focus/blur effects
     searchInput.addEventListener('focus', () => {
-      searchInput.style.borderColor = 'var(--blue-400)';
-      searchInput.style.background = 'var(--slate-550)';
+      searchInput.style.borderColor = '#ff0000';
+      searchInput.style.background = '#000';
     });
     
     searchInput.addEventListener('blur', () => {
-      searchInput.style.borderColor = 'var(--slate-500)';
-      searchInput.style.background = 'var(--slate-600)';
+      searchInput.style.borderColor = '#ff0000';
+      searchInput.style.background = '#000';
     });
     
     // Clear search button
