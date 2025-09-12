@@ -3208,6 +3208,8 @@ function buildOverlayMain() {
               }
             }
           ).buildElement()
+          .buildElement()
+        .addDiv({ id: 'bm-filename-to-coords'})
           .addButton({'id': 'bm-button-filename-to-coords', 'innerHTML': 'ファイル名から座標を取得', title: 'テンプレート画像のファイル名から座標を取得 (例: template_123_456_10_20.png)'},
             (instance, button) => {
               button.onclick = () => {
