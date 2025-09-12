@@ -3208,6 +3208,26 @@ function buildOverlayMain() {
               }
             }
           ).buildElement()
+          .addButton({'id': 'bm-button-filename-to-coords', 'innerHTML': 'ファイル名から座標を取得', title: 'テンプレート画像のファイル名から座標を取得 (例: template_123_456_10_20.png)'},
+            (instance, button) => {
+              button.onclick = () => {
+                const input = document.querySelector('#bm-input-file-template');
+                if (!input?.files[0]) {instance.handleDisplayError(`No file selected!`); return;}
+                const name = input.files[0]?.name.replace(/\.[^/.]+$/, ''); // Remove file extension
+                const match = name.match(/_(\d{1,4})_(\d{1,4})_(\d{1,4})_(\d{1,4})$/);
+                if (match) {
+                  const [, tx, ty, px, py] = match;
+                  instance.updateInnerHTML('bm-input-tx', tx);
+                  instance.updateInnerHTML('bm-input-ty', ty);
+                  instance.updateInnerHTML('bm-input-px', px);
+                  instance.updateInnerHTML('bm-input-py', py);
+                  instance.handleDisplayStatus(`Extracted coordinates from filename: ${tx}, ${ty}, ${px}, ${py}`);
+                  } else {
+                  instance.handleDisplayError('No coordinates found in filename! Ensure it ends with _tileX_tileY_pixelX_pixelY (e.g. template_123_456_10_20.png)');
+                }
+              }
+            }
+          ).buildElement()
         .buildElement()
         .addDiv({ id: 'bm-contain-inputs'})
           .addP({ textContent: 'Tile: '}).buildElement()
