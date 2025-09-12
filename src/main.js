@@ -3209,6 +3209,33 @@ function buildOverlayMain() {
             }
           ).buildElement()
         .buildElement()
+
+        // ←ここに「ファイル名→座標」ボタンを追加（検出ボタンの下）
+        .addDiv({'id': 'bm-coords-extra', 'style': 'margin-top:6px;'})
+          .addButton({'id': 'bm-button-fill-from-name', 'innerHTML': '🔎 ファイル名→座標', 'title': 'ファイル名が 0-0-0-0.png の形式なら座標を自動入力します', 'className': 'bm-small-btn'},
+            (instance, button) => {
+              button.onclick = () => {
+                // 優先順: ファイル入力の名前 -> URL入力の末尾
+                const fileInput = document.querySelector('#bm-input-file-template');
+                const urlInput = document.querySelector('#bm-input-template-url');
+                const nameFromFile = fileInput?.files?.[0]?.name;
+                const nameFromUrl = (urlInput?.value || '').split('/').pop() || '';
+                const targetName = nameFromFile || nameFromUrl;
+                if (!targetName) { instance.handleDisplayError('ファイル名またはURLの末尾に有効なファイル名が必要です。'); return; }
+
+                const m = targetName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+                if (!m) { instance.handleDisplayError('ファイル名が 0-0-0-0.png 形式ではありません。'); return; }
+
+                instance.updateInnerHTML('bm-input-tx', Number(m[1]));
+                instance.updateInnerHTML('bm-input-ty', Number(m[2]));
+                instance.updateInnerHTML('bm-input-px', Number(m[3]));
+                instance.updateInnerHTML('bm-input-py', Number(m[4]));
+                instance.handleDisplayStatus('ファイル名から座標を自動入力しました。');
+              };
+            }
+          ).buildElement()
+        .buildElement()
+
         .addDiv({ id: 'bm-contain-inputs'})
           .addP({ textContent: 'Tile: '}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-tx', 'placeholder': 'Tl X', 'min': 0, 'max': 2047, 'step': 1, 'required': true}).buildElement()
@@ -3217,23 +3244,25 @@ function buildOverlayMain() {
           .addInput({'type': 'number', 'id': 'bm-input-py', 'placeholder': 'Px Y', 'min': 0, 'max': 1000, 'step': 1, 'required': true}).buildElement()
         .buildElement()
       .buildElement()
-      // --- START replacement: bm-contain-buttons-template (場所とCSSを考慮した修正版) ---
+      // --- START replacement: bm-contain-buttons-template (ファイル/URL切替 + レイアウト考慮) ---
       .addDiv({'id': 'bm-contain-buttons-template'})
-        // Inject compact CSS for this block (keeps overall UI layout intact)
+        // 小さなスコープCSS（このブロック表示用） — 既存全体レイアウトを壊さないように最小限に抑えています
         .addDiv({'style': 'display:none'}, (instance, el) => {
-          // Add style only once
           if (!document.getElementById('bm-contain-buttons-template-styles')) {
             const s = document.createElement('style');
             s.id = 'bm-contain-buttons-template-styles';
             s.textContent = `
-              /* Scoped layout for template buttons area */
-              #bm-contain-buttons-template { display:block; margin-top:8px; }
+              /* Scoped styles for template area */
+              #bm-contain-buttons-template { margin-top:8px; }
               #bm-contain-buttons-template .bm-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-              #bm-contain-buttons-template .bm-row .bm-url-input { flex: 1 1 220px; min-width:160px; max-width:640px; padding:8px 10px; border-radius:10px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; box-sizing:border-box; }
+              #bm-contain-buttons-template .bm-url-input { flex:1 1 240px; min-width:160px; padding:8px 10px; border-radius:8px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; box-sizing:border-box; }
               #bm-contain-buttons-template input[type="file"] { min-width:160px; max-width:260px; }
-              #bm-contain-buttons-template .bm-btn { padding:8px 10px; border-radius:10px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; cursor:pointer; font-weight:600; }
+              #bm-contain-buttons-template .bm-btn { padding:8px 10px; border-radius:8px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; cursor:pointer; font-weight:600; }
               #bm-contain-buttons-template .bm-btn.small { padding:6px 8px; font-size:0.95em; }
               #bm-contain-buttons-template .bm-actions { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+              #bm-contain-buttons-template .mode-toggle { display:flex; border-radius:8px; overflow:hidden; border:1px solid #6b7280; }
+              #bm-contain-buttons-template .mode-toggle button { padding:6px 10px; background:transparent; color:inherit; border:none; cursor:pointer; }
+              #bm-contain-buttons-template .mode-toggle button.active { background:#111827; font-weight:700; }
               @media (max-width:520px) {
                 #bm-contain-buttons-template .bm-row { flex-direction:column; align-items:stretch; }
                 #bm-contain-buttons-template input[type="file"] { width:100%; }
@@ -3243,122 +3272,153 @@ function buildOverlayMain() {
           }
         }).buildElement()
 
-        // Existing file input (kept) - placed in the compact row
-        .addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'}).buildElement()
-
-        // Row: URL input + quick-fill button + create-from-URL button
+        // 左側: mode toggle + input area (file or url)
         .addDiv({'className': 'bm-row'})
-          .addInput({'type': 'url', 'id': 'bm-input-template-url', 'className': 'bm-url-input', 'placeholder': 'https://example.com/xxxx.png（またはファイル名末尾）'}).buildElement()
-          .addButton({'id': 'bm-button-fill-from-name', 'className': 'bm-btn small', 'innerHTML': '🔎 ファイル名→座標'}, (instance, button) => {
-            button.onclick = () => {
+          // Mode toggle: File / URL
+          .addDiv({'className': 'mode-toggle', 'id': 'bm-mode-toggle'}, (instance, el) => {
+            // create two small buttons
+            const btnFile = document.createElement('button');
+            btnFile.type = 'button';
+            btnFile.id = 'bm-mode-file';
+            btnFile.textContent = 'ファイル';
+            btnFile.className = 'active';
+            const btnUrl = document.createElement('button');
+            btnUrl.type = 'button';
+            btnUrl.id = 'bm-mode-url';
+            btnUrl.textContent = 'URL';
+            el.appendChild(btnFile);
+            el.appendChild(btnUrl);
+
+            // mode switcher logic (修正済み: ?. を代入先で使わない)
+            const setMode = (mode) => {
+              el.dataset.mode = mode;
+              // file input wrapper（builderが生成するラッパーがある前提）
               const fileInput = document.querySelector('#bm-input-file-template');
+              const fileWrapper = fileInput ? fileInput.parentElement : null;
               const urlInput = document.querySelector('#bm-input-template-url');
-              const nameFromFile = fileInput?.files?.[0]?.name;
-              const nameFromUrl = (urlInput?.value || '').split('/').pop();
-              const targetName = nameFromFile || nameFromUrl;
-              if (!targetName) { instance.handleDisplayError('ファイル名またはURLの末尾に有効なファイル名が必要です。'); return; }
 
-              const m = targetName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
-              if (!m) { instance.handleDisplayError('ファイル名が 0-0-0-0.png 形式ではありません。'); return; }
-
-              instance.updateInnerHTML('bm-input-tx', Number(m[1]));
-              instance.updateInnerHTML('bm-input-ty', Number(m[2]));
-              instance.updateInnerHTML('bm-input-px', Number(m[3]));
-              instance.updateInnerHTML('bm-input-py', Number(m[4]));
-              instance.handleDisplayStatus('ファイル名から座標を自動入力しました。');
+              if (mode === 'file') {
+                btnFile.classList.add('active'); btnUrl.classList.remove('active');
+                if (fileWrapper) fileWrapper.style.display = ''; // show file input safely
+                if (urlInput) urlInput.style.display = 'none';
+              } else {
+                btnUrl.classList.add('active'); btnFile.classList.remove('active');
+                if (fileWrapper) fileWrapper.style.display = 'none'; // hide file input safely
+                if (urlInput) urlInput.style.display = '';
+              }
             };
+
+            btnFile.addEventListener('click', () => setMode('file'));
+            btnUrl.addEventListener('click', () => setMode('url'));
+            // initialize
+            setMode('file');
           }).buildElement()
-          .addButton({'id': 'bm-button-create-from-url', 'className': 'bm-btn', 'innerHTML': '🌐 URLから作成'}, (instance, button) => {
+
+          // File input (kept) — note: we rely on its parent wrapper to show/hide
+          .addDiv({}, (instance, el) => {
+            // We'll inject the original file input element via the builder to keep logic consistent
+          }).addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'}).buildElement()
+
+          // URL input (hidden by default) - placed beside file input but hidden until URLモード
+          .addInput({'type': 'url', 'id': 'bm-input-template-url', 'className': 'bm-url-input', 'placeholder': 'https://example.com/xxx.png（またはファイル名末尾）', 'style': 'display:none;'}).buildElement()
+
+        .buildElement()
+
+        // 右側: 操作ボタン群（作成 / 管理 / 停止 / カラーフィルター） — 横並びを維持
+        .addDiv({'className': 'bm-actions'})
+          // Create: モードによってファイル or URL を扱う
+          .addButton({'id': 'bm-button-create', 'className': 'bm-btn', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
             button.onclick = async () => {
-              const url = document.querySelector('#bm-input-template-url')?.value?.trim();
-              if (!url) { instance.handleDisplayError('URLを入力してください。'); return; }
+              const mode = document.querySelector('#bm-mode-toggle')?.dataset?.mode || 'file';
 
-              instance.handleDisplayStatus('URLから画像を取得中...');
-              try {
-                const resp = await fetch(url, { mode: 'cors' });
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-                const blob = await resp.blob();
-                const urlName = url.split('/').pop() || 'template.png';
-                const contentType = blob.type || 'image/png';
-                const file = new File([blob], urlName, { type: contentType });
+              const coordTlX = document.querySelector('#bm-input-tx');
+              if (!coordTlX.checkValidity()) {coordTlX.reportValidity(); instance.handleDisplayError('Coordinates are malformed!'); return;}
+              const coordTlY = document.querySelector('#bm-input-ty');
+              if (!coordTlY.checkValidity()) {coordTlY.reportValidity(); instance.handleDisplayError('Coordinates are malformed!'); return;}
+              const coordPxX = document.querySelector('#bm-input-px');
+              if (!coordPxX.checkValidity()) {coordPxX.reportValidity(); instance.handleDisplayError('Coordinates are malformed!'); return;}
+              const coordPxY = document.querySelector('#bm-input-py');
+              if (!coordPxY.checkValidity()) {coordPxY.reportValidity(); instance.handleDisplayError('Coordinates are malformed!'); return;}
 
-                // Try auto-fill coords from filename
-                const m = urlName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
-                if (m) {
-                  instance.updateInnerHTML('bm-input-tx', Number(m[1]));
-                  instance.updateInnerHTML('bm-input-ty', Number(m[2]));
-                  instance.updateInnerHTML('bm-input-px', Number(m[3]));
-                  instance.updateInnerHTML('bm-input-py', Number(m[4]));
-                  instance.handleDisplayStatus('URLのファイル名から座標を自動入力しました。');
-                }
-
-                // Validate coords
-                const coordTlX = document.querySelector('#bm-input-tx');
-                const coordTlY = document.querySelector('#bm-input-ty');
-                const coordPxX = document.querySelector('#bm-input-px');
-                const coordPxY = document.querySelector('#bm-input-py');
-                if (!coordTlX.checkValidity() || !coordTlY.checkValidity() || !coordPxX.checkValidity() || !coordPxY.checkValidity()) {
-                  instance.handleDisplayError('座標が不正です。手動で確認してください。');
-                  return;
-                }
-
-                templateManager.createTemplate(file, urlName.replace(/\.[^/.]+$/, ''), [
-                  Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)
-                ]);
-
+              if (mode === 'file') {
+                const input = document.querySelector('#bm-input-file-template');
+                if (!input?.files?.[0]) {instance.handleDisplayError('No file selected!'); return;}
+                templateManager.createTemplate(input.files[0], input.files[0]?.name.replace(/\.[^/.]+$/, ''), [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]);
                 setTimeout(() => updateMiniTracker(), 500);
-                instance.handleDisplayStatus('URLからテンプレートを作成しました。');
-              } catch (err) {
-                instance.handleDisplayError(`URL取得に失敗しました: ${err.message}`);
+                instance.handleDisplayStatus('Drew to canvas!');
+              } else {
+                // URL mode: fetch the image and use it
+                const url = document.querySelector('#bm-input-template-url')?.value?.trim();
+                if (!url) { instance.handleDisplayError('URLを入力してください。'); return; }
+                instance.handleDisplayStatus('URLから画像を取得中...');
+                try {
+                  const resp = await fetch(url, { mode: 'cors' });
+                  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                  const blob = await resp.blob();
+                  const urlName = url.split('/').pop() || 'template.png';
+                  const file = new File([blob], urlName, { type: blob.type || 'image/png' });
+
+                  // try auto-fill from filename if the filename looks like coords
+                  const m = urlName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+                  if (m) {
+                    instance.updateInnerHTML('bm-input-tx', Number(m[1]));
+                    instance.updateInnerHTML('bm-input-ty', Number(m[2]));
+                    instance.updateInnerHTML('bm-input-px', Number(m[3]));
+                    instance.updateInnerHTML('bm-input-py', Number(m[4]));
+                    instance.handleDisplayStatus('URLのファイル名から座標を自動入力しました。');
+                  }
+
+                  templateManager.createTemplate(file, urlName.replace(/\.[^/.]+$/, ''), [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]);
+                  setTimeout(() => updateMiniTracker(), 500);
+                  instance.handleDisplayStatus('URLからテンプレートを作成しました。');
+                } catch (err) {
+                  instance.handleDisplayError(`URL取得に失敗しました: ${err.message}`);
+                }
               }
             };
           }).buildElement()
-        .buildElement()
 
-        // Row: Existing "Create" button (left untouched logically, but styled to match)
-        .addDiv({'className': 'bm-actions'})
-          .addButton({'id': 'bm-button-create', 'className': 'bm-btn', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
-            button.onclick = () => {
-              const input = document.querySelector('#bm-input-file-template');
-
-              const coordTlX = document.querySelector('#bm-input-tx');
-              if (!coordTlX.checkValidity()) {coordTlX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-              const coordTlY = document.querySelector('#bm-input-ty');
-              if (!coordTlY.checkValidity()) {coordTlY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-              const coordPxX = document.querySelector('#bm-input-px');
-              if (!coordPxX.checkValidity()) {coordPxX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-              const coordPxY = document.querySelector('#bm-input-py');
-              if (!coordPxY.checkValidity()) {coordPxY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-
-              if (!input?.files[0]) {instance.handleDisplayError(`No file selected!`); return;}
-
-              templateManager.createTemplate(input.files[0], input.files[0]?.name.replace(/\.[^/.]+$/, ''), [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]);
-
-              setTimeout(() => updateMiniTracker(), 500);
-              instance.handleDisplayStatus(`Drew to canvas!`);
-            };
-          }).buildElement()
-
-          // Keep the existing manage/pause/color buttons (no logic changes)
+          // 管理ボタン（そのまま）
           .addButton({'id': 'bm-button-manage', 'className': 'bm-btn', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
-            button.onclick = () => { showTemplateManageDialog(instance); }
+            button.onclick = () => {
+              showTemplateManageDialog(instance);
+            }
           }).buildElement()
+
+          // 停止／再開ボタン（そのまま、横並び維持）
           .addButton({'id': 'bm-button-pause-tiles', 'className': 'bm-btn', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
-            if (isTileRefreshPaused()) button.classList.add('paused');
+            if (isTileRefreshPaused()) {
+              button.classList.add('paused');
+            }
             button.onclick = () => {
               const isPaused = toggleTileRefreshPause(templateManager);
               const cachedCount = getCachedTileCount();
+
               button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
-              if (isPaused) button.classList.add('paused'); else button.classList.remove('paused');
-              instance.handleDisplayStatus(isPaused ? `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : '▶️ Tile refresh resumed - templates now update in real-time');
-            };
+
+              if (isPaused) {
+                button.classList.add('paused');
+              } else {
+                button.classList.remove('paused');
+              }
+
+              instance.handleDisplayStatus(isPaused ? 
+                `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : 
+                '▶️ Tile refresh resumed - templates now update in real-time'
+              );
+            }
           }).buildElement()
+
+          // カラーフィルター（そのまま）
           .addButton({'id': 'bm-button-color-filter', 'className': 'bm-btn', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
-            button.onclick = () => { buildColorFilterOverlay(); }
+            button.onclick = () => {
+              buildColorFilterOverlay();
+            }
           }).buildElement()
         .buildElement()
       .buildElement() // Close bm-contain-buttons-template
       // --- END replacement ---
+
 
       .addTextarea({'id': overlayMain.outputStatusId, 'placeholder': `Status: Sleeping...\nVersion: ${version}`, 'readOnly': true}).buildElement()
       .addDiv({'id': 'bm-contain-buttons-action', 'style': 'position: relative; padding-bottom: 22px;'})
