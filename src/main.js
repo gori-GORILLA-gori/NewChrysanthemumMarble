@@ -3217,16 +3217,39 @@ function buildOverlayMain() {
           .addInput({'type': 'number', 'id': 'bm-input-py', 'placeholder': 'Px Y', 'min': 0, 'max': 1000, 'step': 1, 'required': true}).buildElement()
         .buildElement()
       .buildElement()
+      // --- START replacement: bm-contain-buttons-template (場所とCSSを考慮した修正版) ---
       .addDiv({'id': 'bm-contain-buttons-template'})
-        // ファイル選択（既存）
+        // Inject compact CSS for this block (keeps overall UI layout intact)
+        .addDiv({'style': 'display:none'}, (instance, el) => {
+          // Add style only once
+          if (!document.getElementById('bm-contain-buttons-template-styles')) {
+            const s = document.createElement('style');
+            s.id = 'bm-contain-buttons-template-styles';
+            s.textContent = `
+              /* Scoped layout for template buttons area */
+              #bm-contain-buttons-template { display:block; margin-top:8px; }
+              #bm-contain-buttons-template .bm-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+              #bm-contain-buttons-template .bm-row .bm-url-input { flex: 1 1 220px; min-width:160px; max-width:640px; padding:8px 10px; border-radius:10px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; box-sizing:border-box; }
+              #bm-contain-buttons-template input[type="file"] { min-width:160px; max-width:260px; }
+              #bm-contain-buttons-template .bm-btn { padding:8px 10px; border-radius:10px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; cursor:pointer; font-weight:600; }
+              #bm-contain-buttons-template .bm-btn.small { padding:6px 8px; font-size:0.95em; }
+              #bm-contain-buttons-template .bm-actions { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+              @media (max-width:520px) {
+                #bm-contain-buttons-template .bm-row { flex-direction:column; align-items:stretch; }
+                #bm-contain-buttons-template input[type="file"] { width:100%; }
+              }
+            `;
+            document.head.appendChild(s);
+          }
+        }).buildElement()
+
+        // Existing file input (kept) - placed in the compact row
         .addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'}).buildElement()
 
-        // URL入力欄（追加）
-        .addInput({'type': 'url', 'id': 'bm-input-template-url', 'placeholder': 'https://example.com/xxx.png（画像URLかファイル名）'}).buildElement()
-
-        // ファイル名から座標自動入力ボタン（追加）
-        .addButton({'id': 'bm-button-fill-from-name', innerHTML: '🔎 ファイル名から座標入力', title: 'ファイル名が 0-0-0-0.png の形式なら座標を自動入力します'},
-          (instance, button) => {
+        // Row: URL input + quick-fill button + create-from-URL button
+        .addDiv({'className': 'bm-row'})
+          .addInput({'type': 'url', 'id': 'bm-input-template-url', 'className': 'bm-url-input', 'placeholder': 'https://example.com/xxxx.png（またはファイル名末尾）'}).buildElement()
+          .addButton({'id': 'bm-button-fill-from-name', 'className': 'bm-btn small', 'innerHTML': '🔎 ファイル名→座標'}, (instance, button) => {
             button.onclick = () => {
               const fileInput = document.querySelector('#bm-input-file-template');
               const urlInput = document.querySelector('#bm-input-template-url');
@@ -3235,54 +3258,41 @@ function buildOverlayMain() {
               const targetName = nameFromFile || nameFromUrl;
               if (!targetName) { instance.handleDisplayError('ファイル名またはURLの末尾に有効なファイル名が必要です。'); return; }
 
-              const coords = (function parseCoordsFromName(name) {
-                const m = name.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
-                return m ? [Number(m[1]), Number(m[2]), Number(m[3]), Number(m[4])] : null;
-              })(targetName);
+              const m = targetName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+              if (!m) { instance.handleDisplayError('ファイル名が 0-0-0-0.png 形式ではありません。'); return; }
 
-              if (!coords) { instance.handleDisplayError('ファイル名が 0-0-0-0.png 形式ではありません。'); return; }
-
-              instance.updateInnerHTML('bm-input-tx', coords[0]);
-              instance.updateInnerHTML('bm-input-ty', coords[1]);
-              instance.updateInnerHTML('bm-input-px', coords[2]);
-              instance.updateInnerHTML('bm-input-py', coords[3]);
+              instance.updateInnerHTML('bm-input-tx', Number(m[1]));
+              instance.updateInnerHTML('bm-input-ty', Number(m[2]));
+              instance.updateInnerHTML('bm-input-px', Number(m[3]));
+              instance.updateInnerHTML('bm-input-py', Number(m[4]));
               instance.handleDisplayStatus('ファイル名から座標を自動入力しました。');
             };
-          }
-        ).buildElement()
-
-        // URLから画像を取得してテンプレート作成するボタン（追加）
-        .addButton({'id': 'bm-button-create-from-url', innerHTML: '🌐 URLから作成', title: '指定したURLから画像を取得してテンプレートを作成します'},
-          (instance, button) => {
+          }).buildElement()
+          .addButton({'id': 'bm-button-create-from-url', 'className': 'bm-btn', 'innerHTML': '🌐 URLから作成'}, (instance, button) => {
             button.onclick = async () => {
-              const url = document.querySelector('#bm-input-template-url')?.value;
+              const url = document.querySelector('#bm-input-template-url')?.value?.trim();
               if (!url) { instance.handleDisplayError('URLを入力してください。'); return; }
 
+              instance.handleDisplayStatus('URLから画像を取得中...');
               try {
-                instance.handleDisplayStatus('URLから画像を取得中...');
                 const resp = await fetch(url, { mode: 'cors' });
-                if (!resp.ok) { throw new Error(`HTTP ${resp.status}`); }
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 const blob = await resp.blob();
-                // 推定ファイル名
                 const urlName = url.split('/').pop() || 'template.png';
                 const contentType = blob.type || 'image/png';
                 const file = new File([blob], urlName, { type: contentType });
 
-                // ファイル名に座標があれば自動で入力（上のと同じロジック）
-                const coordsFromName = (function parseCoordsFromName(name) {
-                  const m = name.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
-                  return m ? [Number(m[1]), Number(m[2]), Number(m[3]), Number(m[4])] : null;
-                })(urlName);
-
-                if (coordsFromName) {
-                  instance.updateInnerHTML('bm-input-tx', coordsFromName[0]);
-                  instance.updateInnerHTML('bm-input-ty', coordsFromName[1]);
-                  instance.updateInnerHTML('bm-input-px', coordsFromName[2]);
-                  instance.updateInnerHTML('bm-input-py', coordsFromName[3]);
+                // Try auto-fill coords from filename
+                const m = urlName.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+                if (m) {
+                  instance.updateInnerHTML('bm-input-tx', Number(m[1]));
+                  instance.updateInnerHTML('bm-input-ty', Number(m[2]));
+                  instance.updateInnerHTML('bm-input-px', Number(m[3]));
+                  instance.updateInnerHTML('bm-input-py', Number(m[4]));
                   instance.handleDisplayStatus('URLのファイル名から座標を自動入力しました。');
                 }
 
-                // 必要な座標チェック
+                // Validate coords
                 const coordTlX = document.querySelector('#bm-input-tx');
                 const coordTlY = document.querySelector('#bm-input-ty');
                 const coordPxX = document.querySelector('#bm-input-px');
@@ -3292,81 +3302,63 @@ function buildOverlayMain() {
                   return;
                 }
 
-                // 画像をテンプレート作成に渡す
                 templateManager.createTemplate(file, urlName.replace(/\.[^/.]+$/, ''), [
                   Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)
                 ]);
 
-                // Update mini tracker after template creation
                 setTimeout(() => updateMiniTracker(), 500);
                 instance.handleDisplayStatus('URLからテンプレートを作成しました。');
               } catch (err) {
                 instance.handleDisplayError(`URL取得に失敗しました: ${err.message}`);
               }
             };
-          }
-        ).buildElement()
+          }).buildElement()
+        .buildElement()
 
-        // 既存の「作成」ボタン（改変：ファイル選択時に自動でファイル名→座標を反映する処理も追加）
-        .addButton({'id': 'bm-button-create', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
-          button.onclick = () => {
-            const input = document.querySelector('#bm-input-file-template');
+        // Row: Existing "Create" button (left untouched logically, but styled to match)
+        .addDiv({'className': 'bm-actions'})
+          .addButton({'id': 'bm-button-create', 'className': 'bm-btn', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
+            button.onclick = () => {
+              const input = document.querySelector('#bm-input-file-template');
 
-            const coordTlX = document.querySelector('#bm-input-tx');
-            if (!coordTlX.checkValidity()) {coordTlX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-            const coordTlY = document.querySelector('#bm-input-ty');
-            if (!coordTlY.checkValidity()) {coordTlY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-            const coordPxX = document.querySelector('#bm-input-px');
-            if (!coordPxX.checkValidity()) {coordPxX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
-            const coordPxY = document.querySelector('#bm-input-py');
-            if (!coordPxY.checkValidity()) {coordPxY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
+              const coordTlX = document.querySelector('#bm-input-tx');
+              if (!coordTlX.checkValidity()) {coordTlX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
+              const coordTlY = document.querySelector('#bm-input-ty');
+              if (!coordTlY.checkValidity()) {coordTlY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
+              const coordPxX = document.querySelector('#bm-input-px');
+              if (!coordPxX.checkValidity()) {coordPxX.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
+              const coordPxY = document.querySelector('#bm-input-py');
+              if (!coordPxY.checkValidity()) {coordPxY.reportValidity(); instance.handleDisplayError('Coordinates are malformed! Did you try clicking on the canvas first?'); return;}
 
-            // Kills itself if there is no file
-            if (!input?.files[0]) {instance.handleDisplayError(`No file selected!`); return;}
+              if (!input?.files[0]) {instance.handleDisplayError(`No file selected!`); return;}
 
-            templateManager.createTemplate(input.files[0], input.files[0]?.name.replace(/\.[^/.]+$/, ''), [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]);
+              templateManager.createTemplate(input.files[0], input.files[0]?.name.replace(/\.[^/.]+$/, ''), [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]);
 
-            // Update mini tracker after template creation
-            setTimeout(() => updateMiniTracker(), 500);
+              setTimeout(() => updateMiniTracker(), 500);
+              instance.handleDisplayStatus(`Drew to canvas!`);
+            };
+          }).buildElement()
 
-            instance.handleDisplayStatus(`Drew to canvas!`);
-          }
-        }).buildElement()
-
-        // (残りの既存ボタン群 - 管理/停止/カラーフィルター等をそのまま続ける)
-        .addButton({'id': 'bm-button-manage', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
-          button.onclick = () => {
-            showTemplateManageDialog(instance);
-          }
-        }).buildElement()
-        .addButton({'id': 'bm-button-pause-tiles', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
-          if (isTileRefreshPaused()) {
-            button.classList.add('paused');
-          }
-          button.onclick = () => {
-            const isPaused = toggleTileRefreshPause(templateManager);
-            const cachedCount = getCachedTileCount();
-
-            button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
-
-            if (isPaused) {
-              button.classList.add('paused');
-            } else {
-              button.classList.remove('paused');
-            }
-
-            instance.handleDisplayStatus(isPaused ? 
-              `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : 
-              '▶️ Tile refresh resumed - templates now update in real-time'
-            );
-          }
-        }).buildElement()
-        .addButton({'id': 'bm-button-color-filter', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
-          button.onclick = () => {
-            buildColorFilterOverlay();
-          }
-        }).buildElement()
+          // Keep the existing manage/pause/color buttons (no logic changes)
+          .addButton({'id': 'bm-button-manage', 'className': 'bm-btn', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
+            button.onclick = () => { showTemplateManageDialog(instance); }
+          }).buildElement()
+          .addButton({'id': 'bm-button-pause-tiles', 'className': 'bm-btn', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
+            if (isTileRefreshPaused()) button.classList.add('paused');
+            button.onclick = () => {
+              const isPaused = toggleTileRefreshPause(templateManager);
+              const cachedCount = getCachedTileCount();
+              button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
+              if (isPaused) button.classList.add('paused'); else button.classList.remove('paused');
+              instance.handleDisplayStatus(isPaused ? `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : '▶️ Tile refresh resumed - templates now update in real-time');
+            };
+          }).buildElement()
+          .addButton({'id': 'bm-button-color-filter', 'className': 'bm-btn', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
+            button.onclick = () => { buildColorFilterOverlay(); }
+          }).buildElement()
+        .buildElement()
       .buildElement() // Close bm-contain-buttons-template
+      // --- END replacement ---
 
       .addTextarea({'id': overlayMain.outputStatusId, 'placeholder': `Status: Sleeping...\nVersion: ${version}`, 'readOnly': true}).buildElement()
       .addDiv({'id': 'bm-contain-buttons-action', 'style': 'position: relative; padding-bottom: 22px;'})
