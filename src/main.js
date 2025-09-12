@@ -3234,7 +3234,7 @@ function buildOverlayMain() {
         }).buildElement()
 
       // 座標入力欄（Tile と Px を縦に整列しやすいようにボックス化）
-      .addDiv({'id': 'bm-contain-inputs', 'style': 'margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;'})
+      .addDiv({'id': 'bm-contain-inputs', 'style': 'margin-top:8px; display:flex; gap:12px; align-items:center; flex-wrap:nowrap;'})
         .addDiv({'style': 'display:flex; gap:6px; align-items:center;'})
           .addP({ textContent: 'Tile: '}).buildElement()
           .addInput({'type': 'number', 'id': 'bm-input-tx', 'placeholder': 'Tl X', 'min': 0, 'max': 2047, 'step': 1, 'required': true, 'style': 'width:80px;'}).buildElement()
@@ -3254,68 +3254,35 @@ function buildOverlayMain() {
           if (!document.getElementById('bm-template-area-styles')) {
             const s = document.createElement('style');
             s.id = 'bm-template-area-styles';
-            // --- 既存の s.textContent = `...` をこのブロックに置き換える ---
             s.textContent = `
-              /* テンプレート領域のスコープスタイル（テンプレート部分を指定レイアウトへ） */
-              #bm-contain-buttons-template { display:block; margin-top:6px; }
-              #bm-contain-buttons-template .mode-row {
-                display:flex;
-                gap:8px;
-                align-items:center;
-                flex-wrap:wrap;
-                margin-bottom:6px;
-              }
-
-              /* 左: ラベル / 右: 検出ボタン のタイトル行 */
-              #bm-coords-title { display:flex; justify-content:space-between; align-items:center; gap:8px; }
-              #bm-button-coords { flex: 0 0 auto; }
-
-              /* ファイル名→座標 を検出ボタンの直下に寄せて少し右に下げて表示 */
-              #bm-button-fill-from-name {
-                display:inline-block;
-                margin-top:6px;
-                margin-left: 12px; /* 少し右寄せ */
-                font-size: 0.9em;
-                padding: 6px 8px;
-                border-radius: 8px;
-                border: 1px solid rgba(107,114,128,0.6);
-                background: transparent;
-                cursor: pointer;
-              }
-
-              /* 座標入力欄の縦間隔調整 */
-              #bm-contain-inputs { margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-              #bm-contain-inputs > div { display:flex; gap:6px; align-items:center; }
-
-              /* ファイル/URL 切替行をテンプレート入力の直上に */
+              #bm-contain-buttons-template { display:block; }
+              #bm-contain-buttons-template .mode-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
               #bm-contain-buttons-template .mode-toggle { display:flex; border-radius:8px; overflow:hidden; border:1px solid #6b7280; }
               #bm-contain-buttons-template .mode-toggle button { padding:6px 10px; background:transparent; color:inherit; border:none; cursor:pointer; }
-              #bm-contain-buttons-template .mode-toggle button.active { background:#0b1222; font-weight:700; }
-
-              /* テンプレート入力欄（ファイル or URL） */
-              .template-input { display:flex; gap:8px; align-items:center; width:100%; margin-top:6px; }
-              .template-input input[type="url"] { flex:1 1 320px; padding:8px; border-radius:6px; border:1px solid #444; background:#000; color:#fff; }
+              #bm-contain-buttons-template .mode-toggle button.active { background:#111827; font-weight:700; }
+              /* Template input (file/url) and preview area */
+              #bm-contain-buttons-template .template-input { display:flex; gap:8px; align-items:center; width:100%; margin-top:6px; }
+              #bm-contain-buttons-template .template-input input[type="url"] { flex:1 1 320px; padding:8px; border-radius:6px; border:1px solid #444; background:#000; color:#fff; }
               #bm-contain-buttons-template input[type="file"] { padding:4px; }
-
-              /* 作成／管理／停止 のボタン行（横並び） */
-              #bm-contain-buttons-template .actions-row { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+              /* Ensure actions (作成/管理/停止) are always horizontal and directly under the template area */
+              #bm-contain-buttons-template .actions-row { display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:nowrap; }
               #bm-contain-buttons-template .actions-row .bm-btn { padding:8px 12px; border-radius:8px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; cursor:pointer; font-weight:600; }
-
-              /* カラーフィルターは「作成行」の下 — しかし視覚的には右寄せで少しインデント */
-              #bm-contain-buttons-template .secondary-row { margin-top:8px; display:flex; justify-content:flex-start; }
-              #bm-button-color-filter { margin-left: 24px; padding:6px 10px; border-radius:8px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; }
-
-              /* レスポンシブ：狭い幅では縦積みにして要素を詰める */
-              @media (max-width:520px) {
-                #bm-contain-buttons-template .mode-row { flex-direction:column; align-items:stretch; }
-                #bm-contain-buttons-template .actions-row { justify-content:flex-start; }
-                #bm-button-fill-from-name { margin-left: 0; }
-                #bm-button-color-filter { margin-left: 0; }
-                .template-input { flex-direction:column; align-items:stretch; }
-                .template-input input[type="url"] { flex: none; width:100%; }
+              /* Coordinates inputs: keep title row on top, inputs on single horizontal row */
+              #bm-contain-coords { margin-bottom:8px; display:flex; flex-direction:column; gap:6px; }
+              #bm-contain-inputs { display:flex !important; gap:12px !important; align-items:center !important; flex-wrap:nowrap !important; }
+              #bm-contain-inputs > div { display:flex; gap:6px; align-items:center; }
+              #bm-contain-inputs input[type="number"] { width:72px; }
+              /* カラーフィルターは作成ボタンのそばに */
+              #bm-contain-buttons-template .secondary-row { margin-top:8px; display:flex; gap:8px; align-items:center; }
+              #bm-button-color-filter { padding:6px 10px; border-radius:8px; border:1px solid #a50e1e; background:#000; color:#f1f5f9; }
+              /* Responsive */
+              @media (max-width:720px) {
+                #bm-contain-inputs { flex-wrap:wrap !important; }
+                #bm-contain-buttons-template .actions-row { flex-wrap:wrap; }
+                #bm-contain-buttons-template .template-input { flex-direction:column; align-items:stretch; }
+                #bm-contain-buttons-template .template-input input[type="url"] { width:100%; }
               }
-            `;
-
+`;
             document.head.appendChild(s);
           }
         }).buildElement()
@@ -3356,6 +3323,22 @@ function buildOverlayMain() {
             btnFile.addEventListener('click', () => setMode('file'));
             btnUrl.addEventListener('click', () => setMode('url'));
             setMode('file');
+            // Ensure actions-row (作成/管理/停止) is located directly under the template file/url area (テンプレート画像の真下)
+            setTimeout(() => {
+              try {
+                const actions = el.parentElement.querySelector('.actions-row') || document.querySelector('#bm-contain-buttons-template .actions-row');
+                const fileInput = document.querySelector('#bm-input-file-template');
+                const urlInput = document.querySelector('#bm-input-template-url');
+                const fileWrapper = fileInput ? fileInput.parentElement : (urlInput ? urlInput.parentElement : null);
+                if (actions && fileWrapper) {
+                  // Move actions row to be immediately after the fileWrapper element
+                  if (fileWrapper.nextSibling !== actions) {
+                    fileWrapper.parentElement.insertBefore(actions, fileWrapper.nextSibling);
+                  }
+                }
+              } catch (e) { /* ignore if DOM shape differs */ }
+            }, 50);
+
           }).buildElement()
 
           // テンプレート入力欄（URLモード時はURL入力、ファイルモード時はファイルボタン）
