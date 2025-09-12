@@ -3218,7 +3218,96 @@ function buildOverlayMain() {
         .buildElement()
       .buildElement()
       .addDiv({'id': 'bm-contain-buttons-template'})
-        .addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'})
+        // ファイル選択（既存）
+        .addInputFile({'id': 'bm-input-file-template', 'textContent': 'テンプレート画像', 'accept': 'image/png, image/jpeg, image/webp, image/bmp, image/gif'}).buildElement()
+
+        // URL入力欄（追加）
+        .addInput({'type': 'url', 'id': 'bm-input-template-url', 'placeholder': 'https://example.com/xxx.png（画像URLかファイル名）'}).buildElement()
+
+        // ファイル名から座標自動入力ボタン（追加）
+        .addButton({'id': 'bm-button-fill-from-name', innerHTML: '🔎 ファイル名から座標入力', title: 'ファイル名が 0-0-0-0.png の形式なら座標を自動入力します'},
+          (instance, button) => {
+            button.onclick = () => {
+              const fileInput = document.querySelector('#bm-input-file-template');
+              const urlInput = document.querySelector('#bm-input-template-url');
+              const nameFromFile = fileInput?.files?.[0]?.name;
+              const nameFromUrl = (urlInput?.value || '').split('/').pop();
+              const targetName = nameFromFile || nameFromUrl;
+              if (!targetName) { instance.handleDisplayError('ファイル名またはURLの末尾に有効なファイル名が必要です。'); return; }
+
+              const coords = (function parseCoordsFromName(name) {
+                const m = name.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+                return m ? [Number(m[1]), Number(m[2]), Number(m[3]), Number(m[4])] : null;
+              })(targetName);
+
+              if (!coords) { instance.handleDisplayError('ファイル名が 0-0-0-0.png 形式ではありません。'); return; }
+
+              instance.updateInnerHTML('bm-input-tx', coords[0]);
+              instance.updateInnerHTML('bm-input-ty', coords[1]);
+              instance.updateInnerHTML('bm-input-px', coords[2]);
+              instance.updateInnerHTML('bm-input-py', coords[3]);
+              instance.handleDisplayStatus('ファイル名から座標を自動入力しました。');
+            };
+          }
+        ).buildElement()
+
+        // URLから画像を取得してテンプレート作成するボタン（追加）
+        .addButton({'id': 'bm-button-create-from-url', innerHTML: '🌐 URLから作成', title: '指定したURLから画像を取得してテンプレートを作成します'},
+          (instance, button) => {
+            button.onclick = async () => {
+              const url = document.querySelector('#bm-input-template-url')?.value;
+              if (!url) { instance.handleDisplayError('URLを入力してください。'); return; }
+
+              try {
+                instance.handleDisplayStatus('URLから画像を取得中...');
+                const resp = await fetch(url, { mode: 'cors' });
+                if (!resp.ok) { throw new Error(`HTTP ${resp.status}`); }
+                const blob = await resp.blob();
+                // 推定ファイル名
+                const urlName = url.split('/').pop() || 'template.png';
+                const contentType = blob.type || 'image/png';
+                const file = new File([blob], urlName, { type: contentType });
+
+                // ファイル名に座標があれば自動で入力（上のと同じロジック）
+                const coordsFromName = (function parseCoordsFromName(name) {
+                  const m = name.match(/^(\d+)-(\d+)-(\d+)-(\d+)(?:\.[^/.]+)?$/);
+                  return m ? [Number(m[1]), Number(m[2]), Number(m[3]), Number(m[4])] : null;
+                })(urlName);
+
+                if (coordsFromName) {
+                  instance.updateInnerHTML('bm-input-tx', coordsFromName[0]);
+                  instance.updateInnerHTML('bm-input-ty', coordsFromName[1]);
+                  instance.updateInnerHTML('bm-input-px', coordsFromName[2]);
+                  instance.updateInnerHTML('bm-input-py', coordsFromName[3]);
+                  instance.handleDisplayStatus('URLのファイル名から座標を自動入力しました。');
+                }
+
+                // 必要な座標チェック
+                const coordTlX = document.querySelector('#bm-input-tx');
+                const coordTlY = document.querySelector('#bm-input-ty');
+                const coordPxX = document.querySelector('#bm-input-px');
+                const coordPxY = document.querySelector('#bm-input-py');
+                if (!coordTlX.checkValidity() || !coordTlY.checkValidity() || !coordPxX.checkValidity() || !coordPxY.checkValidity()) {
+                  instance.handleDisplayError('座標が不正です。手動で確認してください。');
+                  return;
+                }
+
+                // 画像をテンプレート作成に渡す
+                templateManager.createTemplate(file, urlName.replace(/\.[^/.]+$/, ''), [
+                  Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)
+                ]);
+
+                // Update mini tracker after template creation
+                setTimeout(() => updateMiniTracker(), 500);
+                instance.handleDisplayStatus('URLからテンプレートを作成しました。');
+              } catch (err) {
+                instance.handleDisplayError(`URL取得に失敗しました: ${err.message}`);
+              }
+            };
+          }
+        ).buildElement()
+
+        // 既存の「作成」ボタン（改変：ファイル選択時に自動でファイル名→座標を反映する処理も追加）
         .addButton({'id': 'bm-button-create', innerHTML: icons.createIcon + '作成'}, (instance, button) => {
           button.onclick = () => {
             const input = document.querySelector('#bm-input-file-template');
@@ -3240,49 +3329,45 @@ function buildOverlayMain() {
             // Update mini tracker after template creation
             setTimeout(() => updateMiniTracker(), 500);
 
-            // console.log(`TCoords: ${apiManager.templateCoordsTilePixel}\nCoords: ${apiManager.coordsTilePixel}`);
-            // apiManager.templateCoordsTilePixel = apiManager.coordsTilePixel; // Update template coords
-            // console.log(`TCoords: ${apiManager.templateCoordsTilePixel}\nCoords: ${apiManager.coordsTilePixel}`);
-            // templateManager.setTemplateImage(input.files[0]);
-
-                      instance.handleDisplayStatus(`Drew to canvas!`);
-        }
-      }).buildElement()
-      .addButton({'id': 'bm-button-manage', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
-        button.onclick = () => {
-          showTemplateManageDialog(instance);
-        }
-      }).buildElement()
-      .addButton({'id': 'bm-button-pause-tiles', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
-        // Set initial CSS class based on current pause state
-        if (isTileRefreshPaused()) {
-          button.classList.add('paused');
-        }
-        button.onclick = () => {
-          const isPaused = toggleTileRefreshPause(templateManager);
-          const cachedCount = getCachedTileCount();
-          
-          button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
-          
-          // Toggle CSS class based on pause state
-          if (isPaused) {
-            button.classList.add('paused');
-          } else {
-            button.classList.remove('paused');
+            instance.handleDisplayStatus(`Drew to canvas!`);
           }
-          
-          instance.handleDisplayStatus(isPaused ? 
-            `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : 
-            '▶️ Tile refresh resumed - templates now update in real-time'
-          );
-        }
-      }).buildElement()
-      .addButton({'id': 'bm-button-color-filter', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
-        button.onclick = () => {
-          buildColorFilterOverlay();
-        }
-      }).buildElement()
+        }).buildElement()
+
+        // (残りの既存ボタン群 - 管理/停止/カラーフィルター等をそのまま続ける)
+        .addButton({'id': 'bm-button-manage', innerHTML: icons.manageIcon + '管理'}, (instance, button) => {
+          button.onclick = () => {
+            showTemplateManageDialog(instance);
+          }
+        }).buildElement()
+        .addButton({'id': 'bm-button-pause-tiles', innerHTML: (isTileRefreshPaused() ? icons.playIcon : icons.pauseIcon) + (isTileRefreshPaused() ? 'Resume' : '停止')}, (instance, button) => {
+          if (isTileRefreshPaused()) {
+            button.classList.add('paused');
+          }
+          button.onclick = () => {
+            const isPaused = toggleTileRefreshPause(templateManager);
+            const cachedCount = getCachedTileCount();
+
+            button.innerHTML = `${isPaused ? icons.playIcon : icons.pauseIcon} ${isPaused ? '再開' : '停止'}${isPaused && cachedCount > 0 ? ` (${cachedCount})` : ''}`;
+
+            if (isPaused) {
+              button.classList.add('paused');
+            } else {
+              button.classList.remove('paused');
+            }
+
+            instance.handleDisplayStatus(isPaused ? 
+              `🧊 Tile refresh paused! Showing frozen template view with ${cachedCount} cached tiles for better performance.` : 
+              '▶️ Tile refresh resumed - templates now update in real-time'
+            );
+          }
+        }).buildElement()
+        .addButton({'id': 'bm-button-color-filter', innerHTML: icons.colorFilterIcon + 'カラーフィルター'}, (instance, button) => {
+          button.onclick = () => {
+            buildColorFilterOverlay();
+          }
+        }).buildElement()
       .buildElement() // Close bm-contain-buttons-template
+
       .addTextarea({'id': overlayMain.outputStatusId, 'placeholder': `Status: Sleeping...\nVersion: ${version}`, 'readOnly': true}).buildElement()
       .addDiv({'id': 'bm-contain-buttons-action', 'style': 'position: relative; padding-bottom: 22px;'})
         .addDiv({'style': 'display: flex; gap: 6px; align-items: center;'})
