@@ -3214,7 +3214,7 @@ function buildOverlayMain() {
                 const input = document.querySelector('#bm-input-file-template');
                 if (!input?.files[0]) {instance.handleDisplayError(`No file selected!`); return;}
                 const name = input.files[0]?.name.replace(/\.[^/.]+$/, ''); // Remove file extension
-                const match = name.match(/_(\d{1,4})_(\d{1,4})_(\d{1,4})_(\d{1,4})$/);
+                const match = name.match(/^(\d{1,4})[_,-](\d{1,4})[_,-](\d{1,4})[_,-](\d{1,4})$/);
                 if (match) {
                   const [, tx, ty, px, py] = match;
                   instance.updateInnerHTML('bm-input-tx', tx);
