@@ -3210,7 +3210,7 @@ function buildOverlayMain() {
           ).buildElement()
           .buildElement()
         .addDiv({ id: 'bm-filename-to-coords'})
-          .addButton({'id': 'bm-button-filename-to-coords', 'innerHTML': 'ファイル名から座標を取得', title: 'テンプレート画像のファイル名から座標を取得 (例: template_123_456_10_20.png)'},
+          .addButton({'id': 'bm-button-filename-to-coords', 'innerHTML': 'ファイル名から座標を取得', title: 'テンプレート画像のファイル名から座標を取得 (例:123_456_10_20.png)'},
             (instance, button) => {
               button.onclick = () => {
                 const input = document.querySelector('#bm-input-file-template');
@@ -3225,7 +3225,7 @@ function buildOverlayMain() {
                   instance.updateInnerHTML('bm-input-py', py);
                   instance.handleDisplayStatus(`Extracted coordinates from filename: ${tx}, ${ty}, ${px}, ${py}`);
                   } else {
-                  instance.handleDisplayError('No coordinates found in filename! Ensure it ends with _tileX_tileY_pixelX_pixelY (e.g. template_123_456_10_20.png)');
+                  instance.handleDisplayError('No coordinates found in filename! Ensure it ends with tileX_tileY_pixelX_pixelY (123_456_10_20.png)');
                 }
               }
             }
