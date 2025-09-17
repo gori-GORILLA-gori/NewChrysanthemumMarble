@@ -3937,7 +3937,7 @@ function buildColorFilterOverlay() {
 
   // Check if mobile mode is enabled
   const isMobileMode = getMobileMode();
-  consoleLog(`📱 [Color Filter] モバイルモード: ${isMobileMode ? '有効' : '無効'}`);
+  debugLog(`📱 [Color Filter] モバイルモード: ${isMobileMode ? '有効' : '無効'}`);
 
   // Import the color palette from utils
   import('./utils.js').then(utils => {
@@ -8438,7 +8438,7 @@ function updateMiniTracker() {
   if (!trackerEnabled || (collapseEnabled && isMainMinimized)) {
     if (existingTracker) {
       existingTracker.remove();
-      consoleLog(`📊 Mini tracker hidden - ${!trackerEnabled ? '無効' : 'collapsed with main overlay'}`);
+      debugLog(`📊 Mini tracker hidden - ${!trackerEnabled ? '無効' : 'collapsed with main overlay'}`);
     }
     return;
   }
@@ -9806,7 +9806,7 @@ function buildCrosshairSettingsOverlay() {
     trackerToggleText.style.color = tempMiniTrackerEnabled ? '#4caf50' : '#f44336';
     
     // Only update visual state, actual saving happens on Apply
-    consoleLog(`📊 Mini tracker ${tempMiniTrackerEnabled ? '有効' : '無効'} (preview only)`);
+    debugLog(`📊 Mini tracker ${tempMiniTrackerEnabled ? '有効' : '無効'} (preview only)`);
   };
 
   trackerCheckbox.addEventListener('change', updateTrackerState);
@@ -9894,7 +9894,7 @@ function buildCrosshairSettingsOverlay() {
     mobileToggleText.style.color = tempMobileMode ? '#4caf50' : '#f44336';
     
     // Only update visual state, actual saving happens on Apply
-    consoleLog(`📱 Mobile mode ${tempMobileMode ? '有効' : '無効'} (preview only)`);
+    debugLog(`📱 Mobile mode ${tempMobileMode ? '有効' : '無効'} (preview only)`);
   };
 
   mobileCheckbox.addEventListener('change', updateMobileState);
@@ -9999,7 +9999,7 @@ function buildCrosshairSettingsOverlay() {
     collapseToggleText.textContent = tempCollapseMinEnabled ? '有効' : '無効';
     collapseToggleText.style.color = tempCollapseMinEnabled ? '#4caf50' : '#f44336';
     
-    consoleLog(`📊 Collapse mini template ${tempCollapseMinEnabled ? '有効' : '無効'}`);
+    debugLog(`📊 Collapse mini template ${tempCollapseMinEnabled ? '有効' : '無効'}`);
   };
 
   collapseCheckbox.addEventListener('change', updateCollapseState);
