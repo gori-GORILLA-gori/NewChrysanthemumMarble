@@ -6,7 +6,13 @@ import Overlay from './Overlay.js';
 import Observers from './observers.js';
 import ApiManager from './apiManager.js';
 import TemplateManager from './templateManager.js';
-import { consoleLog, consoleWarn, consoleError, canvasPosToLatLng } from './utils.js';
+import { debugLog, canvasPosToLatLng, getDebugLoggingEnabled, saveDebugLoggingEnabled } from './utils.js';
+
+// Ensure debugLog is globally available to prevent ReferenceError - set it immediately
+if (typeof window !== 'undefined') {
+  window.debugLog = debugLog;
+  window.getDebugLoggingEnabled = getDebugLoggingEnabled;
+}
 import * as icons from './icons.js';
 import { initializeTileRefreshPause, toggleTileRefreshPause, isTileRefreshPaused, getCachedTileCount } from './tileManager.js';
 import * as Settings from './settingsManager.js';
@@ -71,8 +77,8 @@ inject(() => {
 
     const elapsed = Date.now() - blink;
 
-    // Since this code does not run in the userscript, we can't use consoleLog().
-    console.groupCollapsed(`%c${name}%c: ${fetchedBlobQueue.size} Recieved IMAGE message about blob "${blobID}"`, consoleStyle, '');
+    // Since this code does not run in the userscript, we can't use debugLog().
+    // console.groupCollapsed(`%c${name}%c: ${fetchedBlobQueue.size} Recieved IMAGE message about blob "${blobID}"`, consoleStyle, '');
     // console.log(`Blob fetch took %c${String(Math.floor(elapsed/60000)).padStart(2,'0')}:${String(Math.floor(elapsed/1000) % 60).padStart(2,'0')}.${String(elapsed % 1000).padStart(3,'0')}%c MM:SS.mmm`, consoleStyle, '');
     // console.log(fetchedBlobQueue);
     console.groupEnd();
@@ -89,7 +95,7 @@ inject(() => {
       } else {
         // ...else the blobID is unexpected. We don't know what it is, but we know for sure it is not a blob. This means we ignore it.
 
-        consoleWarn(`%c${name}%c: Attempted to retrieve a blob (%s) from queue, but the blobID was not a function! Skipping...`, consoleStyle, '', blobID);
+        console.warn(`%c${name}%c: Attempted to retrieve a blob (%s) from queue, but the blobID was not a function! Skipping...`, consoleStyle, '', blobID);
       }
 
       fetchedBlobQueue.delete(blobID); // Delete the blob from the queue, because we don't need to process it again
@@ -113,7 +119,7 @@ inject(() => {
     if (contentType.includes('application/json')) {
 
 
-      // Since this code does not run in the userscript, we can't use consoleLog().
+      // Since this code does not run in the userscript, we can't use debugLog().
       // console.log(`%c${name}%c: Sending JSON message about endpoint "${endpointName}"`, consoleStyle, '');
 
       // Sends a message about the endpoint it spied on
@@ -135,7 +141,7 @@ inject(() => {
 
       const blob = await cloned.blob(); // The original blob
 
-      // Since this code does not run in the userscript, we can't use consoleLog().
+      // Since this code does not run in the userscript, we can't use debugLog().
       // console.log(`%c${name}%c: ${fetchedBlobQueue.size} Sending IMAGE message about endpoint "${endpointName}"`, consoleStyle, '');
 
       // Returns the manipulated blob
@@ -153,8 +159,8 @@ inject(() => {
             statusText: cloned.statusText
           }));
 
-          // Since this code does not run in the userscript, we can't use consoleLog().
-          console.log(`%c${name}%c: ${fetchedBlobQueue.size} Processed blob "${blobUUID}"`, consoleStyle, '');
+          // Since this code does not run in the userscript, we can't use debugLog().
+          // debugLog(`%c${name}%c: ${fetchedBlobQueue.size} Processed blob "${blobUUID}"`, consoleStyle, '');
         });
 
         window.postMessage({
@@ -168,7 +174,7 @@ inject(() => {
         const elapsed = Date.now();
         console.error(`%c${name}%c: Failed to Promise blob!`, consoleStyle, '');
         console.groupCollapsed(`%c${name}%c: Details of failed blob Promise:`, consoleStyle, '');
-        console.log(`Endpoint: ${endpointName}\nThere are ${fetchedBlobQueue.size} blobs processing...\nBlink: ${blink.toLocaleString()}\nTime Since Blink: ${String(Math.floor(elapsed/60000)).padStart(2,'0')}:${String(Math.floor(elapsed/1000) % 60).padStart(2,'0')}.${String(elapsed % 1000).padStart(3,'0')} MM:SS.mmm`);
+        // debugLog(`Endpoint: ${endpointName}\nThere are ${fetchedBlobQueue.size} blobs processing...\nBlink: ${blink.toLocaleString()}\nTime Since Blink: ${String(Math.floor(elapsed/60000)).padStart(2,'0')}:${String(Math.floor(elapsed/1000) % 60).padStart(2,'0')}.${String(elapsed % 1000).padStart(3,'0')} MM:SS.mmm`);
         console.error(`Exception stack:`, exception);
         console.groupEnd();
       });
@@ -598,12 +604,14 @@ templateManager.loadWrongColorSettings();
 import { getSmartDetectionEnabled } from './settingsManager.js';
 templateManager.setSmartDetectionEnabled(getSmartDetectionEnabled());
 
-// Load templates with fallback system
+// Load templates with fallback system - FIXED CRITICAL BUG
 async function loadTemplates() {
   let storageTemplates = {};
   let storageSource = 'none';
   
-  // Try TamperMonkey storage first
+  debugLog('Loading templates from storage...');
+  
+  // Try TamperMonkey storage first with enhanced error handling
   try {
     if (typeof GM !== 'undefined' && GM.getValue) {
       // Check if data is chunked
@@ -611,53 +619,180 @@ async function loadTemplates() {
       let data;
       
       if (chunkCount > 0) {
-        // Load chunked data
+        debugLog(`Loading ${chunkCount} TM chunks...`);
+        // Load chunked data with validation
         let combinedData = '';
+        let corruptedChunks = 0;
+        
         for (let i = 0; i < chunkCount; i++) {
           const chunk = await GM.getValue(`bmTemplates_part_${i}`, '');
-          combinedData += chunk;
+          if (!chunk) {
+            corruptedChunks++;
+            console.error(`❌ Missing TM chunk ${i}/${chunkCount}`);
+          } else {
+            combinedData += chunk;
+          }
         }
+        
+        if (corruptedChunks > 0) {
+          throw new Error(`TM data corrupted: ${corruptedChunks}/${chunkCount} chunks missing`);
+        }
+        
         data = combinedData;
+        debugLog(`TM chunked data loaded: ${data.length} chars`);
       } else {
         // Load regular single data
         data = await GM.getValue('bmTemplates', '{}');
+        debugLog(`TM single data loaded: ${data.length} chars`);
       }
       
-      storageTemplates = JSON.parse(data);
-      storageSource = 'TamperMonkey (async)';
+      // Validate JSON before parsing
+      if (!data || data === '{}' || data === '') {
+        storageTemplates = {};
+        storageSource = 'TamperMonkey (empty)';
+      } else {
+        try {
+          storageTemplates = JSON.parse(data);
+          // Validate structure
+          if (!storageTemplates || typeof storageTemplates !== 'object') {
+            throw new Error('Invalid template structure');
+          }
+          if (!storageTemplates.templates) {
+            storageTemplates.templates = {};
+          }
+          storageSource = 'TamperMonkey (async)';
+          debugLog(`TM templates loaded: ${Object.keys(storageTemplates.templates || {}).length} templates`);
+        } catch (parseError) {
+          console.error('❌ TM JSON parse failed:', parseError);
+          throw parseError;
+        }
+      }
     } else if (typeof GM_getValue !== 'undefined') {
       // Check if data is chunked (legacy)
       const chunkCount = GM_getValue('bmTemplates_chunkCount', 0);
       let data;
       
       if (chunkCount > 0) {
-        // Load chunked data
+        debugLog(`Loading ${chunkCount} TM legacy chunks...`);
+        // Load chunked data with validation
         let combinedData = '';
+        let corruptedChunks = 0;
+        
         for (let i = 0; i < chunkCount; i++) {
           const chunk = GM_getValue(`bmTemplates_part_${i}`, '');
-          combinedData += chunk;
+          if (!chunk) {
+            corruptedChunks++;
+            console.error(`❌ Missing TM legacy chunk ${i}/${chunkCount}`);
+          } else {
+            combinedData += chunk;
+          }
         }
+        
+        if (corruptedChunks > 0) {
+          throw new Error(`TM legacy data corrupted: ${corruptedChunks}/${chunkCount} chunks missing`);
+        }
+        
         data = combinedData;
+        debugLog(`TM legacy chunked data loaded: ${data.length} chars`);
       } else {
         // Load regular single data
         data = GM_getValue('bmTemplates', '{}');
+        debugLog(`TM legacy single data loaded: ${data.length} chars`);
       }
       
-      storageTemplates = JSON.parse(data);
-      storageSource = 'TamperMonkey (legacy)';
+      // Validate JSON before parsing
+      if (!data || data === '{}' || data === '') {
+        storageTemplates = {};
+        storageSource = 'TamperMonkey (legacy, empty)';
+      } else {
+        try {
+          storageTemplates = JSON.parse(data);
+          // Validate structure
+          if (!storageTemplates || typeof storageTemplates !== 'object') {
+            throw new Error('Invalid template structure');
+          }
+          if (!storageTemplates.templates) {
+            storageTemplates.templates = {};
+          }
+          storageSource = 'TamperMonkey (legacy)';
+          debugLog(`TM legacy templates loaded: ${Object.keys(storageTemplates.templates || {}).length} templates`);
+        } catch (parseError) {
+          console.error('❌ TM legacy JSON parse failed:', parseError);
+          throw parseError;
+        }
+      }
     }
   } catch (error) {
-    console.warn('⚠️ TamperMonkey storage load failed:', error);
+    console.error('❌ TamperMonkey storage load failed:', error);
     
-    // Fallback to localStorage
+    // Fallback to localStorage with enhanced error handling
     try {
-      const data = localStorage.getItem('bmTemplates') || '{}';
-      storageTemplates = JSON.parse(data);
-      storageSource = 'localStorage (fallback)';
+      debugLog('Falling back to localStorage...');
+      const lsChunkCount = parseInt(localStorage.getItem('bmTemplates_chunkCount') || '0');
+      let data;
+      
+      if (lsChunkCount > 0) {
+        debugLog(`Loading ${lsChunkCount} LS chunks...`);
+        // Load chunked data with validation
+        let combinedData = '';
+        let corruptedChunks = 0;
+        
+        for (let i = 0; i < lsChunkCount; i++) {
+          const chunk = localStorage.getItem(`bmTemplates_part_${i}`) || '';
+          if (!chunk) {
+            corruptedChunks++;
+            console.error(`❌ Missing LS chunk ${i}/${lsChunkCount}`);
+          } else {
+            combinedData += chunk;
+          }
+        }
+        
+        if (corruptedChunks > 0) {
+          throw new Error(`LS data corrupted: ${corruptedChunks}/${lsChunkCount} chunks missing`);
+        }
+        
+        data = combinedData;
+        debugLog(`LS chunked data loaded: ${data.length} chars`);
+      } else {
+        data = localStorage.getItem('bmTemplates') || '{}';
+        debugLog(`LS single data loaded: ${data.length} chars`);
+      }
+      
+      // Validate JSON before parsing
+      if (!data || data === '{}' || data === '') {
+        storageTemplates = {};
+        storageSource = 'localStorage (empty)';
+      } else {
+        try {
+          storageTemplates = JSON.parse(data);
+          // Validate structure
+          if (!storageTemplates || typeof storageTemplates !== 'object') {
+            throw new Error('Invalid template structure');
+          }
+          if (!storageTemplates.templates) {
+            storageTemplates.templates = {};
+          }
+          storageSource = 'localStorage (fallback)';
+          debugLog(`LS templates loaded: ${Object.keys(storageTemplates.templates || {}).length} templates`);
+        } catch (parseError) {
+          console.error('❌ LS JSON parse failed:', parseError);
+          throw parseError;
+        }
+      }
     } catch (fallbackError) {
       console.error('❌ All storage methods failed:', fallbackError);
-      storageTemplates = {};
-      storageSource = 'empty (all failed)';
+      
+      // Last resort: try to salvage any valid data
+      debugLog('Attempting emergency data recovery...');
+      try {
+        await attemptEmergencyRecovery();
+        storageTemplates = {};
+        storageSource = 'emergency recovery (empty)';
+      } catch (recoveryError) {
+        console.error('❌ Emergency recovery failed:', recoveryError);
+        storageTemplates = {};
+        storageSource = 'empty (all failed)';
+      }
     }
   }
   
@@ -700,84 +835,364 @@ async function loadTemplates() {
     }
   }
   
-  templateManager.importJSON(storageTemplates); // Loads the templates
-  
-  if (templateCount === 0) {
-    consoleLog('ℹ️ No templates loaded - start by creating a new template');
+  // Enhanced template loading with recovery
+  try {
+    templateManager.importJSON(storageTemplates); // Loads the templates
+    debugLog(`Templates imported successfully from ${storageSource}`);
+    
+    if (templateCount === 0) {
+      debugLog('ℹ️ No templates loaded - start by creating a new template');
+    } else {
+      debugLog(`📚 Loaded ${templateCount} templates from ${storageSource}`);
+    }
+  } catch (importError) {
+    console.error('❌ Template import failed:', importError);
+    
+    // Try to recover by creating fresh template structure
+    try {
+      debugLog('Attempting template recovery...');
+      const freshTemplates = {
+        whoami: 'BlueMarble',
+        scriptVersion: '0.89.6',
+        schemaVersion: '2.1.0',
+        templates: {},
+        lastModified: new Date().toISOString(),
+        templateCount: 0,
+        totalPixels: 0
+      };
+      
+      templateManager.importJSON(freshTemplates);
+      debugLog('Template recovery successful - fresh start');
+    } catch (recoveryError) {
+      console.error('❌ Template recovery failed:', recoveryError);
+      throw recoveryError;
+    }
   }
 }
 
-// Storage migration and validation
+// Emergency data recovery function
+async function attemptEmergencyRecovery() {
+  debugLog('Starting emergency data recovery...');
+  
+  // Clean up any corrupted storage keys
+  try {
+    // Clear TamperMonkey
+    if (typeof GM !== 'undefined' && GM.deleteValue) {
+      const tmKeys = ['bmTemplates', 'bmTemplates_timestamp', 'bmTemplates_chunkCount'];
+      for (const key of tmKeys) {
+        try { await GM.deleteValue(key); } catch (_) {}
+      }
+      
+      // Clear potential chunks (up to 50)
+      for (let i = 0; i < 50; i++) {
+        try { await GM.deleteValue(`bmTemplates_part_${i}`); } catch (_) {}
+      }
+    }
+    
+    // Clear localStorage
+    const lsKeys = ['bmTemplates', 'bmTemplates_timestamp', 'bmTemplates_chunkCount'];
+    for (const key of lsKeys) {
+      try { localStorage.removeItem(key); } catch (_) {}
+    }
+    
+    // Clear potential chunks (up to 50)
+    for (let i = 0; i < 50; i++) {
+      try { localStorage.removeItem(`bmTemplates_part_${i}`); } catch (_) {}
+    }
+    
+    debugLog('Emergency cleanup completed');
+    
+  } catch (e) {
+    console.error('❌ Emergency cleanup failed:', e);
+    throw e;
+  }
+}
+
+// Storage migration and validation - FIXED CRITICAL BUG
 async function migrateAndValidateStorage() {
   try {
+    debugLog('Starting storage migration and validation...');
+    
     // Check if we have data in both storages
     let tmData = null;
     let lsData = null;
     let tmTimestamp = 0;
     let lsTimestamp = 0;
+    let tmChunked = false;
+    let lsChunked = false;
     
-    // Get TamperMonkey data
+    // Get TamperMonkey data with validation
     try {
       if (typeof GM !== 'undefined' && GM.getValue) {
         // Check if data is chunked
         const chunkCount = await GM.getValue('bmTemplates_chunkCount', 0);
         if (chunkCount > 0) {
-          // Load chunked data
+          debugLog(`Loading ${chunkCount} TM chunks...`);
+          // Load chunked data with validation
           let combinedData = '';
+          let missingChunks = 0;
+          
           for (let i = 0; i < chunkCount; i++) {
             const chunk = await GM.getValue(`bmTemplates_part_${i}`, '');
-            combinedData += chunk;
+            if (!chunk) {
+              missingChunks++;
+              console.warn(`⚠️ Missing TM chunk ${i}/${chunkCount}`);
+            } else {
+              combinedData += chunk;
+            }
           }
-          tmData = combinedData;
+          
+          if (missingChunks > 0) {
+            console.error(`❌ TM data corruption: ${missingChunks}/${chunkCount} chunks missing`);
+            tmData = null; // Mark as corrupted
+          } else {
+            tmData = combinedData;
+            tmChunked = true;
+            debugLog(`TM chunked data loaded: ${combinedData.length} chars`);
+          }
         } else {
-        tmData = await GM.getValue('bmTemplates', null);
+          tmData = await GM.getValue('bmTemplates', null);
+          debugLog(`TM single data loaded: ${tmData ? tmData.length : 0} chars`);
         }
         tmTimestamp = await GM.getValue('bmTemplates_timestamp', 0);
       } else if (typeof GM_getValue !== 'undefined') {
         // Check if data is chunked (legacy)
         const chunkCount = GM_getValue('bmTemplates_chunkCount', 0);
         if (chunkCount > 0) {
-          // Load chunked data
+          debugLog(`Loading ${chunkCount} TM legacy chunks...`);
+          // Load chunked data with validation
           let combinedData = '';
+          let missingChunks = 0;
+          
           for (let i = 0; i < chunkCount; i++) {
             const chunk = GM_getValue(`bmTemplates_part_${i}`, '');
-            combinedData += chunk;
+            if (!chunk) {
+              missingChunks++;
+              console.warn(`⚠️ Missing TM legacy chunk ${i}/${chunkCount}`);
+            } else {
+              combinedData += chunk;
+            }
           }
-          tmData = combinedData;
+          
+          if (missingChunks > 0) {
+            console.error(`❌ TM legacy data corruption: ${missingChunks}/${chunkCount} chunks missing`);
+            tmData = null; // Mark as corrupted
+          } else {
+            tmData = combinedData;
+            tmChunked = true;
+            debugLog(`TM legacy chunked data loaded: ${combinedData.length} chars`);
+          }
         } else {
-        tmData = GM_getValue('bmTemplates', null);
+          tmData = GM_getValue('bmTemplates', null);
+          debugLog(`TM legacy single data loaded: ${tmData ? tmData.length : 0} chars`);
         }
         tmTimestamp = GM_getValue('bmTemplates_timestamp', 0);
       }
-    } catch (e) { console.warn('TM check failed:', e); }
+    } catch (e) { 
+      console.error('❌ TM check failed:', e);
+      tmData = null;
+    }
     
-    // Get localStorage data
+    // Get localStorage data with validation
     try {
-      lsData = localStorage.getItem('bmTemplates');
+      const lsChunkCount = parseInt(localStorage.getItem('bmTemplates_chunkCount') || '0');
+      if (lsChunkCount > 0) {
+        debugLog(`Loading ${lsChunkCount} LS chunks...`);
+        // Load chunked data with validation
+        let combinedData = '';
+        let missingChunks = 0;
+        
+        for (let i = 0; i < lsChunkCount; i++) {
+          const chunk = localStorage.getItem(`bmTemplates_part_${i}`) || '';
+          if (!chunk) {
+            missingChunks++;
+            console.warn(`⚠️ Missing LS chunk ${i}/${lsChunkCount}`);
+          } else {
+            combinedData += chunk;
+          }
+        }
+        
+        if (missingChunks > 0) {
+          console.error(`❌ LS data corruption: ${missingChunks}/${lsChunkCount} chunks missing`);
+          lsData = null; // Mark as corrupted
+        } else {
+          lsData = combinedData;
+          lsChunked = true;
+          debugLog(`LS chunked data loaded: ${combinedData.length} chars`);
+        }
+      } else {
+        lsData = localStorage.getItem('bmTemplates');
+        debugLog(`LS single data loaded: ${lsData ? lsData.length : 0} chars`);
+      }
       lsTimestamp = parseInt(localStorage.getItem('bmTemplates_timestamp') || '0');
-    } catch (e) { console.warn('LS check failed:', e); }
+    } catch (e) { 
+      console.error('❌ LS check failed:', e);
+      lsData = null;
+    }
     
-    // If we have data in both, use the most recent
-    if (tmData && lsData && tmTimestamp !== lsTimestamp) {
-      console.log(`🔄 Data sync: TM(${new Date(tmTimestamp).toLocaleString()}) vs LS(${new Date(lsTimestamp).toLocaleString()})`);
+    // Validate JSON data before proceeding
+    let tmValid = false;
+    let lsValid = false;
+    
+    if (tmData) {
+      try {
+        const parsed = JSON.parse(tmData);
+        if (parsed && typeof parsed === 'object' && parsed.templates) {
+          tmValid = true;
+          debugLog(`TM data is valid JSON with ${Object.keys(parsed.templates).length} templates`);
+        } else {
+          console.warn('⚠️ TM data is not a valid template structure');
+        }
+      } catch (e) {
+        console.error('❌ TM data is not valid JSON:', e);
+        tmData = null;
+      }
+    }
+    
+    if (lsData) {
+      try {
+        const parsed = JSON.parse(lsData);
+        if (parsed && typeof parsed === 'object' && parsed.templates) {
+          lsValid = true;
+          debugLog(`LS data is valid JSON with ${Object.keys(parsed.templates).length} templates`);
+        } else {
+          console.warn('⚠️ LS data is not a valid template structure');
+        }
+      } catch (e) {
+        console.error('❌ LS data is not valid JSON:', e);
+        lsData = null;
+      }
+    }
+    
+    // Clean up corrupted data
+    if (!tmValid && tmData) {
+      console.warn('🧹 Cleaning up corrupted TM data...');
+      await cleanupCorruptedStorage('tm');
+      tmData = null;
+      tmTimestamp = 0;
+    }
+    
+    if (!lsValid && lsData) {
+      console.warn('🧹 Cleaning up corrupted LS data...');
+      await cleanupCorruptedStorage('ls');
+      lsData = null;
+      lsTimestamp = 0;
+    }
+    
+    // If we have valid data in both, use the most recent
+    if (tmValid && lsValid && tmTimestamp !== lsTimestamp) {
+      debugLog(`Data sync: TM(${new Date(tmTimestamp).toLocaleString()}) vs LS(${new Date(lsTimestamp).toLocaleString()})`);
       
       if (tmTimestamp > lsTimestamp) {
         // TamperMonkey is newer, update localStorage
-        localStorage.setItem('bmTemplates', tmData);
-        localStorage.setItem('bmTemplates_timestamp', tmTimestamp.toString());
-      } else {
+        debugLog('Syncing TM → LS...');
+        try {
+          if (tmData.length > 900000) {
+            // Store as chunks in LS
+            await storeDataChunked('ls', tmData, tmTimestamp);
+          } else {
+            localStorage.setItem('bmTemplates', tmData);
+            localStorage.setItem('bmTemplates_timestamp', tmTimestamp.toString());
+            // Clean up any existing chunks
+            const oldChunkCount = parseInt(localStorage.getItem('bmTemplates_chunkCount') || '0');
+            for (let i = 0; i < oldChunkCount; i++) {
+              localStorage.removeItem(`bmTemplates_part_${i}`);
+            }
+            localStorage.removeItem('bmTemplates_chunkCount');
+          }
+          debugLog('LS updated from TM');
+        } catch (e) {
+          console.error('❌ Failed to sync TM → LS:', e);
+        }
+      } else if (lsTimestamp > tmTimestamp) {
         // localStorage is newer, update TamperMonkey
-        if (typeof GM !== 'undefined' && GM.setValue) {
-          await GM.setValue('bmTemplates', lsData);
-          await GM.setValue('bmTemplates_timestamp', lsTimestamp);
-        } else if (typeof GM_setValue !== 'undefined') {
-          GM_setValue('bmTemplates', lsData);
-          GM_setValue('bmTemplates_timestamp', lsTimestamp);
+        debugLog('Syncing LS → TM...');
+        try {
+          if (typeof GM !== 'undefined' && GM.setValue) {
+            if (lsData.length > 900000) {
+              // Store as chunks in TM
+              await storeDataChunked('tm', lsData, lsTimestamp);
+            } else {
+              await GM.setValue('bmTemplates', lsData);
+              await GM.setValue('bmTemplates_timestamp', lsTimestamp);
+              // Clean up any existing chunks
+              const oldChunkCount = await GM.getValue('bmTemplates_chunkCount', 0);
+              for (let i = 0; i < oldChunkCount; i++) {
+                try { await GM.deleteValue(`bmTemplates_part_${i}`); } catch (_) {}
+              }
+              try { await GM.deleteValue('bmTemplates_chunkCount'); } catch (_) {}
+            }
+          } else if (typeof GM_setValue !== 'undefined') {
+            GM_setValue('bmTemplates', lsData);
+            GM_setValue('bmTemplates_timestamp', lsTimestamp);
+          }
+          debugLog('TM updated from LS');
+        } catch (e) {
+          console.error('❌ Failed to sync LS → TM:', e);
         }
       }
     }
+    
+    debugLog('Storage migration completed');
+    
   } catch (error) {
-    console.warn('⚠️ Storage migration failed:', error);
+    console.error('❌ Storage migration failed:', error);
+  }
+}
+
+// Helper function to clean up corrupted storage
+async function cleanupCorruptedStorage(storageType) {
+  try {
+    if (storageType === 'tm') {
+      if (typeof GM !== 'undefined' && GM.deleteValue) {
+        try { await GM.deleteValue('bmTemplates'); } catch (_) {}
+        try { await GM.deleteValue('bmTemplates_timestamp'); } catch (_) {}
+        const chunkCount = await GM.getValue('bmTemplates_chunkCount', 0);
+        for (let i = 0; i < chunkCount; i++) {
+          try { await GM.deleteValue(`bmTemplates_part_${i}`); } catch (_) {}
+        }
+        try { await GM.deleteValue('bmTemplates_chunkCount'); } catch (_) {}
+      }
+    } else if (storageType === 'ls') {
+      try { localStorage.removeItem('bmTemplates'); } catch (_) {}
+      try { localStorage.removeItem('bmTemplates_timestamp'); } catch (_) {}
+      const chunkCount = parseInt(localStorage.getItem('bmTemplates_chunkCount') || '0');
+      for (let i = 0; i < chunkCount; i++) {
+        try { localStorage.removeItem(`bmTemplates_part_${i}`); } catch (_) {}
+      }
+      try { localStorage.removeItem('bmTemplates_chunkCount'); } catch (_) {}
+    }
+    debugLog(`Cleaned up corrupted ${storageType.toUpperCase()} storage`);
+  } catch (e) {
+    console.error(`❌ Failed to cleanup ${storageType.toUpperCase()} storage:`, e);
+  }
+}
+
+// Helper function to store data in chunks
+async function storeDataChunked(storageType, data, timestamp) {
+  const CHUNK_SIZE = 900000;
+  const parts = Math.ceil(data.length / CHUNK_SIZE);
+  
+  if (storageType === 'tm') {
+    if (typeof GM !== 'undefined' && GM.setValue) {
+      // Clear single key first
+      try { await GM.deleteValue('bmTemplates'); } catch (_) {}
+      await GM.setValue('bmTemplates_chunkCount', parts);
+      for (let i = 0; i < parts; i++) {
+        const slice = data.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+        await GM.setValue(`bmTemplates_part_${i}`, slice);
+      }
+      await GM.setValue('bmTemplates_timestamp', timestamp);
+    }
+  } else if (storageType === 'ls') {
+    // Clear single key first
+    try { localStorage.removeItem('bmTemplates'); } catch (_) {}
+    localStorage.setItem('bmTemplates_chunkCount', String(parts));
+    for (let i = 0; i < parts; i++) {
+      const slice = data.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+      localStorage.setItem(`bmTemplates_part_${i}`, slice);
+    }
+    localStorage.setItem('bmTemplates_timestamp', timestamp.toString());
   }
 }
 
@@ -830,7 +1245,7 @@ if (!document.getElementById('bm-fullcharge-styles')) {
   document.head.appendChild(style);
 }
 
-consoleLog(`%c${name}%c (${version}) userscript has loaded!`, 'color: cornflowerblue;', '');
+debugLog(`%c${name}%c (${version}) userscript has loaded!`, 'color: cornflowerblue;', '');
 
 /** Observe the black color, and add the "Move" button.
  * @since 0.66.3
@@ -1030,10 +1445,10 @@ function performDeleteAllTemplates(instance, templateCount, templateText) {
     }
     
     instance.handleDisplayStatus(`Successfully deleted all ${templateCount} ${templateText}!`);
-    consoleLog(`🗑️ Deleted all ${templateCount} templates from storage`);
+    debugLog(`🗑️ Deleted all ${templateCount} templates from storage`);
     
   } catch (error) {
-    consoleError('❌ Failed to delete templates:', error);
+    console.error('❌ Failed to delete templates:', error);
     instance.handleDisplayError('Failed to delete templates. Check console for details.');
   }
 }
@@ -1861,13 +2276,13 @@ function deleteSelectedTemplate(instance) {
             document.body.removeChild(overlay);
             
             instance.handleDisplayStatus(`Successfully deleted template "${templateName}"!`);
-            consoleLog(`🗑️ Deleted template: ${templateName} (${templateKey})`);
+            debugLog(`🗑️ Deleted template: ${templateName} (${templateKey})`);
             } else {
               throw new Error('Delete operation returned false');
             }
             
           } catch (error) {
-            consoleError('❌ Failed to delete template:', error);
+            console.error('❌ Failed to delete template:', error);
             instance.handleDisplayError('Failed to delete template. Check console for details.');
           }
         }
@@ -2739,7 +3154,7 @@ function showTemplateManageDialog(instance) {
               templateItem.remove();
               
               instance.handleDisplayStatus(`Successfully deleted template "${templateName}"!`);
-              consoleLog(`🗑️ Deleted template: ${templateName} (${templateKey})`);
+              debugLog(`🗑️ Deleted template: ${templateName} (${templateKey})`);
               
               // Check if there are no more templates left
               const remainingTemplates = templateList.children.length;
@@ -2753,7 +3168,7 @@ function showTemplateManageDialog(instance) {
             }
             
           } catch (error) {
-            consoleError('❌ Failed to delete template:', error);
+            console.error('❌ Failed to delete template:', error);
             instance.handleDisplayError('Failed to delete template. Check console for details.');
           }
         }
@@ -3518,7 +3933,7 @@ function buildColorFilterOverlay() {
     existingOverlay.remove();
   }
 
-  consoleLog('🎯 [Color Filter] Starting color filter overlay build...');
+  debugLog('[Color Filter] Starting color filter overlay build...');
 
   // Check if mobile mode is enabled
   const isMobileMode = getMobileMode();
@@ -3529,14 +3944,14 @@ function buildColorFilterOverlay() {
     const colorPalette = utils.colorpalette;
     
     // Get enhanced pixel analysis data
-    consoleLog('🎯 [Color Filter] Calculating pixel statistics...');
+    debugLog('[Color Filter] Calculating pixel statistics...');
     const pixelStats = templateManager.calculateRemainingPixelsByColor(0, true); // Only enabled templates
-    consoleLog('🎯 [Color Filter] Pixel statistics received:', pixelStats);
+    debugLog('[Color Filter] Pixel statistics received:', pixelStats);
     // Update native palette badges as well (if settings enabled)
     try {
       updatePaletteLeftBadges(pixelStats);
     } catch (e) {
-      consoleWarn('Failed to update palette left badges:', e);
+      console.warn('Failed to update palette left badges:', e);
     }
     
     // Calculate overall progress
@@ -3603,7 +4018,6 @@ function buildColorFilterOverlay() {
     for (const [colorKey, stats] of Object.entries(pixelStats)) {
       // Skip excluded colors from progress calculation
       if (excludedColors.includes(colorKey)) {
-        consoleLog(`🚫 [Color Filter] Excluding color ${colorKey} from progress calculation`);
         continue;
       }
       
@@ -3621,13 +4035,11 @@ function buildColorFilterOverlay() {
       displayPainted = totalPainted;
       displayRequired = totalRequired;
       overallProgress = displayRequired > 0 ? Math.round((displayPainted / displayRequired) * 100) : 0;
-      consoleLog(`🎯 [Color Filter] Overall progress (including wrong): ${displayPainted}/${displayRequired} (${overallProgress}%) - ${totalNeedCrosshair} need crosshair, ${totalWrong} wrong already included`);
     } else {
       // Standard calculation (exclude wrong colors)
       displayPainted = totalPainted;
       displayRequired = totalRequired;
       overallProgress = displayRequired > 0 ? Math.round((displayPainted / displayRequired) * 100) : 0;
-      consoleLog(`🎯 [Color Filter] Overall progress: ${displayPainted}/${displayRequired} (${overallProgress}%) - ${totalNeedCrosshair} need crosshair, ${totalWrong} wrong excluded`);
     }
     
     // Inject compact modern styles for Color Filter UI (once)
@@ -4925,7 +5337,7 @@ function buildColorFilterOverlay() {
         progressTrack.appendChild(progressFill);
         colorItem.appendChild(progressTrack);
         
-        consoleLog(`🎯 [Color Filter] Displaying stats for ${colorInfo.name} (${colorKey}): ${displayPainted}/${displayRequired} (${displayPercentage}%) - ${displayRemaining} need crosshair${wrongPixelsForColor > 0 ? ` - includes ${wrongPixelsForColor} wrong` : ''}`);
+        debugLog(`[Color Filter] Displaying stats for ${colorInfo.name} (${colorKey}): ${displayPainted}/${displayRequired} (${displayPercentage}%) - ${displayRemaining} need crosshair${wrongPixelsForColor > 0 ? ` - includes ${wrongPixelsForColor} wrong` : ''}`);
       } else {
         pixelStatsDisplay.innerHTML = `
           <div style="font-size: 0.65em; color: rgba(255,255,255,0.6); text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
@@ -4933,7 +5345,7 @@ function buildColorFilterOverlay() {
           </div>
         `;
         
-        consoleLog(`🎯 [Color Filter] Color ${colorInfo.name} (${colorKey}) not used in template`);
+        debugLog(`[Color Filter] Color ${colorInfo.name} (${colorKey}) not used in template`);
       }
       
       pixelStatsDisplay.style.cssText = `
@@ -5010,7 +5422,7 @@ function buildColorFilterOverlay() {
         
         // Refresh template display in real-time
         refreshTemplateDisplay().catch(error => {
-          consoleError('Error refreshing template:', error);
+          console.error('Error refreshing template:', error);
         });
       };
 
@@ -5025,7 +5437,7 @@ function buildColorFilterOverlay() {
         
         // Refresh template display in real-time
         refreshTemplateDisplay().catch(error => {
-          consoleError('Error refreshing enhanced mode:', error);
+          console.error('Error refreshing enhanced mode:', error);
         });
       };
 
@@ -5251,7 +5663,7 @@ function buildColorFilterOverlay() {
         }
         
         refreshTemplateDisplay().catch(error => {
-          consoleError('Error refreshing enhanced mode:', error);
+          console.error('Error refreshing enhanced mode:', error);
         });
       };
       
@@ -5427,7 +5839,7 @@ function buildColorFilterOverlay() {
         }
         
         refreshTemplateDisplay().catch(error => {
-          consoleError('Error refreshing template:', error);
+          console.error('Error refreshing template:', error);
         });
       };
 
@@ -5548,7 +5960,7 @@ function buildColorFilterOverlay() {
         await refreshTemplateDisplay();
         buildColorFilterOverlay(); // Rebuild to reflect changes
       } catch (error) {
-        consoleError('Error enabling all colors:', error);
+        console.error('Error enabling all colors:', error);
         overlayMain.handleDisplayError('Failed to enable all colors');
       }
     };
@@ -5564,7 +5976,7 @@ function buildColorFilterOverlay() {
         await refreshTemplateDisplay();
         buildColorFilterOverlay(); // Rebuild to reflect changes
       } catch (error) {
-        consoleError('Error disabling all colors:', error);
+        console.error('Error disabling all colors:', error);
         overlayMain.handleDisplayError('Failed to disable all colors');
       }
     };
@@ -5622,7 +6034,7 @@ function buildColorFilterOverlay() {
           disableAllEnhancedButton.style.transform = 'scale(1)';
         }, 100);
         
-        consoleError('Error disabling all enhanced colors:', error);
+        console.error('Error disabling all enhanced colors:', error);
         overlayMain.handleDisplayError('Failed to disable all enhanced colors');
       }
     };
@@ -5662,7 +6074,7 @@ function buildColorFilterOverlay() {
     };
     
     refreshStatsButton.onclick = () => {
-      consoleLog('🔄 [Color Filter] Refreshing statistics...');
+      debugLog('[Color Filter] Refreshing statistics...');
       // Apply pending excluded colors changes
       const pendingExcluded = localStorage.getItem('bmcf-excluded-colors-pending');
       if (pendingExcluded) {
@@ -5690,7 +6102,7 @@ function buildColorFilterOverlay() {
         await refreshTemplateDisplay();
         overlayMain.handleDisplayStatus('Color filter applied successfully!');
       } catch (error) {
-        consoleError('Error applying color filter:', error);
+        console.error('Error applying color filter:', error);
         overlayMain.handleDisplayError('Failed to apply color filter');
       }
     };
@@ -6581,7 +6993,7 @@ function buildColorFilterOverlay() {
         
         // Refresh template display to save changes persistently
         refreshTemplateDisplay().catch(error => {
-          consoleError('Error refreshing enhanced mode from Color Toggle:', error);
+          console.error('Error refreshing enhanced mode from Color Toggle:', error);
         });
       };
 
@@ -6928,9 +7340,9 @@ function buildColorFilterOverlay() {
     // Apply or remove mobile mode styles based on current setting
     applyMobileModeToColorFilter(!!isMobileMode);
     if (isMobileMode) {
-      consoleLog('📱 [Initial Build] Mobile mode applied immediately');
+      debugLog('[Initial Build] Mobile mode applied immediately');
     } else {
-      consoleLog('📱 [Initial Build] Mobile mode is OFF - ensuring desktop styles');
+      debugLog('[Initial Build] Mobile mode is OFF - ensuring desktop styles');
     }
 
     // Add drag functionality
@@ -7045,7 +7457,7 @@ function buildColorFilterOverlay() {
       }
     });
   }).catch(err => {
-    consoleError('Failed to load color palette:', err);
+    console.error('Failed to load color palette:', err);
     overlayMain.handleDisplayError('Failed to load color palette!');
   });
 }
@@ -7172,7 +7584,7 @@ let eKeyModeActive = false;
  * @since 1.0.0
  */
 function initializeKeyboardShortcuts() {
-  consoleLog('🎹 [Keyboard Shortcuts] Initializing X+Click shortcut for enhanced colors...');
+  debugLog('🎹 [Keyboard Shortcuts] Initializing X+Click shortcut for enhanced colors...');
   
   // Track X key press/release
   document.addEventListener('keydown', (event) => {
@@ -7188,7 +7600,7 @@ function initializeKeyboardShortcuts() {
         overlayMain.handleDisplayStatus('🎹 X-Mode: Click a color to enable enhanced mode for that color only');
       }
       
-      consoleLog('🎹 [X-Mode] Enhanced selection mode ACTIVATED');
+      debugLog('🎹 [X-Mode] Enhanced selection mode ACTIVATED');
     }
   });
   
@@ -7200,14 +7612,14 @@ function initializeKeyboardShortcuts() {
       // Reset cursor
       document.body.style.cursor = '';
       
-      consoleLog('🎹 [X-Mode] Enhanced selection mode DEACTIVATED');
+      debugLog('🎹 [X-Mode] Enhanced selection mode DEACTIVATED');
     }
   });
   
   // Handle clicks on color palette buttons when X is pressed
   document.addEventListener('click', handleEKeyColorClick, true);
   
-  consoleLog('✅ [Keyboard Shortcuts] X+Click shortcut initialized successfully');
+  debugLog('[Keyboard Shortcuts] X+Click shortcut initialized successfully');
 }
 
 /** Handle X+Click on color palette */
@@ -7226,7 +7638,7 @@ function handleEKeyColorClick(event) {
   const rgbColor = COLOR_PALETTE_MAP[colorId];
   
   if (!rgbColor) {
-    consoleWarn(`🎹 [X-Mode] Unknown color ID: ${colorId}`);
+    console.warn(`🎹 [X-Mode] Unknown color ID: ${colorId}`);
     return;
   }
   
@@ -7238,7 +7650,7 @@ function handleEKeyColorClick(event) {
     return;
   }
   
-  consoleLog(`🎹 [X-Mode] Processing color: ${colorId} -> RGB(${rgbColor.join(', ')})`);
+  debugLog(`🎹 [X-Mode] Processing color: ${colorId} -> RGB(${rgbColor.join(', ')})`);
   
   // Get current template
   const currentTemplate = templateManager.templatesArray?.[0];
@@ -7252,11 +7664,11 @@ function handleEKeyColorClick(event) {
   try {
     // Clear all enhanced colors first
     currentTemplate.enhancedColors.clear();
-    consoleLog('🎹 [X-Mode] Cleared all enhanced colors');
+    debugLog('🎹 [X-Mode] Cleared all enhanced colors');
     
     // Enable enhanced mode for the selected color
     currentTemplate.enableColorEnhanced(rgbColor);
-    consoleLog(`🎹 [X-Mode] Enhanced mode enabled for RGB(${rgbColor.join(', ')})`);
+    debugLog(`🎹 [X-Mode] Enhanced mode enabled for RGB(${rgbColor.join(', ')})`);
     
     // Visual feedback
     const colorName = colorButton.getAttribute('aria-label') || colorId;
@@ -7266,9 +7678,9 @@ function handleEKeyColorClick(event) {
     
     // Refresh template to apply changes
     refreshTemplateDisplay().then(() => {
-      consoleLog('🎹 [X-Mode] Template refreshed with new enhanced color');
+      debugLog('🎹 [X-Mode] Template refreshed with new enhanced color');
     }).catch(error => {
-      consoleError('🎹 [X-Mode] Error refreshing template:', error);
+      console.error('🎹 [X-Mode] Error refreshing template:', error);
     });
     
     // Update color filter overlay if it's open
@@ -7282,7 +7694,7 @@ function handleEKeyColorClick(event) {
     }
     
   } catch (error) {
-    consoleError('🎹 [X-Mode] Error processing enhanced color:', error);
+    console.error('🎹 [X-Mode] Error processing enhanced color:', error);
     if (typeof overlayMain !== 'undefined' && overlayMain.handleDisplayError) {
       overlayMain.handleDisplayError('🎹 X-Mode: Failed to set enhanced color');
     }
@@ -7309,7 +7721,7 @@ function getErrorMapEnabled() {
     }
     return enabled !== null ? enabled : false;
   } catch (error) {
-    consoleWarn('Failed to load error map setting:', error);
+    console.warn('Failed to load error map setting:', error);
   }
   return false;
 }
@@ -7322,9 +7734,9 @@ function saveErrorMapEnabled(enabled) {
       GM_setValue('bmErrorMap', enabledString);
     }
     localStorage.setItem('bmErrorMap', enabledString);
-    consoleLog('✅ Error map setting saved:', enabled);
+    debugLog('Error map setting saved:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save error map setting:', error);
+    console.error('❌ Failed to save error map setting:', error);
   }
 }
 
@@ -7400,11 +7812,11 @@ async function refreshTemplateDisplay() {
   if (templateManager.templatesArray && templateManager.templatesArray.length > 0) {
     // Force a complete recreation of the template with current color filter
     try {
-      consoleLog('Starting template refresh with color filter...');
+      debugLog('Starting template refresh with color filter...');
       
       // Get the current template
       const currentTemplate = templateManager.templatesArray[0];
-      consoleLog('Current disabled colors:', currentTemplate.getDisabledColors());
+      debugLog('Current disabled colors:', currentTemplate.getDisabledColors());
       
       // Invalidate enhanced cache when colors change
       currentTemplate.invalidateEnhancedCache();
@@ -7416,21 +7828,21 @@ async function refreshTemplateDisplay() {
       await new Promise(resolve => setTimeout(resolve, 50));
       
       // Force recreation of template tiles with current color filter
-      consoleLog('Recreating template tiles with color filter...');
+      debugLog('Recreating template tiles with color filter...');
       await templateManager.updateTemplateWithColorFilter(0);
       
       // Re-enable templates to show the updated version
       templateManager.setTemplatesShouldBeDrawn(true);
       
-      consoleLog('Template refresh completed successfully');
+      debugLog('Template refresh completed successfully');
       
     } catch (error) {
-      consoleError('Error refreshing template display:', error);
+      console.error('Error refreshing template display:', error);
       overlayMain.handleDisplayError('Failed to apply color filter');
       throw error; // Re-throw to handle in calling function
     }
   } else {
-    consoleWarn('No templates available to refresh');
+    console.warn('No templates available to refresh');
   }
   
   // Update mini tracker after template refresh
@@ -7461,12 +7873,12 @@ function getCrosshairColor() {
     if (savedColor && savedColor.alpha === 180) {
       savedColor.alpha = 255;
       saveCrosshairColor(savedColor); // Save the migrated value
-      consoleLog('Auto-migrated crosshair transparency from 71% to 100%');
+      debugLog('Auto-migrated crosshair transparency from 71% to 100%');
     }
     
     if (savedColor) return savedColor;
   } catch (error) {
-    consoleWarn('Failed to load crosshair color:', error);
+    console.warn('Failed to load crosshair color:', error);
   }
   
   // Default red color
@@ -7493,9 +7905,9 @@ function saveCrosshairColor(colorConfig) {
     // Also save to localStorage as backup
     localStorage.setItem('bmCrosshairColor', colorString);
     
-    consoleLog('Crosshair color saved:', colorConfig);
+    debugLog('Crosshair color saved:', colorConfig);
   } catch (error) {
-    consoleError('Failed to save crosshair color:', error);
+    console.error('Failed to save crosshair color:', error);
   }
 }
 
@@ -7520,15 +7932,15 @@ function getBorderEnabled() {
     }
     
     if (borderEnabled !== null) {
-      consoleLog('🔲 Border setting loaded:', borderEnabled);
+      debugLog('🔲 Border setting loaded:', borderEnabled);
       return borderEnabled;
     }
   } catch (error) {
-    consoleWarn('Failed to load border setting:', error);
+    console.warn('Failed to load border setting:', error);
   }
   
   // Default to disabled
-  consoleLog('🔲 Using default border setting: false');
+  debugLog('🔲 Using default border setting: false');
   return false;
 }
 
@@ -7540,21 +7952,20 @@ function saveBorderEnabled(enabled) {
   try {
     const enabledString = JSON.stringify(enabled);
     
-    consoleLog('🔲 Saving border setting:', enabled, 'as string:', enabledString);
+    debugLog('Saving border setting:', enabled, 'as string:', enabledString);
     
     // Save to TamperMonkey storage
     if (typeof GM_setValue !== 'undefined') {
       GM_setValue('bmCrosshairBorder', enabledString);
-      consoleLog('🔲 Saved to TamperMonkey storage');
     }
     
     // Also save to localStorage as backup
     localStorage.setItem('bmCrosshairBorder', enabledString);
-    consoleLog('🔲 Saved to localStorage');
+    debugLog('🔲 Saved to localStorage');
     
-    consoleLog('✅ Border setting saved successfully:', enabled);
+    debugLog('Border setting saved successfully:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save border setting:', error);
+    console.error('❌ Failed to save border setting:', error);
   }
 }
 
@@ -7586,7 +7997,7 @@ function getEnhancedSizeEnabled() {
       return enhancedSizeEnabled;
     }
   } catch (error) {
-    consoleError('Failed to load enhanced size setting:', error);
+    console.error('Failed to load enhanced size setting:', error);
   }
   
   // Default to disabled
@@ -7609,9 +8020,9 @@ function saveEnhancedSizeEnabled(enabled) {
     // Also save to localStorage as backup
     localStorage.setItem('bmCrosshairEnhancedSize', enabledString);
     
-    consoleLog('✅ Enhanced size setting saved successfully:', enabled);
+    debugLog('Enhanced size setting saved successfully:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save enhanced size setting:', error);
+    console.error('❌ Failed to save enhanced size setting:', error);
   }
 }
 
@@ -7644,7 +8055,7 @@ function getCrosshairRadius() {
       return Math.max(12, Math.min(32, radiusValue));
     }
   } catch (error) {
-    consoleError('Failed to load crosshair radius setting:', error);
+    console.error('Failed to load crosshair radius setting:', error);
   }
   
   return 16; // Default radius (between min 12 and max 32)
@@ -7668,9 +8079,9 @@ function saveCrosshairRadius(radius) {
     // Also save to localStorage as backup
     localStorage.setItem('bmCrosshairRadius', radiusString);
     
-    consoleLog('✅ Crosshair radius setting saved successfully:', clampedRadius);
+    debugLog('Crosshair radius setting saved successfully:', clampedRadius);
   } catch (error) {
-    consoleError('❌ Failed to save crosshair radius setting:', error);
+    console.error('❌ Failed to save crosshair radius setting:', error);
   }
 }
 
@@ -7695,11 +8106,11 @@ function getMiniTrackerEnabled() {
     }
     
     if (trackerEnabled !== null) {
-      consoleLog('📊 Mini tracker setting loaded:', trackerEnabled);
+      debugLog('Mini tracker setting loaded:', trackerEnabled);
       return trackerEnabled;
     }
   } catch (error) {
-    consoleWarn('Failed to load mini tracker setting:', error);
+    console.warn('Failed to load mini tracker setting:', error);
   }
   
   // Default to disabled
@@ -7714,21 +8125,20 @@ function saveMiniTrackerEnabled(enabled) {
   try {
     const enabledString = JSON.stringify(enabled);
     
-    consoleLog('📊 Saving mini tracker setting:', enabled, 'as string:', enabledString);
+    debugLog('Saving mini tracker setting:', enabled, 'as string:', enabledString);
     
     // Save to TamperMonkey storage
     if (typeof GM_setValue !== 'undefined') {
       GM_setValue('bmMiniTracker', enabledString);
-      consoleLog('📊 Saved to TamperMonkey storage');
     }
     
     // Also save to localStorage as backup
     localStorage.setItem('bmMiniTracker', enabledString);
-    consoleLog('📊 Saved to localStorage');
+    debugLog('Saved to localStorage');
     
-    consoleLog('✅ Mini tracker setting saved successfully:', enabled);
+    debugLog('Mini tracker setting saved successfully:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save mini tracker setting:', error);
+    console.error('❌ Failed to save mini tracker setting:', error);
   }
 }
 
@@ -7753,11 +8163,11 @@ function getCollapseMinEnabled() {
     }
     
     if (collapseEnabled !== null) {
-      consoleLog('📊 Collapse mini template setting loaded:', collapseEnabled);
+      debugLog('Collapse mini template setting loaded:', collapseEnabled);
       return collapseEnabled;
     }
   } catch (error) {
-    consoleWarn('Failed to load collapse mini template setting:', error);
+    console.warn('Failed to load collapse mini template setting:', error);
   }
   
   // Default to enabled
@@ -7772,21 +8182,20 @@ function saveCollapseMinEnabled(enabled) {
   try {
     const enabledString = JSON.stringify(enabled);
     
-    consoleLog('📊 Saving collapse mini template setting:', enabled, 'as string:', enabledString);
+    debugLog('Saving collapse mini template setting:', enabled, 'as string:', enabledString);
     
     // Save to TamperMonkey storage
     if (typeof GM_setValue !== 'undefined') {
       GM_setValue('bmCollapseMin', enabledString);
-      consoleLog('📊 Saved to TamperMonkey storage');
     }
     
     // Also save to localStorage as backup
     localStorage.setItem('bmCollapseMin', enabledString);
-    consoleLog('📊 Saved to localStorage');
+    debugLog('Saved to localStorage');
     
-    consoleLog('✅ Collapse mini template setting saved successfully:', enabled);
+    debugLog('Collapse mini template setting saved successfully:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save collapse mini template setting:', error);
+    console.error('❌ Failed to save collapse mini template setting:', error);
   }
 }
 
@@ -7796,13 +8205,13 @@ function saveCollapseMinEnabled(enabled) {
  */
 function getMobileMode() {
   try {
-    consoleLog('📱 Loading mobile mode setting...');
+    debugLog('Loading mobile mode setting...');
     const storedValue = localStorage.getItem('bmMobileMode') || 'false';
     const mobileMode = JSON.parse(storedValue);
-    consoleLog('✅ Mobile mode setting loaded:', mobileMode);
+    debugLog('Mobile mode setting loaded:', mobileMode);
     return mobileMode;
   } catch (error) {
-    consoleError('❌ Failed to load mobile mode setting:', error);
+    console.error('❌ Failed to load mobile mode setting:', error);
     return false;
   }
 }
@@ -7822,11 +8231,11 @@ function getShowLeftOnColorEnabled() {
       if (saved !== null) enabled = JSON.parse(saved);
     }
     if (enabled !== null) {
-      consoleLog('🔢 Show Left-on-Color setting loaded:', enabled);
+      debugLog('Show Left-on-Color setting loaded:', enabled);
       return enabled;
     }
   } catch (error) {
-    consoleWarn('Failed to load Show Left-on-Color setting:', error);
+    console.warn('Failed to load Show Left-on-Color setting:', error);
   }
   return false;
 }
@@ -7841,12 +8250,12 @@ function saveShowLeftOnColorEnabled(enabled) {
       GM_setValue('bmShowLeftOnColor', enabledString);
     }
     localStorage.setItem('bmShowLeftOnColor', enabledString);
-    consoleLog('✅ Show Left-on-Color setting saved:', enabled);
+    debugLog('Show Left-on-Color setting saved:', enabled);
     
     // Restart the left badges auto-update system with the new setting
     startLeftBadgesAutoUpdate();
   } catch (error) {
-    consoleError('❌ Failed to save Show Left-on-Color setting:', error);
+    console.error('❌ Failed to save Show Left-on-Color setting:', error);
   }
 }
 
@@ -7857,11 +8266,11 @@ function saveShowLeftOnColorEnabled(enabled) {
 function saveMobileMode(enabled) {
   try {
     const enabledString = JSON.stringify(enabled);
-    consoleLog('📱 Saving mobile mode setting:', enabled);
+    debugLog('Saving mobile mode setting:', enabled);
     localStorage.setItem('bmMobileMode', enabledString);
-    consoleLog('✅ Mobile mode setting saved successfully:', enabled);
+    debugLog('Mobile mode setting saved successfully:', enabled);
   } catch (error) {
-    consoleError('❌ Failed to save mobile mode setting:', error);
+    console.error('❌ Failed to save mobile mode setting:', error);
   }
 }
 
@@ -7873,7 +8282,7 @@ function saveMobileMode(enabled) {
 function applyMobileModeToColorFilter(enableMobile) {
   const existingOverlay = document.getElementById('bm-color-filter-overlay');
   if (!existingOverlay) {
-    consoleLog('📱 [Dynamic Mobile] No Color Filter overlay found');
+    debugLog('[Dynamic Mobile] No Color Filter overlay found');
     return;
   }
 
@@ -7881,7 +8290,7 @@ function applyMobileModeToColorFilter(enableMobile) {
   let mobileStyleElement = document.getElementById('bmcf-mobile-styles');
   if (mobileStyleElement) {
     mobileStyleElement.remove();
-    consoleLog('📱 [Dynamic Mobile] Removed existing mobile styles');
+    debugLog('[Dynamic Mobile] Removed existing mobile styles');
   }
   
   if (enableMobile) {
@@ -8002,9 +8411,9 @@ function applyMobileModeToColorFilter(enableMobile) {
         height: 24px !important; 
       }
     `;
-    consoleLog('📱 [Dynamic Mobile] Mobile mode styles applied FRESH to Color Filter');
+    debugLog('[Dynamic Mobile] Mobile mode styles applied FRESH to Color Filter');
   } else {
-    consoleLog('📱 [Dynamic Mobile] Mobile mode disabled - styles removed');
+    debugLog('[Dynamic Mobile] Mobile mode disabled - styles removed');
   }
 }
 
@@ -8020,7 +8429,7 @@ function updateMiniTracker() {
   // Check if main overlay is minimized
   const mainOverlay = document.getElementById('bm-overlay');
     if (!mainOverlay) {
-      consoleWarn('Main overlay not found, skipping mini tracker update');
+      console.warn('Main overlay not found, skipping mini tracker update');
       return;
     }
     const isMainMinimized = mainOverlay && (mainOverlay.style.width === '60px' || mainOverlay.style.height === '76px' || mainOverlay.style.width === '72px');
@@ -8085,12 +8494,12 @@ function updateMiniTracker() {
           mainOverlay.appendChild(tracker);
         }
       } catch (error) {
-        consoleError('Error inserting mini tracker:', error);
+        console.error('Error inserting mini tracker:', error);
         // Try to append as fallback
         try {
           mainOverlay.appendChild(tracker);
         } catch (appendError) {
-          consoleError('Failed to append mini tracker:', appendError);
+          console.error('Failed to append mini tracker:', appendError);
         }
       }
     }
@@ -8196,16 +8605,16 @@ function updateMiniTracker() {
   style.id = 'tracker-styles';
   document.head.appendChild(style);
   
-  consoleLog(`📊 Mini tracker updated: ${totalPainted}/${totalRequired} (${progressPercentage}%) - ${totalNeedCrosshair} need crosshair`);
+  debugLog(`Mini tracker updated: ${totalPainted}/${totalRequired} (${progressPercentage}%) - ${totalNeedCrosshair} need crosshair`);
   } catch (error) {
-    consoleError('❌ Error updating mini tracker:', error);
+    console.error('❌ Error updating mini tracker:', error);
     // Clean up any problematic tracker
     const problemTracker = document.getElementById('bm-mini-tracker');
     if (problemTracker) {
       try {
         problemTracker.remove();
       } catch (removeError) {
-        consoleError('Failed to remove problematic tracker:', removeError);
+        console.error('Failed to remove problematic tracker:', removeError);
       }
     }
   }
@@ -8226,16 +8635,16 @@ function startMiniTrackerAutoUpdate() {
       const isStillEnabled = getMiniTrackerEnabled();
       if (isStillEnabled) {
         updateMiniTracker();
-        consoleLog('📊 Mini tracker auto-updated');
+        debugLog('Mini tracker auto-updated');
       } else {
         // Stop auto-update if disabled
         clearInterval(miniTrackerAutoUpdateInterval);
         miniTrackerAutoUpdateInterval = null;
-        consoleLog('📊 Mini tracker auto-update stopped (disabled)');
+        debugLog('Mini tracker auto-update stopped (disabled)');
       }
     }, 5000); // Update every 5 seconds
     
-    consoleLog('📊 Mini tracker auto-update started (every 5 seconds)');
+    debugLog('Mini tracker auto-update started (every 5 seconds)');
   }
 }
 
@@ -8256,9 +8665,9 @@ function updateLeftBadgesOnly() {
     // Update the palette badges
     updatePaletteLeftBadges(pixelStats);
     
-    consoleLog('🔢 Left badges auto-updated independently');
+    debugLog('Left badges auto-updated independently');
   } catch (error) {
-    consoleWarn('Failed to auto-update left badges:', error);
+    console.warn('Failed to auto-update left badges:', error);
   }
 }
 
@@ -8278,11 +8687,11 @@ function startLeftBadgesAutoUpdate() {
         // Stop auto-update if disabled
         clearInterval(leftBadgesAutoUpdateInterval);
         leftBadgesAutoUpdateInterval = null;
-        consoleLog('🔢 Left badges auto-update stopped (disabled)');
+        debugLog('Left badges auto-update stopped (disabled)');
       }
     }, 5000); // Update every 5 seconds
     
-    consoleLog('🔢 Left badges auto-update started (every 5 seconds)');
+    debugLog('Left badges auto-update started (every 5 seconds)');
   }
 }
 
@@ -8302,12 +8711,12 @@ function startCompactListAutoUpdate() {
       // Only update if the list is visible
       if (window.updateCompactListData) {
         window.updateCompactListData(existingCompactList);
-        consoleLog('📌 Compact list auto-updated');
+        debugLog('📌 Compact list auto-updated');
       }
     }
   }, 5000); // Update every 5 seconds
   
-  consoleLog('📌 Compact list auto-update started (every 5 seconds)');
+  debugLog('📌 Compact list auto-update started (every 5 seconds)');
 }
 
 // Start auto-update when page loads
@@ -9751,7 +10160,7 @@ function buildCrosshairSettingsOverlay() {
     
     try {
       // Save all settings
-      consoleLog('🎨 Applying crosshair settings:', { color: tempColor, borders: tempBorderEnabled, miniTracker: tempMiniTrackerEnabled, collapse: tempCollapseMinEnabled, mobile: tempMobileMode, showLeftOnColor: tempShowLeftOnColor, navigation: tempNavigationMethod });
+      debugLog('Applying crosshair settings:', { color: tempColor, borders: tempBorderEnabled, miniTracker: tempMiniTrackerEnabled, collapse: tempCollapseMinEnabled, mobile: tempMobileMode, showLeftOnColor: tempShowLeftOnColor, navigation: tempNavigationMethod, debug: tempDebugEnabled });
       
       saveCrosshairColor(tempColor);
       saveBorderEnabled(tempBorderEnabled);
@@ -9762,6 +10171,7 @@ function buildCrosshairSettingsOverlay() {
       saveMobileMode(tempMobileMode);
       saveShowLeftOnColorEnabled(tempShowLeftOnColor);
       Settings.saveNavigationMethod(tempNavigationMethod);
+      saveDebugLoggingEnabled(tempDebugEnabled);
       
       // Apply mobile mode to existing Color Filter overlay dynamically
       applyMobileModeToColorFilter(tempMobileMode);
@@ -9771,7 +10181,7 @@ function buildCrosshairSettingsOverlay() {
         const stats = templateManager.calculateRemainingPixelsByColor(0, true); // Only enabled templates
         updatePaletteLeftBadges(stats);
       } catch (e) {
-        consoleWarn('Failed to refresh palette left badges after apply:', e);
+        console.warn('Failed to refresh palette left badges after apply:', e);
       }
       
       // Success feedback
@@ -9800,7 +10210,7 @@ function buildCrosshairSettingsOverlay() {
         overlayMain.handleDisplayStatus(`Crosshair settings applied: ${tempColor.name}, ${tempBorderEnabled ? 'with' : 'without'} borders, tracker ${tempMiniTrackerEnabled ? '有効' : '無効'}, collapse ${tempCollapseMinEnabled ? '有効' : '無効'}, mobile ${tempMobileMode ? '有効' : '無効'}, Left-on-Color ${tempShowLeftOnColor ? '有効' : '無効'}!`);
       }, 800);
       
-      consoleLog('✅ Crosshair settings successfully applied and templates refreshed');
+      debugLog('Crosshair settings successfully applied and templates refreshed');
     } catch (error) {
       // Error feedback
       applyButton.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
@@ -9813,7 +10223,7 @@ function buildCrosshairSettingsOverlay() {
         applyButton.disabled = false;
       }, 2000);
       
-      consoleError('❌ Error applying crosshair settings:', error);
+      console.error('❌ Error applying crosshair settings:', error);
       overlayMain.handleDisplayError('Failed to apply crosshair settings');
     }
   };
@@ -10070,6 +10480,115 @@ function buildCrosshairSettingsOverlay() {
   navigationSection.appendChild(navigationToggle);
   contentContainer.appendChild(navigationSection);
 
+  // Debug logging section
+  const debugSection = document.createElement('div');
+  debugSection.style.cssText = `
+    background: linear-gradient(135deg, var(--slate-800), var(--slate-750));
+    border: 1px solid var(--slate-700);
+    border-radius: ${sectionBorderRadius};
+    padding: ${sectionPadding};
+    margin-bottom: ${sectionMargin};
+    position: relative;
+    z-index: 1;
+  `;
+
+  const debugLabel = document.createElement('h3');
+  debugLabel.textContent = 'Debug Console Logging';
+  debugLabel.style.cssText = `
+    margin: 0 0 8px 0;
+    color: var(--slate-100);
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  `;
+
+  const debugDescription = document.createElement('p');
+  debugDescription.textContent = 'Enable debug console messages for troubleshooting';
+  debugDescription.style.cssText = `
+    margin: 0 0 16px 0;
+    color: var(--slate-400);
+    font-size: 0.85em;
+    line-height: 1.4;
+  `;
+
+  // Get current debug setting (default off)
+  let tempDebugEnabled = getDebugLoggingEnabled();
+
+  const debugToggle = document.createElement('div');
+  debugToggle.style.cssText = `
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    background: var(--slate-900);
+    border-radius: 8px;
+    border: 1px solid var(--slate-600);
+  `;
+
+  const debugOffButton = document.createElement('button');
+  debugOffButton.textContent = 'OFF';
+  debugOffButton.style.cssText = `
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    ${!tempDebugEnabled 
+      ? 'background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600)); color: white;'
+      : 'background: transparent; color: var(--slate-300);'
+    }
+  `;
+
+  const debugOnButton = document.createElement('button');
+  debugOnButton.textContent = 'ON';
+  debugOnButton.style.cssText = `
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    ${tempDebugEnabled 
+      ? 'background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); color: white;'
+      : 'background: transparent; color: var(--slate-300);'
+    }
+  `;
+
+  debugOffButton.onclick = () => {
+    tempDebugEnabled = false;
+    debugOffButton.style.cssText = debugOffButton.style.cssText.replace(
+      /background: [^;]+;/,
+      'background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));'
+    ).replace(/color: [^;]+;/, 'color: white;');
+    debugOnButton.style.cssText = debugOnButton.style.cssText.replace(
+      /background: [^;]+;/,
+      'background: transparent;'
+    ).replace(/color: [^;]+;/, 'color: var(--slate-300);');
+  };
+
+  debugOnButton.onclick = () => {
+    tempDebugEnabled = true;
+    debugOnButton.style.cssText = debugOnButton.style.cssText.replace(
+      /background: [^;]+;/,
+      'background: linear-gradient(135deg, var(--blue-500), var(--blue-600));'
+    ).replace(/color: [^;]+;/, 'color: white;');
+    debugOffButton.style.cssText = debugOffButton.style.cssText.replace(
+      /background: [^;]+;/,
+      'background: transparent;'
+    ).replace(/color: [^;]+;/, 'color: var(--slate-300);');
+  };
+
+  debugToggle.appendChild(debugOffButton);
+  debugToggle.appendChild(debugOnButton);
+  debugSection.appendChild(debugLabel);
+  debugSection.appendChild(debugDescription);
+  debugSection.appendChild(debugToggle);
+  contentContainer.appendChild(debugSection);
+
   settingsOverlay.appendChild(contentContainer);
   settingsOverlay.appendChild(footerContainer);
   document.body.appendChild(settingsOverlay);
@@ -10122,13 +10641,19 @@ function buildCrosshairSettingsOverlay() {
     });
     
   } catch (error) {
-    consoleError('Failed to build Crosshair Settings overlay:', error);
+    console.error('Failed to build Crosshair Settings overlay:', error);
     overlayMain.handleDisplayError('Failed to open Crosshair Settings');
   }
 }
 
 // Add Search Functionality
 function createSearchWindow() {
+  // Check if search window already exists to prevent duplicates
+  if (document.getElementById('skirk-search-draggable')) {
+    console.warn('Search window already exists, skipping creation');
+    return;
+  }
+
   const searchPanel = document.createElement('div');
   searchPanel.id = 'skirk-search-draggable';
   searchPanel.innerHTML = `
@@ -10542,7 +11067,7 @@ function createSearchWindow() {
 
   function searchLocation(query) {
     return new Promise((resolve, reject) => {
-      console.log('Searching for:', query);
+      debugLog('Searching for:', query);
       GM_xmlhttpRequest({
         method: 'GET',
         url: `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`,
@@ -10550,11 +11075,11 @@ function createSearchWindow() {
           'User-Agent': 'ChrysanthemumMarble-Search-UserScript/1.0'
         },
         onload: function(response) {
-          console.log('Search API Response Status:', response.status);
-          console.log('Search API Response Text:', response.responseText);
+          debugLog('Search API Response Status:', response.status);
+          debugLog('Search API Response Text:', response.responseText);
           try {
             const data = JSON.parse(response.responseText);
-            console.log('Parsed data:', data);
+            debugLog('Parsed data:', data);
             resolve(data);
           } catch (error) {
             console.error('JSON Parse error:', error);
@@ -10584,7 +11109,7 @@ function createSearchWindow() {
   }
 
   function displayResults(results) {
-    console.log('Search results received:', results);
+    debugLog('Search results received:', results);
     
     if (results.length === 0) {
       resultsContainer.innerHTML = '<div class="skirk-no-results">No results found</div>';
@@ -10593,15 +11118,15 @@ function createSearchWindow() {
 
     resultsContainer.innerHTML = '';
     results.forEach(result => {
-      console.log('Raw result object:', result);
-      console.log('Object keys:', Object.keys(result));
+      debugLog('Raw result object:', result);
+      debugLog('Object keys:', Object.keys(result));
       
       // Try to access properties directly from the raw object
       const displayName = result['display_name'] || result['name'] || 'Unknown location';
       const lat = result['lat'];
       const lon = result['lon'];
       
-      console.log('Extracted values:', {
+      debugLog('Extracted values:', {
         displayName: displayName,
         lat: lat,
         lon: lon
@@ -10620,7 +11145,7 @@ function createSearchWindow() {
       const secondaryInfo = nameParts.slice(1, 3).join(',').trim(); // Show next 2 parts
       const fullAddress = nameParts.slice(3).join(',').trim(); // Rest of address
 
-      console.log('Display parts:', {
+      debugLog('Display parts:', {
         primaryName: primaryName,
         secondaryInfo: secondaryInfo,
         fullAddress: fullAddress
@@ -10639,9 +11164,9 @@ function createSearchWindow() {
       resultItem.querySelector('.skirk-result-content').addEventListener('click', (e) => {
         const latStr = e.currentTarget.parentElement.dataset.lat;
         const lonStr = e.currentTarget.parentElement.dataset.lon;
-        console.log('=== NAVIGATION DEBUG ===');
-        console.log('Clicking result with lat:', latStr, 'lon:', lonStr);
-        console.log('URL will be:', `https://wplace.live/?lat=${latStr}&lng=${lonStr}&zoom=14.62`);
+        debugLog('=== NAVIGATION DEBUG ===');
+        debugLog('Clicking result with lat:', latStr, 'lon:', lonStr);
+        debugLog('URL will be:', `https://wplace.live/?lat=${latStr}&lng=${lonStr}&zoom=14.62`);
         
         if (latStr && lonStr && latStr !== 'undefined' && lonStr !== 'undefined') {
           navigateToLocation(latStr, lonStr);
@@ -10692,7 +11217,7 @@ function createSearchWindow() {
       const results = await searchLocation(query);
       displayResults(results);
     } catch (error) {
-      consoleError('Search error:', error);
+      console.error('Search error:', error);
       resultsContainer.innerHTML = '<div class="skirk-no-results">Error searching. Please try again.</div>';
     }
   }
@@ -10718,12 +11243,7 @@ function createSearchWindow() {
   });
 }
 
-// Initialize search window when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  createSearchWindow();
-});
-
-// Also initialize if DOM is already loaded
+// Initialize search window when DOM is ready - FIXED LOGIC
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', createSearchWindow);
 } else {
